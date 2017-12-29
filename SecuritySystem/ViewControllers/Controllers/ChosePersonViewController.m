@@ -7,7 +7,10 @@
 //
 
 #import "ChosePersonViewController.h"
+#import "AttendanceViewController.h"
+
 #import "ChosePersonTableViewCell.h"
+
 static NSString *cellIdentifier = @"ChosePersonCell";
 @interface ChosePersonViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic, strong) UITableView *myTableView;
@@ -24,6 +27,9 @@ static NSString *cellIdentifier = @"ChosePersonCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"请选择上岗人员";
+    UIBarButtonItem *backBtn = [[UIBarButtonItem alloc] init];
+    backBtn.title = @"返回";
+    self.navigationItem.backBarButtonItem = backBtn;
     [self setUpChoseView];
     [self loadOrgPersonList];
 }
@@ -53,6 +59,7 @@ static NSString *cellIdentifier = @"ChosePersonCell";
     [defineBtn setTitle:@"确定" forState:UIControlStateNormal];
     [defineBtn setTitleColor:WhiteColor forState:UIControlStateNormal];
     [defineBtn addTarget:self action:@selector(buttonClcked:) forControlEvents:UIControlEventTouchUpInside];
+    defineBtn.tag = 100;
     [self.view addSubview:defineBtn];
     
     UIButton *cancleBtn = [UIButton buttonWithType:UIButtonTypeSystem];
@@ -61,6 +68,7 @@ static NSString *cellIdentifier = @"ChosePersonCell";
     [cancleBtn setTitle:@"取消" forState:UIControlStateNormal];
     [cancleBtn setTitleColor:WhiteColor forState:UIControlStateNormal];
     [cancleBtn addTarget:self action:@selector(buttonClcked:) forControlEvents:UIControlEventTouchUpInside];
+    cancleBtn.tag = 200;
     [self.view addSubview:cancleBtn];
     
     ViewBorderRadius(defineBtn, 5, 0, WhiteColor);
@@ -105,7 +113,18 @@ static NSString *cellIdentifier = @"ChosePersonCell";
     [self.myTableView reloadData];
 }
 - (void)buttonClcked:(UIButton *)sender{
-    
+    switch (sender.tag) {
+        case 100:{
+            AttendanceViewController *vc = [AttendanceViewController new];
+            [self.navigationController pushViewController:vc animated:YES];
+            break;
+        }
+        case 200:
+            [self.navigationController popViewControllerAnimated:YES];
+            break;
+        default:
+            break;
+    }
 }
 
 #pragma mark - lazy loading

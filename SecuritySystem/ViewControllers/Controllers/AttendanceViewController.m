@@ -9,6 +9,9 @@
 #import "AttendanceViewController.h"
 
 @interface AttendanceViewController ()
+@property (nonatomic, strong) UIScrollView *scrollView;
+@property (nonatomic, strong) UIButton *selectPhotoBtn;
+@property (nonatomic, strong) UIButton *selectTypeBtn;
 
 @end
 
@@ -16,22 +19,25 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    self.title = @"上传员工考勤信息";
+    [self setUpUI];
+}
+- (void)setUpUI{
+    UILabel *typeLbl = [UILabel new];
+    typeLbl.text = @"上岗类型：";
+    [self.scrollView addSubview:typeLbl];
+    
+    UIButton *selectTypeBtn = [UIButton new];
+    [self.scrollView addSubview:selectTypeBtn];
+    
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+#pragma mark - lazyLoading
+-(UIScrollView *)scrollView{
+    if (!_scrollView) {
+        _scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
+    }
+    return _scrollView;
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end
