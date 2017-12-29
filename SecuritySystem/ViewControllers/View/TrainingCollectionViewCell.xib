@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="TrainingCollectionViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="80" height="80"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="80" height="80"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_video" translatesAutoresizingMaskIntoConstraints="NO" id="Qmh-nP-tdF">
+                        <rect key="frame" x="10" y="10" width="60" height="60"/>
+                    </imageView>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Irn-YV-HcZ">
+                        <rect key="frame" x="60" y="0.0" width="20" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="20" id="fBX-hk-QNE"/>
+                            <constraint firstAttribute="width" constant="20" id="uc3-DA-lzl"/>
+                        </constraints>
+                        <state key="normal" image="icon_delete"/>
+                    </button>
+                </subviews>
+            </view>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="Irn-YV-HcZ" secondAttribute="trailing" id="9mU-8a-ebB"/>
+                <constraint firstItem="Qmh-nP-tdF" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="10" id="HUL-vl-COq"/>
+                <constraint firstItem="Irn-YV-HcZ" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="RcM-55-w9B"/>
+                <constraint firstAttribute="bottom" secondItem="Qmh-nP-tdF" secondAttribute="bottom" constant="10" id="Vbm-wT-88e"/>
+                <constraint firstItem="Qmh-nP-tdF" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="10" id="tdO-QP-EIa"/>
+                <constraint firstAttribute="trailing" secondItem="Qmh-nP-tdF" secondAttribute="trailing" constant="10" id="wu6-m5-vO3"/>
+            </constraints>
+            <connections>
+                <outlet property="deleteBtn" destination="Irn-YV-HcZ" id="TJS-n5-K8I"/>
+                <outlet property="imageView" destination="Qmh-nP-tdF" id="TOt-Zn-p9b"/>
+            </connections>
+            <point key="canvasLocation" x="-39" y="90"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="icon_delete" width="20" height="20"/>
+        <image name="icon_video" width="60" height="60"/>
+    </resources>
+</document>

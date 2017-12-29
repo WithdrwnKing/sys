@@ -1,0 +1,24 @@
+//
+//  PrefixHeader.pch
+//  SecuritySystem
+//
+//  Created by 王琨 on 2017/12/15.
+//  Copyright © 2017年 wangkun. All rights reserved.
+//
+
+#ifndef PrefixHeader_pch
+#define PrefixHeader_pch
+
+#import "MacroDefinitions.h"
+#import <YYKit.h>
+#import <Masonry.h>
+#import <SVProgressHUD.h>
+#import <ZLDefine.h>
+#import <ReactiveObjC.h>
+#import "SMGApiClient+http.h"
+#import "UserManager.h"
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+#endif /* PrefixHeader_pch */
