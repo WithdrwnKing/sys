@@ -12,6 +12,8 @@
 		EA1B42B61FE8F6E8000B8EC4 /* TrainingCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EA1B42B41FE8F6E8000B8EC4 /* TrainingCollectionViewCell.xib */; };
 		EA1B42BD1FE91506000B8EC4 /* AttendanceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EA1B42BB1FE91506000B8EC4 /* AttendanceViewController.m */; };
 		EA1B42BE1FE91506000B8EC4 /* AttendanceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EA1B42BC1FE91506000B8EC4 /* AttendanceViewController.xib */; };
+		EA1BE7821FFC6BA600C3F674 /* WKLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EA1BE7811FFC6BA600C3F674 /* WKLocationManager.m */; };
+		EA1BE7851FFCD34800C3F674 /* NSObject+EasyExtend.m in Sources */ = {isa = PBXBuildFile; fileRef = EA1BE7831FFCD34700C3F674 /* NSObject+EasyExtend.m */; };
 		EA4C6FBA1FE3A2F800776E71 /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EA4C6FB91FE3A2F800776E71 /* BaseViewController.m */; };
 		EA4C6FBD1FE3A31900776E71 /* BaseNavController.m in Sources */ = {isa = PBXBuildFile; fileRef = EA4C6FBC1FE3A31900776E71 /* BaseNavController.m */; };
 		EA4C6FC11FE3A33D00776E71 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EA4C6FBF1FE3A33D00776E71 /* LoginViewController.m */; };
@@ -51,6 +53,10 @@
 		EA1B42BA1FE91506000B8EC4 /* AttendanceViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AttendanceViewController.h; sourceTree = "<group>"; };
 		EA1B42BB1FE91506000B8EC4 /* AttendanceViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AttendanceViewController.m; sourceTree = "<group>"; };
 		EA1B42BC1FE91506000B8EC4 /* AttendanceViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AttendanceViewController.xib; sourceTree = "<group>"; };
+		EA1BE7801FFC6BA600C3F674 /* WKLocationManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WKLocationManager.h; sourceTree = "<group>"; };
+		EA1BE7811FFC6BA600C3F674 /* WKLocationManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WKLocationManager.m; sourceTree = "<group>"; };
+		EA1BE7831FFCD34700C3F674 /* NSObject+EasyExtend.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+EasyExtend.m"; sourceTree = "<group>"; };
+		EA1BE7841FFCD34800C3F674 /* NSObject+EasyExtend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+EasyExtend.h"; sourceTree = "<group>"; };
 		EA4C6FB81FE3A2F800776E71 /* BaseViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
 		EA4C6FB91FE3A2F800776E71 /* BaseViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
 		EA4C6FBB1FE3A31900776E71 /* BaseNavController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseNavController.h; sourceTree = "<group>"; };
@@ -196,6 +202,8 @@
 		EA4C6FB71FE39FED00776E71 /* Base */ = {
 			isa = PBXGroup;
 			children = (
+				EA1BE7841FFCD34800C3F674 /* NSObject+EasyExtend.h */,
+				EA1BE7831FFCD34700C3F674 /* NSObject+EasyExtend.m */,
 				EA70CC771FF1E7430084A6DD /* UserManager.h */,
 				EA70CC761FF1E7430084A6DD /* UserManager.m */,
 				EA4C6FCA1FE3B6E000776E71 /* UINavigationController+BaseNav.h */,
@@ -254,6 +262,8 @@
 				EA70CC741FF1E3820084A6DD /* SMGApiClient.m */,
 				EA4E47CF1FF49A3500C7CE39 /* SMGApiClient+http.h */,
 				EA4E47D01FF49A3500C7CE39 /* SMGApiClient+http.m */,
+				EA1BE7801FFC6BA600C3F674 /* WKLocationManager.h */,
+				EA1BE7811FFC6BA600C3F674 /* WKLocationManager.m */,
 			);
 			path = Http;
 			sourceTree = "<group>";
@@ -292,7 +302,7 @@
 				TargetAttributes = {
 					EA50F5A51FE20DF4007D062A = {
 						CreatedOnToolsVersion = 9.2;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 					};
 				};
 			};
@@ -410,6 +420,8 @@
 				EA70CC751FF1E3820084A6DD /* SMGApiClient.m in Sources */,
 				EA4C6FC81FE3B63600776E71 /* MainViewController.m in Sources */,
 				EA70CC781FF1E7430084A6DD /* UserManager.m in Sources */,
+				EA1BE7851FFCD34800C3F674 /* NSObject+EasyExtend.m in Sources */,
+				EA1BE7821FFC6BA600C3F674 /* WKLocationManager.m in Sources */,
 				EA555A681FE76BEE0047409B /* ChosePositionViewController.m in Sources */,
 				EA555A5F1FE75D2E0047409B /* ChosePersonModel.m in Sources */,
 				EA1B42BD1FE91506000B8EC4 /* AttendanceViewController.m in Sources */,
@@ -551,16 +563,18 @@
 			baseConfigurationReference = 4ACEFA78DF9640D6E882EB8A /* Pods-SecuritySystem.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 8C3CUAZLUJ;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = 3LZ5AMJH8P;
 				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = SecuritySystem/PrefixHeader.pch;
 				INFOPLIST_FILE = SecuritySystem/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.smg.Xnews;
+				PRODUCT_BUNDLE_IDENTIFIER = com.itble.changankaoqing;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "94fb0301-f94f-4d4e-a601-8985423c77e4";
+				PROVISIONING_PROFILE_SPECIFIER = Changankaoqing_dev;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -570,16 +584,18 @@
 			baseConfigurationReference = 7696A807ABE891A9169E3D38 /* Pods-SecuritySystem.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 8C3CUAZLUJ;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = 3LZ5AMJH8P;
 				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = SecuritySystem/PrefixHeader.pch;
 				INFOPLIST_FILE = SecuritySystem/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.smg.Xnews;
+				PRODUCT_BUNDLE_IDENTIFIER = com.itble.changankaoqing;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "94fb0301-f94f-4d4e-a601-8985423c77e4";
+				PROVISIONING_PROFILE_SPECIFIER = Changankaoqing_dev;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

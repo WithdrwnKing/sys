@@ -30,6 +30,11 @@
     UIButton *selectTypeBtn = [UIButton new];
     [self.scrollView addSubview:selectTypeBtn];
     
+    UILabel *photoLbl = [UILabel new];
+    photoLbl.text = @"拍照上传：";
+    [self.scrollView addSubview:photoLbl];
+    
+    
 }
 
 #pragma mark - lazyLoading

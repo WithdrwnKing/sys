@@ -9,5 +9,5 @@
 #import "BaseViewController.h"
 
 @interface UploadTrainingViewController : BaseViewController
-
+@property (nonatomic, copy) NSString *orgIdStr;
 @end

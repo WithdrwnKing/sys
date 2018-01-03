@@ -55,5 +55,5 @@ typedef void (^UploadProgress)(long long sent, long long expectSend);
  */
 -(NSURLSessionDataTask *)postPath:(NSString *)aPath withImage:(NSData *)imageData  parameters:(NSDictionary *)parameters completion:(ApiCompletion)aCompletion;
 
-
+- (NSURLSessionDataTask *)postPath:(NSString *)aPath withVideo:(NSData *)videoData parameters:(NSDictionary *)parameters completion:(ApiCompletion)aCompletion;
 @end

@@ -18,12 +18,20 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+    
+    [self setUpSVProgressHUDCustom];
+    
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     BaseNavController *nav = [[BaseNavController alloc] initWithRootViewController:[LoginViewController new]];
     self.window.rootViewController = nav;
     [self.window makeKeyAndVisible];
     return YES;
+}
+#pragma mark - custom
+- (void)setUpSVProgressHUDCustom{
+    [SVProgressHUD setDefaultStyle:SVProgressHUDStyleDark];
+    [SVProgressHUD setMaximumDismissTimeInterval:1.5f];
+    [SVProgressHUD setMinimumDismissTimeInterval:.5f];
 }
 
 

@@ -17,8 +17,8 @@ static SMGApiClient *_sharedClient = nil;
     dispatch_once(&onceToken, ^{
         _sharedClient = [[SMGApiClient alloc] initWithBaseURL:[NSURL URLWithString:SERVER_URL]];
         _sharedClient.securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeNone];
-        //发送json数据
-        _sharedClient.requestSerializer = [AFJSONRequestSerializer serializer];
+        //不发送json数据
+        _sharedClient.requestSerializer = [AFHTTPRequestSerializer serializer];
         //响应json数据
         _sharedClient.responseSerializer  = [AFJSONResponseSerializer serializer];
         
@@ -111,7 +111,7 @@ static SMGApiClient *_sharedClient = nil;
 - (NSURLSessionDataTask *)postPath:(NSString *)aPath withImage:(NSData *)imageData parameters:(NSDictionary *)parameters completion:(ApiCompletion)aCompletion{
     
     NSURLSessionDataTask *task = [self POST:aPath parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
-        [formData appendPartWithFileData:imageData name:@"file[]" fileName:@"image.png" mimeType:@"image/png"];
+        [formData appendPartWithFileData:imageData name:@"Filedata" fileName:@"image.png" mimeType:@"image/png"];
     } progress:^(NSProgress * _Nonnull uploadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
@@ -133,6 +133,40 @@ static SMGApiClient *_sharedClient = nil;
             }
         }
 
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        if (aCompletion) {
+            NSError *anError = [[NSError alloc] initWithDomain:SERVER_URL code:error.code userInfo:error.userInfo];
+            aCompletion(task, nil, anError);
+        }
+    }];
+    return task;
+}
+
+- (NSURLSessionDataTask *)postPath:(NSString *)aPath withVideo:(NSData *)videoData parameters:(NSDictionary *)parameters completion:(ApiCompletion)aCompletion{
+    
+    NSURLSessionDataTask *task = [self POST:aPath parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+        [formData appendPartWithFileData:videoData name:@"Filedata" fileName:@"video.mp4" mimeType:@"video/mp4"];
+    } progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if (aCompletion) {
+            
+            if([responseObject[@"code"] integerValue]==1){
+                id body = [responseObject objectForKey:@"data"];
+                aCompletion(task, body, nil);
+                
+            }else{
+                if(responseObject){
+                    NSError *error = [[NSError alloc] initWithDomain:SERVER_URL code:[responseObject[@"code"] intValue] userInfo:@{@"text":responseObject[@"message"]}];
+                    aCompletion(task,nil,error);
+                    
+                }else{
+                    NSError *error = [[NSError alloc] initWithDomain:SERVER_URL code:-1 userInfo:@{@"text":@"服务器内部错误"}];
+                    aCompletion(task,nil,error);
+                }
+            }
+        }
+        
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         if (aCompletion) {
             NSError *anError = [[NSError alloc] initWithDomain:SERVER_URL code:error.code userInfo:error.userInfo];
