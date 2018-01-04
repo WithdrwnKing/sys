@@ -34,7 +34,6 @@
     photoLbl.text = @"拍照上传：";
     [self.scrollView addSubview:photoLbl];
     
-    
 }
 
 #pragma mark - lazyLoading

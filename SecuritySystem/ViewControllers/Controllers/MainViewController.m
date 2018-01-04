@@ -158,7 +158,8 @@
             break;
         }
         case 103:{
-            
+            UploadTrainingViewController *vc = [UploadTrainingViewController new];
+            [self.navigationController pushViewController:vc animated:YES];
             break;
         }
         case 104:{

@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "LoginViewController.h"
 #import "BaseNavController.h"
+#import <AMapFoundationKit/AMapFoundationKit.h>
 
 @interface AppDelegate ()
 
@@ -20,7 +21,8 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
     [self setUpSVProgressHUDCustom];
-    
+    [AMapServices sharedServices].apiKey = @"8854cb55e62cacaa107634d7dfc4fc0b";
+
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     BaseNavController *nav = [[BaseNavController alloc] initWithRootViewController:[LoginViewController new]];
     self.window.rootViewController = nav;

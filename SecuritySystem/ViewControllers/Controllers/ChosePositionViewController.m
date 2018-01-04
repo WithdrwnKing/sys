@@ -86,6 +86,7 @@
     [self searchOrgList];
 }
 - (IBAction)cancelBtnClicked:(UIButton *)sender {
+    [self.navigationController popViewControllerAnimated:YES];
 }
 - (IBAction)commitBtnClicked:(UIButton *)sender {
 }

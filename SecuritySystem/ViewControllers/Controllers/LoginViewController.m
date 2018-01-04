@@ -24,10 +24,10 @@
     [self setNeedsStatusBarAppearanceUpdate];
     [self setUpTextField];
     
-    if (DEBUG) {
-        _nameTextfield.text = @"admin";
-        _passwordField.text = @"1";
-    }
+//    if (DEBUG) {
+//        _nameTextfield.text = @"admin";
+//        _passwordField.text = @"1";
+//    }
     
 }
 
@@ -57,7 +57,7 @@
         return;
     }
     sender.enabled = NO;
- 
+    
     [[SMGApiClient sharedClient] loginWithAccount:_nameTextfield.text password:_passwordField.text andCompletion:^(NSURLSessionDataTask *task, NSDictionary *aResponse, NSError *anError) {
         sender.enabled = YES;
         if (aResponse) {
@@ -66,6 +66,9 @@
             [CURRENTUSER saveUser];
             MainViewController *vc = [MainViewController new];
             self.navigationController.rootViewController = vc;
+        }
+        if (anError) {
+            [SVProgressHUD showErrorWithStatus:anError.userInfo[@"message"]];
         }
     }];
 

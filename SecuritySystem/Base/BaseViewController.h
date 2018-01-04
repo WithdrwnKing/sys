@@ -11,5 +11,5 @@
 #import "BaseNavController.h"
 
 @interface BaseViewController : UIViewController
-
+- (void)back;
 @end

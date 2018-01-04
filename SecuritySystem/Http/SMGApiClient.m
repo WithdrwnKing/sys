@@ -52,18 +52,18 @@ static SMGApiClient *_sharedClient = nil;
                 aCompletion(task, body, nil);
             }else{
                 if(responseObject){
-                    NSError *error = [[NSError alloc] initWithDomain:SERVER_URL code:[responseObject[@"code"] intValue] userInfo:@{@"text":responseObject[@"message"]}];
+                    NSError *error = [[NSError alloc] initWithDomain:SERVER_URL code:[responseObject[@"code"] intValue] userInfo:@{@"message":responseObject[@"message"]}];
                     aCompletion(task,nil,error);
                     
                 }else{
-                    NSError *error = [[NSError alloc] initWithDomain:SERVER_URL code:-1 userInfo:@{@"text":@"服务器内部错误"}];
+                    NSError *error = [[NSError alloc] initWithDomain:SERVER_URL code:-1 userInfo:@{@"message":@"服务器内部错误"}];
                     aCompletion(task,nil,error);
                 }
             }
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         if (aCompletion) {
-            NSError *error = [[NSError alloc] initWithDomain:SERVER_URL code:-1 userInfo:@{@"text":@"服务器内部错误"}];
+            NSError *error = [[NSError alloc] initWithDomain:SERVER_URL code:-1 userInfo:@{@"message":@"服务器内部错误"}];
             aCompletion(task, nil, error);
         }
     }];
@@ -94,7 +94,7 @@ static SMGApiClient *_sharedClient = nil;
                     NSError *error = [[NSError alloc] initWithDomain:SERVER_URL code:[responseObject[@"code"] intValue] userInfo:@{@"message":[responseObject objectForKey:@"message"]}];
                     completion(task,nil,error);
                 }else{
-                    NSError *error = [[NSError alloc] initWithDomain:SERVER_URL code:-1 userInfo:@{@"text":@"服务器内部错误"}];
+                    NSError *error = [[NSError alloc] initWithDomain:SERVER_URL code:-1 userInfo:@{@"message":@"服务器内部错误"}];
                     completion(task,nil,error);
                 }
             }
@@ -123,11 +123,11 @@ static SMGApiClient *_sharedClient = nil;
                 
             }else{
                 if(responseObject){
-                    NSError *error = [[NSError alloc] initWithDomain:SERVER_URL code:[responseObject[@"code"] intValue] userInfo:@{@"text":responseObject[@"message"]}];
+                    NSError *error = [[NSError alloc] initWithDomain:SERVER_URL code:[responseObject[@"code"] intValue] userInfo:@{@"message":responseObject[@"message"]}];
                     aCompletion(task,nil,error);
                     
                 }else{
-                    NSError *error = [[NSError alloc] initWithDomain:SERVER_URL code:-1 userInfo:@{@"text":@"服务器内部错误"}];
+                    NSError *error = [[NSError alloc] initWithDomain:SERVER_URL code:-1 userInfo:@{@"message":@"服务器内部错误"}];
                     aCompletion(task,nil,error);
                 }
             }
@@ -157,11 +157,11 @@ static SMGApiClient *_sharedClient = nil;
                 
             }else{
                 if(responseObject){
-                    NSError *error = [[NSError alloc] initWithDomain:SERVER_URL code:[responseObject[@"code"] intValue] userInfo:@{@"text":responseObject[@"message"]}];
+                    NSError *error = [[NSError alloc] initWithDomain:SERVER_URL code:[responseObject[@"code"] intValue] userInfo:@{@"message":responseObject[@"message"]}];
                     aCompletion(task,nil,error);
                     
                 }else{
-                    NSError *error = [[NSError alloc] initWithDomain:SERVER_URL code:-1 userInfo:@{@"text":@"服务器内部错误"}];
+                    NSError *error = [[NSError alloc] initWithDomain:SERVER_URL code:-1 userInfo:@{@"message":@"服务器内部错误"}];
                     aCompletion(task,nil,error);
                 }
             }

@@ -8,5 +8,6 @@ pod 'AMapLocation'
 pod 'ZLPhotoBrowser'
 pod 'AFNetworking'
 pod 'ReactiveObjC'
+pod 'Toast', '~> 3.0'
 
 end

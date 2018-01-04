@@ -12,7 +12,6 @@
 		EA1B42B61FE8F6E8000B8EC4 /* TrainingCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EA1B42B41FE8F6E8000B8EC4 /* TrainingCollectionViewCell.xib */; };
 		EA1B42BD1FE91506000B8EC4 /* AttendanceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EA1B42BB1FE91506000B8EC4 /* AttendanceViewController.m */; };
 		EA1B42BE1FE91506000B8EC4 /* AttendanceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EA1B42BC1FE91506000B8EC4 /* AttendanceViewController.xib */; };
-		EA1BE7821FFC6BA600C3F674 /* WKLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EA1BE7811FFC6BA600C3F674 /* WKLocationManager.m */; };
 		EA1BE7851FFCD34800C3F674 /* NSObject+EasyExtend.m in Sources */ = {isa = PBXBuildFile; fileRef = EA1BE7831FFCD34700C3F674 /* NSObject+EasyExtend.m */; };
 		EA4C6FBA1FE3A2F800776E71 /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EA4C6FB91FE3A2F800776E71 /* BaseViewController.m */; };
 		EA4C6FBD1FE3A31900776E71 /* BaseNavController.m in Sources */ = {isa = PBXBuildFile; fileRef = EA4C6FBC1FE3A31900776E71 /* BaseNavController.m */; };
@@ -21,6 +20,12 @@
 		EA4C6FC81FE3B63600776E71 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EA4C6FC71FE3B63600776E71 /* MainViewController.m */; };
 		EA4C6FCB1FE3B6E000776E71 /* UINavigationController+BaseNav.m in Sources */ = {isa = PBXBuildFile; fileRef = EA4C6FC91FE3B6DF00776E71 /* UINavigationController+BaseNav.m */; };
 		EA4C6FCE1FE3C2F000776E71 /* ChosePersonViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EA4C6FCD1FE3C2F000776E71 /* ChosePersonViewController.m */; };
+		EA4DA7A81FFDFD2F00A0CDF5 /* WKLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EA4DA7A71FFDFD2F00A0CDF5 /* WKLocationManager.m */; };
+		EA4DA7AB1FFE010600A0CDF5 /* LocationView.m in Sources */ = {isa = PBXBuildFile; fileRef = EA4DA7AA1FFE010600A0CDF5 /* LocationView.m */; };
+		EA4DA7AF1FFE1A4D00A0CDF5 /* UploadImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EA4DA7AD1FFE1A4D00A0CDF5 /* UploadImageViewController.m */; };
+		EA4DA7B01FFE1A4D00A0CDF5 /* UploadImageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EA4DA7AE1FFE1A4D00A0CDF5 /* UploadImageViewController.xib */; };
+		EA4DA7B61FFE1ED600A0CDF5 /* WKPicturePreviewVC.m in Sources */ = {isa = PBXBuildFile; fileRef = EA4DA7B21FFE1ED600A0CDF5 /* WKPicturePreviewVC.m */; };
+		EA4DA7B71FFE1ED600A0CDF5 /* PhotoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EA4DA7B41FFE1ED600A0CDF5 /* PhotoCell.m */; };
 		EA4E47D11FF49A3500C7CE39 /* SMGApiClient+http.m in Sources */ = {isa = PBXBuildFile; fileRef = EA4E47D01FF49A3500C7CE39 /* SMGApiClient+http.m */; };
 		EA4E47D41FF49E5100C7CE39 /* UserInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = EA4E47D31FF49E5100C7CE39 /* UserInfoModel.m */; };
 		EA4E47D71FF4C40C00C7CE39 /* OrgModel.m in Sources */ = {isa = PBXBuildFile; fileRef = EA4E47D61FF4C40C00C7CE39 /* OrgModel.m */; };
@@ -53,8 +58,6 @@
 		EA1B42BA1FE91506000B8EC4 /* AttendanceViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AttendanceViewController.h; sourceTree = "<group>"; };
 		EA1B42BB1FE91506000B8EC4 /* AttendanceViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AttendanceViewController.m; sourceTree = "<group>"; };
 		EA1B42BC1FE91506000B8EC4 /* AttendanceViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AttendanceViewController.xib; sourceTree = "<group>"; };
-		EA1BE7801FFC6BA600C3F674 /* WKLocationManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WKLocationManager.h; sourceTree = "<group>"; };
-		EA1BE7811FFC6BA600C3F674 /* WKLocationManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WKLocationManager.m; sourceTree = "<group>"; };
 		EA1BE7831FFCD34700C3F674 /* NSObject+EasyExtend.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+EasyExtend.m"; sourceTree = "<group>"; };
 		EA1BE7841FFCD34800C3F674 /* NSObject+EasyExtend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+EasyExtend.h"; sourceTree = "<group>"; };
 		EA4C6FB81FE3A2F800776E71 /* BaseViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
@@ -72,6 +75,17 @@
 		EA4C6FCA1FE3B6E000776E71 /* UINavigationController+BaseNav.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+BaseNav.h"; sourceTree = "<group>"; };
 		EA4C6FCC1FE3C2F000776E71 /* ChosePersonViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChosePersonViewController.h; sourceTree = "<group>"; };
 		EA4C6FCD1FE3C2F000776E71 /* ChosePersonViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChosePersonViewController.m; sourceTree = "<group>"; };
+		EA4DA7A61FFDFD2F00A0CDF5 /* WKLocationManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WKLocationManager.h; sourceTree = "<group>"; };
+		EA4DA7A71FFDFD2F00A0CDF5 /* WKLocationManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WKLocationManager.m; sourceTree = "<group>"; };
+		EA4DA7A91FFE010600A0CDF5 /* LocationView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LocationView.h; sourceTree = "<group>"; };
+		EA4DA7AA1FFE010600A0CDF5 /* LocationView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LocationView.m; sourceTree = "<group>"; };
+		EA4DA7AC1FFE1A4D00A0CDF5 /* UploadImageViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UploadImageViewController.h; sourceTree = "<group>"; };
+		EA4DA7AD1FFE1A4D00A0CDF5 /* UploadImageViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UploadImageViewController.m; sourceTree = "<group>"; };
+		EA4DA7AE1FFE1A4D00A0CDF5 /* UploadImageViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UploadImageViewController.xib; sourceTree = "<group>"; };
+		EA4DA7B21FFE1ED600A0CDF5 /* WKPicturePreviewVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WKPicturePreviewVC.m; sourceTree = "<group>"; };
+		EA4DA7B31FFE1ED600A0CDF5 /* PhotoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoCell.h; sourceTree = "<group>"; };
+		EA4DA7B41FFE1ED600A0CDF5 /* PhotoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoCell.m; sourceTree = "<group>"; };
+		EA4DA7B51FFE1ED600A0CDF5 /* WKPicturePreviewVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WKPicturePreviewVC.h; sourceTree = "<group>"; };
 		EA4E47CF1FF49A3500C7CE39 /* SMGApiClient+http.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SMGApiClient+http.h"; sourceTree = "<group>"; };
 		EA4E47D01FF49A3500C7CE39 /* SMGApiClient+http.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "SMGApiClient+http.m"; sourceTree = "<group>"; };
 		EA4E47D21FF49E5100C7CE39 /* UserInfoModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserInfoModel.h; sourceTree = "<group>"; };
@@ -140,6 +154,7 @@
 		EA4C6FB31FE39FA900776E71 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				EA4DA7B11FFE1ED600A0CDF5 /* CommonVC */,
 				EA4C6FB41FE39FA900776E71 /* Model */,
 				EA4C6FB51FE39FA900776E71 /* View */,
 				EA4C6FB61FE39FA900776E71 /* Controllers */,
@@ -172,6 +187,8 @@
 				EA1B42B21FE8F6E8000B8EC4 /* TrainingCollectionViewCell.h */,
 				EA1B42B31FE8F6E8000B8EC4 /* TrainingCollectionViewCell.m */,
 				EA1B42B41FE8F6E8000B8EC4 /* TrainingCollectionViewCell.xib */,
+				EA4DA7A91FFE010600A0CDF5 /* LocationView.h */,
+				EA4DA7AA1FFE010600A0CDF5 /* LocationView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -195,6 +212,9 @@
 				EA1B42BA1FE91506000B8EC4 /* AttendanceViewController.h */,
 				EA1B42BB1FE91506000B8EC4 /* AttendanceViewController.m */,
 				EA1B42BC1FE91506000B8EC4 /* AttendanceViewController.xib */,
+				EA4DA7AC1FFE1A4D00A0CDF5 /* UploadImageViewController.h */,
+				EA4DA7AD1FFE1A4D00A0CDF5 /* UploadImageViewController.m */,
+				EA4DA7AE1FFE1A4D00A0CDF5 /* UploadImageViewController.xib */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -214,6 +234,26 @@
 				EA4C6FBC1FE3A31900776E71 /* BaseNavController.m */,
 			);
 			path = Base;
+			sourceTree = "<group>";
+		};
+		EA4DA7A51FFDFD1E00A0CDF5 /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				EA4DA7A61FFDFD2F00A0CDF5 /* WKLocationManager.h */,
+				EA4DA7A71FFDFD2F00A0CDF5 /* WKLocationManager.m */,
+			);
+			path = Manager;
+			sourceTree = "<group>";
+		};
+		EA4DA7B11FFE1ED600A0CDF5 /* CommonVC */ = {
+			isa = PBXGroup;
+			children = (
+				EA4DA7B21FFE1ED600A0CDF5 /* WKPicturePreviewVC.m */,
+				EA4DA7B31FFE1ED600A0CDF5 /* PhotoCell.h */,
+				EA4DA7B41FFE1ED600A0CDF5 /* PhotoCell.m */,
+				EA4DA7B51FFE1ED600A0CDF5 /* WKPicturePreviewVC.h */,
+			);
+			path = CommonVC;
 			sourceTree = "<group>";
 		};
 		EA50F59D1FE20DF4007D062A = {
@@ -237,6 +277,7 @@
 		EA50F5A81FE20DF4007D062A /* SecuritySystem */ = {
 			isa = PBXGroup;
 			children = (
+				EA4DA7A51FFDFD1E00A0CDF5 /* Manager */,
 				EA4C6FB71FE39FED00776E71 /* Base */,
 				EA70CC721FF1E3480084A6DD /* Http */,
 				EA50F5A91FE20DF4007D062A /* AppDelegate.h */,
@@ -262,8 +303,6 @@
 				EA70CC741FF1E3820084A6DD /* SMGApiClient.m */,
 				EA4E47CF1FF49A3500C7CE39 /* SMGApiClient+http.h */,
 				EA4E47D01FF49A3500C7CE39 /* SMGApiClient+http.m */,
-				EA1BE7801FFC6BA600C3F674 /* WKLocationManager.h */,
-				EA1BE7811FFC6BA600C3F674 /* WKLocationManager.m */,
 			);
 			path = Http;
 			sourceTree = "<group>";
@@ -334,6 +373,7 @@
 				EA50F5B61FE20DF4007D062A /* LaunchScreen.storyboard in Resources */,
 				EA50F5B31FE20DF4007D062A /* Assets.xcassets in Resources */,
 				EA555A5C1FE759880047409B /* ChosePersonTableViewCell.xib in Resources */,
+				EA4DA7B01FFE1A4D00A0CDF5 /* UploadImageViewController.xib in Resources */,
 				EA555A6E1FE791FB0047409B /* ChosePositionCell.xib in Resources */,
 				EA555A641FE765240047409B /* UploadTrainingViewController.xib in Resources */,
 				EA1B42B61FE8F6E8000B8EC4 /* TrainingCollectionViewCell.xib in Resources */,
@@ -406,10 +446,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EA4DA7B71FFE1ED600A0CDF5 /* PhotoCell.m in Sources */,
 				EA4C6FCB1FE3B6E000776E71 /* UINavigationController+BaseNav.m in Sources */,
 				EA555A631FE765240047409B /* UploadTrainingViewController.m in Sources */,
 				EA50F5AE1FE20DF4007D062A /* ViewController.m in Sources */,
 				EA4C6FCE1FE3C2F000776E71 /* ChosePersonViewController.m in Sources */,
+				EA4DA7B61FFE1ED600A0CDF5 /* WKPicturePreviewVC.m in Sources */,
 				EA4C6FBD1FE3A31900776E71 /* BaseNavController.m in Sources */,
 				EA1B42B51FE8F6E8000B8EC4 /* TrainingCollectionViewCell.m in Sources */,
 				EA4E47D71FF4C40C00C7CE39 /* OrgModel.m in Sources */,
@@ -419,14 +461,16 @@
 				EA4C6FBA1FE3A2F800776E71 /* BaseViewController.m in Sources */,
 				EA70CC751FF1E3820084A6DD /* SMGApiClient.m in Sources */,
 				EA4C6FC81FE3B63600776E71 /* MainViewController.m in Sources */,
+				EA4DA7AF1FFE1A4D00A0CDF5 /* UploadImageViewController.m in Sources */,
 				EA70CC781FF1E7430084A6DD /* UserManager.m in Sources */,
 				EA1BE7851FFCD34800C3F674 /* NSObject+EasyExtend.m in Sources */,
-				EA1BE7821FFC6BA600C3F674 /* WKLocationManager.m in Sources */,
 				EA555A681FE76BEE0047409B /* ChosePositionViewController.m in Sources */,
 				EA555A5F1FE75D2E0047409B /* ChosePersonModel.m in Sources */,
 				EA1B42BD1FE91506000B8EC4 /* AttendanceViewController.m in Sources */,
 				EA50F5B91FE20DF4007D062A /* main.m in Sources */,
+				EA4DA7A81FFDFD2F00A0CDF5 /* WKLocationManager.m in Sources */,
 				EA50F5AB1FE20DF4007D062A /* AppDelegate.m in Sources */,
+				EA4DA7AB1FFE010600A0CDF5 /* LocationView.m in Sources */,
 				EA555A5B1FE759880047409B /* ChosePersonTableViewCell.m in Sources */,
 				EA555A6D1FE791FB0047409B /* ChosePositionCell.m in Sources */,
 			);

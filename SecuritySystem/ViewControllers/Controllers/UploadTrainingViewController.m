@@ -9,6 +9,9 @@
 #import "UploadTrainingViewController.h"
 #import "TrainingCollectionViewCell.h"
 #import <ZLCustomCamera.h>
+#import "WKLocationManager.h"
+#import "LocationView.h"
+#import "WKPicturePreviewVC.h"
 
 @interface UploadTrainingViewController ()<UITextViewDelegate,UITextFieldDelegate,UICollectionViewDelegate,UICollectionViewDataSource>
 @property (weak, nonatomic) IBOutlet UITextView *descTextView;
@@ -27,6 +30,7 @@
 @property (nonatomic, strong) NSMutableArray *uploadSimgArr;
 @property (nonatomic, strong) NSMutableArray *uploadVideoArr;
 @property (nonatomic, strong) NSMutableArray *classIdArr;
+@property (nonatomic, copy) NSString *addressStr;
 
 @end
 
@@ -49,10 +53,39 @@
     
     UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"提交" style:UIBarButtonItemStylePlain target:self action:@selector(upLoadFiles)];
     self.navigationItem.rightBarButtonItem = rightItem;
+    [self locationFirst:NO];
+}
+
+- (void)locationFirst:(BOOL)isNeedSubmit {
+    WeaklySelf(weakSelf);
+    [[WKLocationManager sharedWKLocationManager].locationManager requestLocationWithReGeocode:YES completionBlock:^(CLLocation *location, AMapLocationReGeocode *regeocode, NSError *error) {
+        if (regeocode) {
+            weakSelf.addressStr = regeocode.formattedAddress;
+            NSLog(@"%@",weakSelf.addressStr);
+            if (isNeedSubmit) {
+                [weakSelf submitTrainingInfo];
+            }
+        }
+        if (error) {
+            [SVProgressHUD showErrorWithStatus:@"定位失败"];
+        }
+    }];
+}
+- (void)showLocationView{
+    [self.view endEditing:YES];
+    @weakify(self);
+    LocationView *view = [[LocationView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
+    [view.loactionSignal subscribeNext:^(id  _Nullable x) {
+        @strongify(self);
+        [self locationFirst:YES];
+        [view removeFromSuperview];
+    }];
+    [[UIApplication sharedApplication].keyWindow addSubview:view];
 }
 
 #pragma mark - Actions
 - (void)submitTrainingInfo {
+    [self.view endEditing:YES];
     NSLog(@"=======================");
     WeaklySelf(weakSelf);
     if (![_themeTextField.text isNotEmpty]) {
@@ -63,21 +96,26 @@
         [SVProgressHUD showErrorWithStatus:@"请填写训练说明"];
         return;
     }
+    if (![self.addressStr isNotEmpty]) {
+        [self showLocationView];
+        return;
+    }
     [[SMGApiClient sharedClient] uploadTrainInfoWithTheme:_themeTextField.text address:@"dsad" remark:_descTextView.text orgId:_orgIdStr classId:[_classIdArr componentsJoinedByString:@","] SimagesUrl:[_uploadSimgArr componentsJoinedByString:@","] ImagesUrl:[_uploadImgArr componentsJoinedByString:@","] VideoUrl:[_uploadVideoArr componentsJoinedByString:@","] andCompletion:^(NSURLSessionDataTask *task, NSDictionary *aResponse, NSError *anError) {
         if (aResponse) {
             NSLog(@"提交。。。。。。%@",aResponse);
-            [weakSelf.navigationController popViewControllerAnimated:YES];
+            [SVProgressHUD showSuccessWithStatus:@"提交成功"];
+            [weakSelf.navigationController performSelector:@selector(popViewControllerAnimated:) withObject:@(YES) afterDelay:1.5];
         }
     }];
 }
 
 - (void)upLoadFiles{
-    
+    [SVProgressHUD showWithStatus:@"上传文件"];
     if (![_selectImgArr isNotEmpty]&&![_selectVideoArr isNotEmpty]) {
         [SVProgressHUD showErrorWithStatus:@"请添加训练视频或图片"];
         return;
     }
-    if (self.selectImgArr.count == self.uploadImgArr.count && self.selectVideoArr.count == self.uploadVideoArr.count) {
+    if (self.selectImgArr.count+self.selectVideoArr.count == self.uploadImgArr.count && self.selectVideoArr.count+self.selectImgArr.count == self.uploadVideoArr.count) {
         [self submitTrainingInfo];
         return;
     }
@@ -97,33 +135,51 @@
                 if (aResponse) {
                     NSLog(@"%@",aResponse);
                     [weakSelf.uploadSimgArr addObject:aResponse[@"Surl"]];
-                    [weakSelf.uploadImgArr addObject:aResponse[@"Url"]];
-                    if (![weakSelf.classIdArr containsObject:aResponse[@"ClassId"]]) {
-                        [weakSelf.classIdArr addObject:aResponse[@"ClassId"]];
-                    }
-                    if (weakSelf.uploadImgArr.count == weakSelf.selectImgArr.count&&weakSelf.uploadVideoArr.count==weakSelf.selectVideoArr.count) {
+                    [weakSelf.uploadImgArr addObject:aResponse[@"imageUrl"]];
+                    [weakSelf.uploadVideoArr addObject:@"\"\""];
+                    [weakSelf.classIdArr addObject:aResponse[@"ClassId"]];
+                    
+                    if (weakSelf.selectImgArr.count+weakSelf.selectVideoArr.count == weakSelf.uploadImgArr.count && weakSelf.selectVideoArr.count+weakSelf.selectImgArr.count == weakSelf.uploadVideoArr.count) {
                         weakSelf.isFinshed = YES;
                     }
+                }
+                if (anError) {
+                    MAIN(^{
+                        [SVProgressHUD showErrorWithStatus:@"上传图片失败"];
+                    });
                 }
             }];
         });
     }
+    
     for (NSString *videoUrl in self.selectVideoArr) {
         dispatch_group_async(group, concurrentQueue, ^{
             [[SMGApiClient sharedClient] postPath:@"UploadBigfile.ashx" withVideo:[NSData dataWithContentsOfFile:videoUrl] parameters:nil completion:^(NSURLSessionDataTask *task, NSDictionary *aResponse, NSError *anError) {
                 if (aResponse) {
-                    if (weakSelf.uploadImgArr.count == weakSelf.selectImgArr.count&&weakSelf.uploadVideoArr.count==weakSelf.selectVideoArr.count) {
+                    [weakSelf.uploadVideoArr addObject:aResponse[@"videoUrl"]];
+                    [weakSelf.uploadSimgArr addObject:aResponse[@"Surl"]];
+                    [weakSelf.uploadImgArr addObject:@"\"\""];
+                    [weakSelf.classIdArr addObject:aResponse[@"ClassId"]];
+                    
+                    if (weakSelf.selectImgArr.count+weakSelf.selectVideoArr.count == weakSelf.uploadImgArr.count && weakSelf.selectVideoArr.count+weakSelf.selectImgArr.count == weakSelf.uploadVideoArr.count) {
                         weakSelf.isFinshed = YES;
                     }
+                }
+                if (anError) {
+                    MAIN(^{
+                        [SVProgressHUD showErrorWithStatus:@"上传视频失败"];
+                    });
                 }
             }];
         });
     }
+
     [RACObserve(self, isFinshed) subscribeNext:^(id  _Nullable x) {
         BOOL finshed = [x boolValue];
         if (finshed) {
             dispatch_group_notify(group, dispatch_get_main_queue(), ^{
                 NSLog(@"end");
+                [SVProgressHUD dismiss];
                 [weakSelf submitTrainingInfo];
             });
         }
@@ -131,12 +187,18 @@
 }
 
 - (IBAction)upVideoClicked:(UIButton *)sender {
+    
+    if (self.selectVideoArr.count>0) {
+        [ToastUtils showAtTop:@"最多可上传一段视频，可点击删除已上传的视频"];
+        return;
+    }
+    
     WeaklySelf(weakSelf);
     ZLCustomCamera *vc = [[ZLCustomCamera alloc] init];
     vc.allowRecordVideo = YES;
     vc.maxRecordDuration = 10;
     vc.circleProgressColor = [UIColor greenColor];
-    vc.sessionPreset = ZLCaptureSessionPreset1920x1080;
+    vc.sessionPreset = ZLCaptureSessionPreset325x288;
     vc.videoType = ZLExportVideoTypeMp4;
     vc.doneBlock = ^(UIImage *image, NSURL *videoUrl) {
         if (videoUrl) {
@@ -200,6 +262,19 @@
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
 {
     return UIEdgeInsetsMake(0, 0, 0, 0);
+}
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+    if (collectionView == _videoCollectionView) {
+        WKPicturePreviewVC *vc = [WKPicturePreviewVC new];
+        vc.imageList = self.selectVideoArr;
+        vc.selectIndex = 0;
+        [self presentViewController:vc animated:YES completion:nil];
+    }else{
+        WKPicturePreviewVC *vc = [WKPicturePreviewVC new];
+        vc.imageList = self.selectImgArr;
+        vc.selectIndex = indexPath.row;
+        [self presentViewController:vc animated:YES completion:nil];
+    }
 }
 #pragma mark - lazy loading
 - (NSMutableArray *)selectImgArr{
