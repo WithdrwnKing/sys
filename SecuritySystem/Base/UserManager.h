@@ -24,6 +24,8 @@
 @property(nonatomic, strong) NSString *city;
 /** token */
 @property(nonatomic, strong) NSString *token;
+/** 身份类型 */
+@property(nonatomic, strong) NSString *type;
 /** 所属大队id */
 @property(nonatomic, strong) UserInfoModel *infoModel;
 //仅供判断是否登录用

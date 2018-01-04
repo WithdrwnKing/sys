@@ -8,6 +8,7 @@
 
 #import "ChosePositionViewController.h"
 #import "ChosePositionCell.h"
+#import "UploadTrainingViewController.h"
 
 @interface ChosePositionViewController ()<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *seachTextField;
@@ -89,5 +90,21 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 - (IBAction)commitBtnClicked:(UIButton *)sender {
+    [self.seachTextField resignFirstResponder];
+    BOOL isPush = NO;
+    NSMutableArray *orgArr = [NSMutableArray array];
+    for (OrgModel *model in self.orgList) {
+        if (model.isSelected == YES) {
+            isPush = YES;
+            [orgArr addObject:model.orgId];
+        }
+    }
+    if (isPush) {
+        UploadTrainingViewController *vc = [UploadTrainingViewController new];
+        vc.orgIdStr = [orgArr componentsJoinedByString:@","];
+        [self.navigationController pushViewController:vc animated:YES];
+    }else
+        [ToastUtils show:@"请选择训练大队"];
+        
 }
 @end

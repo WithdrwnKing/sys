@@ -63,6 +63,7 @@
         if (aResponse) {
             [CURRENTUSER setUserId:aResponse[@"ID"]];
             [CURRENTUSER setNickName:aResponse[@"Name"]];
+            [CURRENTUSER setType:aResponse[@"Type"]];
             [CURRENTUSER saveUser];
             MainViewController *vc = [MainViewController new];
             self.navigationController.rootViewController = vc;

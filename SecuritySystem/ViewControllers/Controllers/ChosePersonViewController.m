@@ -51,6 +51,10 @@ static NSString *cellIdentifier = @"ChosePersonCell";
     label.textAlignment = NSTextAlignmentRight;
     [self.view addSubview:label];
     
+    UILabel *line = [[UILabel alloc] initWithFrame:CGRectMake(10, label.bottom+3, SCREEN_WIDTH-20, 1)];
+    line.backgroundColor = SEPARATOR_LINE_COLOR;
+    [self.view addSubview:line];
+    
     [self.view addSubview:self.myTableView];
     
     UIButton *defineBtn = [UIButton buttonWithType:UIButtonTypeSystem];
@@ -115,8 +119,19 @@ static NSString *cellIdentifier = @"ChosePersonCell";
 - (void)buttonClcked:(UIButton *)sender{
     switch (sender.tag) {
         case 100:{
-            AttendanceViewController *vc = [AttendanceViewController new];
-            [self.navigationController pushViewController:vc animated:YES];
+            BOOL isPush = NO;
+            for (ChosePersonModel *model in self.modelArray) {
+                if (model.isSelected == YES) {
+                    isPush = YES;
+                }
+            }
+            if (isPush) {
+                AttendanceViewController *vc = [AttendanceViewController new];
+                [self.navigationController pushViewController:vc animated:YES];
+            }else{
+                [ToastUtils showAtTop:@"请选择上岗人员"];
+                
+            }
             break;
         }
         case 200:
@@ -130,7 +145,7 @@ static NSString *cellIdentifier = @"ChosePersonCell";
 #pragma mark - lazy loading
 - (UITableView *)myTableView{
     if (!_myTableView) {
-        _myTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 55, SCREEN_WIDTH, SCREEN_HEIGHT-STATUSBAR_HEIGHT-44-55-95)];
+        _myTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 60, SCREEN_WIDTH, SCREEN_HEIGHT-STATUSBAR_HEIGHT-44-60-95)];
         _myTableView.delegate = self;
         _myTableView.dataSource = self;
         [_myTableView registerNib:[UINib nibWithNibName:@"ChosePersonTableViewCell" bundle:nil] forCellReuseIdentifier:cellIdentifier];

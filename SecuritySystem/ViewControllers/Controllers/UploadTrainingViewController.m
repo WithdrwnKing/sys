@@ -13,7 +13,9 @@
 #import "LocationView.h"
 #import "WKPicturePreviewVC.h"
 
-@interface UploadTrainingViewController ()<UITextViewDelegate,UITextFieldDelegate,UICollectionViewDelegate,UICollectionViewDataSource>
+@interface UploadTrainingViewController ()<UITextViewDelegate,UITextFieldDelegate,UICollectionViewDelegate,UICollectionViewDataSource>{
+    CGFloat moveHeight;
+}
 @property (weak, nonatomic) IBOutlet UITextView *descTextView;
 @property (weak, nonatomic) IBOutlet UIButton *upImageBtn;
 @property (weak, nonatomic) IBOutlet UIButton *upVideoBtn;
@@ -41,20 +43,69 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"上传员工训练情况";
-    
+
     ViewBorderRadius(_descTextView, 0, .5, BlackColor);
     ViewBorderRadius(_upImageBtn, 0, .5, SEPARATOR_LINE_COLOR);
     ViewBorderRadius(_upVideoBtn, 0, .5, SEPARATOR_LINE_COLOR);
     ViewBorderRadius(_themeTextField, 0, .5, BlackColor);
 
+    
     [self.view addSubview:self.imgCollectionView];
     [self.view addSubview:self.videoCollectionView];
-    _orgIdStr = @"1,2";
     
     UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"提交" style:UIBarButtonItemStylePlain target:self action:@selector(upLoadFiles)];
     self.navigationItem.rightBarButtonItem = rightItem;
     [self locationFirst:NO];
+    
+    //增加监听，当键盘出现或改变时收出消息
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillShow:)
+                                                 name:UIKeyboardWillShowNotification
+                                               object:nil];
+    
+    //增加监听，当键退出时收出消息
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillHide:)
+                                                 name:UIKeyboardWillHideNotification
+                                               object:nil];
+    
+
 }
+
+//当键盘出现或改变时调用
+- (void)keyboardWillShow:(NSNotification *)aNotification
+{
+    if (self.themeTextField.isFirstResponder) {
+        return;
+    }
+    //获取键盘的高度
+    NSDictionary *userInfo = [aNotification userInfo];
+    NSValue *aValue = [userInfo objectForKey:UIKeyboardFrameEndUserInfoKey];
+    CGRect keyboardRect = [aValue CGRectValue];
+    int height = keyboardRect.size.height;
+    moveHeight = 0;
+    if (self.view.height - self.descTextView.bottom<height) {
+        moveHeight = height - (self.view.height - self.descTextView.bottom);
+    }
+}
+
+//当键退出时调用
+- (void)keyboardWillHide:(NSNotification *)aNotification{
+    
+}
+
+- (void)textViewDidBeginEditing:(UITextView *)textView{
+    if (moveHeight>0) {
+        self.view.centerY = self.view.centerY - moveHeight;
+    }
+}
+- (void)textViewDidEndEditing:(UITextView *)textView{
+    if (moveHeight>0) {
+        self.view.centerY = self.view.centerY + moveHeight;
+    }
+}
+
+
 
 - (void)locationFirst:(BOOL)isNeedSubmit {
     WeaklySelf(weakSelf);
@@ -83,36 +134,48 @@
     [[UIApplication sharedApplication].keyWindow addSubview:view];
 }
 
+- (void)hideKeyboard {
+    if (self.descTextView.isFirstResponder) {
+        [self.descTextView resignFirstResponder];
+    }
+    if (self.themeTextField.isFirstResponder) {
+        [self.themeTextField resignFirstResponder];
+    }
+}
+
 #pragma mark - Actions
 - (void)submitTrainingInfo {
-    [self.view endEditing:YES];
     NSLog(@"=======================");
     WeaklySelf(weakSelf);
-    if (![_themeTextField.text isNotEmpty]) {
-        [SVProgressHUD showErrorWithStatus:@"请填写训练主题"];
-        return;
-    }
-    if (![_descTextView.text isNotEmpty]) {
-        [SVProgressHUD showErrorWithStatus:@"请填写训练说明"];
-        return;
-    }
-    if (![self.addressStr isNotEmpty]) {
-        [self showLocationView];
-        return;
-    }
+    
     [[SMGApiClient sharedClient] uploadTrainInfoWithTheme:_themeTextField.text address:@"dsad" remark:_descTextView.text orgId:_orgIdStr classId:[_classIdArr componentsJoinedByString:@","] SimagesUrl:[_uploadSimgArr componentsJoinedByString:@","] ImagesUrl:[_uploadImgArr componentsJoinedByString:@","] VideoUrl:[_uploadVideoArr componentsJoinedByString:@","] andCompletion:^(NSURLSessionDataTask *task, NSDictionary *aResponse, NSError *anError) {
         if (aResponse) {
             NSLog(@"提交。。。。。。%@",aResponse);
-            [SVProgressHUD showSuccessWithStatus:@"提交成功"];
+            [ToastUtils show:@"提交成功"];
             [weakSelf.navigationController performSelector:@selector(popViewControllerAnimated:) withObject:@(YES) afterDelay:1.5];
         }
     }];
 }
 
 - (void)upLoadFiles{
+    [self hideKeyboard];
+    if (![_themeTextField.text isNotEmpty]) {
+        [ToastUtils show:@"请填写训练主题"];
+        return;
+    }
+    if (![_descTextView.text isNotEmpty]) {
+        [ToastUtils show:@"请填写训练说明"];
+        return;
+    }
+    if (![self.addressStr isNotEmpty]) {
+        [self showLocationView];
+        return;
+    }
+    
     [SVProgressHUD showWithStatus:@"上传文件"];
     if (![_selectImgArr isNotEmpty]&&![_selectVideoArr isNotEmpty]) {
-        [SVProgressHUD showErrorWithStatus:@"请添加训练视频或图片"];
+        [ToastUtils show:@"请添加训练视频或图片"];
+        [SVProgressHUD dismiss];
         return;
     }
     if (self.selectImgArr.count+self.selectVideoArr.count == self.uploadImgArr.count && self.selectVideoArr.count+self.selectImgArr.count == self.uploadVideoArr.count) {
@@ -222,12 +285,7 @@
     [self presentViewController:vc animated:YES completion:nil];
 }
 
-- (void)textViewDidBeginEditing:(UITextView *)textView{
-    self.view.centerY  = self.view.centerY - 100;
-}
-- (void)textViewDidEndEditing:(UITextView *)textView{
-    self.view.centerY  = self.view.centerY + 100;
-}
+
 #pragma mark - UICollectionViewDataSource
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
     if (collectionView == _imgCollectionView) {

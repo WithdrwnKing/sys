@@ -46,6 +46,7 @@ static UserManager *_sharedUser = nil;
         _nickName = [aDecoder decodeObjectForKey:@"nickName"];
         _userId = [aDecoder decodeObjectForKey:@"userId"];
         _gender = [aDecoder decodeObjectForKey:@"gender"];
+        _type = [aDecoder decodeObjectForKey:@"type"];
         _infoModel = [aDecoder decodeObjectForKey:@"UserInfoModel"];
     }
     return self;
@@ -57,6 +58,7 @@ static UserManager *_sharedUser = nil;
     [aCoder encodeObject:_headImg forKey:@"headImg"];
     [aCoder encodeObject:_nickName forKey:@"nickName"];
     [aCoder encodeObject:_gender forKey:@"gender"];
+    [aCoder encodeObject:_type forKey:@"type"];
     [aCoder encodeObject:_infoModel forKey:@"UserInfoModel"];
 }
 -(BOOL)isLogin{

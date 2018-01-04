@@ -16,6 +16,12 @@
     
     return [self getPath:@"Login.ashx" parameters:dict completion:completion];
 }
+- (NSURLSessionDataTask *)dictWithCategoryID:(NSString *)categoryID andCompletion:(ApiCompletion)completion{
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+    [dict setObject:categoryID forKey:@"categoryID"];
+    return [self getPath:@"GetItemsByCategory.ashx" parameters:dict completion:completion];
+
+}
 - (NSURLSessionDataTask *)getOrgWithUserId:(NSString *)userId andCompletion:(ApiCompletion)completion{
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     [dict setObject:userId forKey:@"userID"];

@@ -11,13 +11,14 @@
 #import "UploadTrainingViewController.h"
 #import "ChosePositionViewController.h"
 #import "UserInfoModel.h"
+#import "LoginViewController.h"
 
 @interface MainViewController ()
 @property (nonatomic, strong) UIScrollView *myScrollView;
 @property (nonatomic, strong) UILabel *orgNameLbl;
 @property (nonatomic, strong) UIButton *orgAddressBtn;
 @property (nonatomic, strong) UILabel *nameLbl;
-
+@property (nonatomic, copy) NSString *posString;
 @end
 
 @implementation MainViewController
@@ -86,7 +87,7 @@
     UIButton *infoBtn = [[UIButton alloc] initWithFrame:CGRectMake(SCREEN_WIDTH-135/2, 56, 135/2, 22)];
     [infoBtn setBackgroundImage:ImageNamed(@"ca_hback") forState:UIControlStateNormal];
     [infoBtn setTitleColor:WhiteColor forState:UIControlStateNormal];
-    [infoBtn setTitle:@"客户信息" forState:UIControlStateNormal];
+    [infoBtn setTitle:@"注销登录" forState:UIControlStateNormal];
     [infoBtn.titleLabel setFont:font(10)];
     infoBtn.tag = 1024;
     [infoBtn addTarget:self action:@selector(btnClicked:) forControlEvents:UIControlEventTouchUpInside];
@@ -129,12 +130,25 @@
             [weakSelf refreshView];
         }
     }];
+    [[SMGApiClient sharedClient] dictWithCategoryID:@"2" andCompletion:^(NSURLSessionDataTask *task, NSDictionary *aResponse, NSError *anError) {
+        if (aResponse) {
+            NSArray *listArr = aResponse;
+            for (NSDictionary *dict in listArr) {
+                NSString *type = [dict objectForKey:@"ID"];
+                if ([CURRENTUSER.type integerValue] == [type integerValue]) {
+                    weakSelf.posString = [dict objectForKey:@"Name"];
+                    [weakSelf refreshView];
+                    break;
+                }
+            }
+        }
+    }];
 }
 
 - (void)refreshView{
     [self.orgAddressBtn setTitle:CURRENTUSER.infoModel.orgAddress forState:UIControlStateNormal];
     self.orgNameLbl.text = CURRENTUSER.infoModel.orgName;
-    self.nameLbl.text = CURRENTUSER.nickName;
+    self.nameLbl.text = [NSString stringWithFormat:@"%@：%@",self.posString,CURRENTUSER.nickName];
 }
 
 #pragma mark - Actions
@@ -148,17 +162,17 @@
             break;
         }
         case 101:{
-            ChosePositionViewController *vc = [ChosePositionViewController new];
-            [self.navigationController pushViewController:vc animated:YES];
+           
             break;
         }
         case 102:{
-            UploadTrainingViewController *vc = [UploadTrainingViewController new];
+            ChosePositionViewController *vc = [ChosePositionViewController new];
             [self.navigationController pushViewController:vc animated:YES];
             break;
         }
         case 103:{
             UploadTrainingViewController *vc = [UploadTrainingViewController new];
+            vc.orgIdStr = CURRENTUSER.infoModel.orgId;
             [self.navigationController pushViewController:vc animated:YES];
             break;
         }
@@ -168,6 +182,11 @@
         }
         case 105:{
             
+            break;
+        }
+        case 1024:{
+            [CURRENTUSER logout];
+            self.navigationController.rootViewController = [LoginViewController new];
             break;
         }
         default:

@@ -104,7 +104,7 @@
                         <constraint firstAttribute="height" constant="80" id="V4p-YI-B4k"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences" keyboardType="alphabet"/>
                     <connections>
                         <outlet property="delegate" destination="-1" id="Vpu-UV-d8s"/>
                     </connections>

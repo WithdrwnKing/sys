@@ -17,7 +17,12 @@
  @param password 密码
  */
 - (NSURLSessionDataTask *)loginWithAccount:(NSString *)account password:(NSString *)password andCompletion:(ApiCompletion)completion;
-
+/**
+ @brief 字典接口
+ 
+ @param categoryID 账号
+ */
+- (NSURLSessionDataTask *)dictWithCategoryID:(NSString *)categoryID andCompletion:(ApiCompletion)completion;
 /**
  @brief 获取用户所在大队信息
 
