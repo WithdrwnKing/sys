@@ -25,7 +25,6 @@ static NSString *cellIdentifier = @"AttendanceCell";
 @property (nonatomic, strong) NSMutableArray *selectImageArr;
 @property (nonatomic, strong) YYTextView *textView;
 @property (nonatomic, copy) NSArray *attendanceArray;
-@property (nonatomic, strong) UIButton *selectTypeBtn;
 @end
 
 @implementation AttendanceViewController
@@ -51,7 +50,7 @@ static NSString *cellIdentifier = @"AttendanceCell";
 - (void)loadCategoryID{
     [[SMGApiClient sharedClient] dictWithCategoryID:@"11" andCompletion:^(NSURLSessionDataTask *task, NSDictionary *aResponse, NSError *anError) {
         if (aResponse) {
-            self.attendanceArray = aResponse;
+            self.attendanceArray = (NSArray *)aResponse;
         }
     }];
 }

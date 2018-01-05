@@ -132,7 +132,7 @@
     }];
     [[SMGApiClient sharedClient] dictWithCategoryID:@"2" andCompletion:^(NSURLSessionDataTask *task, NSDictionary *aResponse, NSError *anError) {
         if (aResponse) {
-            NSArray *listArr = aResponse;
+            NSArray *listArr = (NSArray *)aResponse;
             for (NSDictionary *dict in listArr) {
                 NSString *type = [dict objectForKey:@"ID"];
                 if ([CURRENTUSER.type integerValue] == [type integerValue]) {
