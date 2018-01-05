@@ -120,13 +120,16 @@ static NSString *cellIdentifier = @"ChosePersonCell";
     switch (sender.tag) {
         case 100:{
             BOOL isPush = NO;
+            NSMutableArray *selectArr = [NSMutableArray array];
             for (ChosePersonModel *model in self.modelArray) {
                 if (model.isSelected == YES) {
                     isPush = YES;
+                    [selectArr addObject:model];
                 }
             }
             if (isPush) {
                 AttendanceViewController *vc = [AttendanceViewController new];
+                vc.selectArray = selectArr.copy;
                 [self.navigationController pushViewController:vc animated:YES];
             }else{
                 [ToastUtils showAtTop:@"请选择上岗人员"];

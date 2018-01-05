@@ -95,7 +95,7 @@
     
     [_myScrollView addSubview:headView];
 
-    NSArray *titleArray = @[@"上岗考勤",@"队员管理",@"训练上传",@"上传训练图片",@"日志记录",@"客户信息"];
+    NSArray *titleArray = @[@"上岗考勤",@"训练上传",@"队员管理",@"考勤记录",@"训练记录",@"客户信息"];
     NSArray *imageArray = @[ImageNamed(@"ca_btn01"),ImageNamed(@"ca_btn02"),ImageNamed(@"ca_btn03"),ImageNamed(@"ca_btn04"),ImageNamed(@"ca_btn05"),ImageNamed(@"ca_btn06")];
     CGFloat width = (SCREEN_WIDTH-30-50)/3;
     for (int i = 0; i<6; i++) {
@@ -162,18 +162,16 @@
             break;
         }
         case 101:{
-           
-            break;
-        }
-        case 102:{
             ChosePositionViewController *vc = [ChosePositionViewController new];
             [self.navigationController pushViewController:vc animated:YES];
             break;
         }
+        case 102:{
+            
+            break;
+        }
         case 103:{
-            UploadTrainingViewController *vc = [UploadTrainingViewController new];
-            vc.orgIdStr = CURRENTUSER.infoModel.orgId;
-            [self.navigationController pushViewController:vc animated:YES];
+           
             break;
         }
         case 104:{

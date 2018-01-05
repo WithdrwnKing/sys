@@ -7,7 +7,7 @@
 //
 
 #import "BaseViewController.h"
-
+@class ChosePersonModel;
 @interface AttendanceViewController : BaseViewController
-
+@property (nonatomic, copy) NSArray <ChosePersonModel *>*selectArray;
 @end

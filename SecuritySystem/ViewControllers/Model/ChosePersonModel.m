@@ -12,4 +12,7 @@
 + (NSDictionary *)modelCustomPropertyMapper{
     return @{@"userId":@"ID",@"nickName":@"Name",@"headImgUrl":@"ImageUrl"};
 }
+- (id)copyWithZone:(NSZone *)zone{
+    return [self modelCopy];
+}
 @end

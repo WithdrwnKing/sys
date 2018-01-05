@@ -82,8 +82,8 @@
 //是否iphone6+
 #define isIPHONE6PLUS       (isIPHONE && [[UIScreen mainScreen] bounds].size.height == 736.0 || [[UIScreen mainScreen] bounds].size.width == 736.0) // Both orientations
 
-// 是否iphone5以上屏幕
-#define isBigScreen         (isIPHONE && [[UIScreen mainScreen] bounds].size.height > 568.0)
+// 是否iphone6以上屏幕
+#define isBigScreen         (isIPHONE && [[UIScreen mainScreen] bounds].size.height > 667.0)
 
 //获取系统版本
 #define IOS_VERSION [[[UIDevice currentDevice] systemVersion] floatValue]

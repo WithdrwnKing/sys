@@ -11,7 +11,6 @@
 		EA1B42B51FE8F6E8000B8EC4 /* TrainingCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EA1B42B31FE8F6E8000B8EC4 /* TrainingCollectionViewCell.m */; };
 		EA1B42B61FE8F6E8000B8EC4 /* TrainingCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EA1B42B41FE8F6E8000B8EC4 /* TrainingCollectionViewCell.xib */; };
 		EA1B42BD1FE91506000B8EC4 /* AttendanceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EA1B42BB1FE91506000B8EC4 /* AttendanceViewController.m */; };
-		EA1B42BE1FE91506000B8EC4 /* AttendanceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EA1B42BC1FE91506000B8EC4 /* AttendanceViewController.xib */; };
 		EA1BE7851FFCD34800C3F674 /* NSObject+EasyExtend.m in Sources */ = {isa = PBXBuildFile; fileRef = EA1BE7831FFCD34700C3F674 /* NSObject+EasyExtend.m */; };
 		EA4C6FBA1FE3A2F800776E71 /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EA4C6FB91FE3A2F800776E71 /* BaseViewController.m */; };
 		EA4C6FBD1FE3A31900776E71 /* BaseNavController.m in Sources */ = {isa = PBXBuildFile; fileRef = EA4C6FBC1FE3A31900776E71 /* BaseNavController.m */; };
@@ -57,7 +56,6 @@
 		EA1B42B41FE8F6E8000B8EC4 /* TrainingCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TrainingCollectionViewCell.xib; sourceTree = "<group>"; };
 		EA1B42BA1FE91506000B8EC4 /* AttendanceViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AttendanceViewController.h; sourceTree = "<group>"; };
 		EA1B42BB1FE91506000B8EC4 /* AttendanceViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AttendanceViewController.m; sourceTree = "<group>"; };
-		EA1B42BC1FE91506000B8EC4 /* AttendanceViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AttendanceViewController.xib; sourceTree = "<group>"; };
 		EA1BE7831FFCD34700C3F674 /* NSObject+EasyExtend.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+EasyExtend.m"; sourceTree = "<group>"; };
 		EA1BE7841FFCD34800C3F674 /* NSObject+EasyExtend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+EasyExtend.h"; sourceTree = "<group>"; };
 		EA4C6FB81FE3A2F800776E71 /* BaseViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
@@ -211,7 +209,6 @@
 				EA555A671FE76BEE0047409B /* ChosePositionViewController.xib */,
 				EA1B42BA1FE91506000B8EC4 /* AttendanceViewController.h */,
 				EA1B42BB1FE91506000B8EC4 /* AttendanceViewController.m */,
-				EA1B42BC1FE91506000B8EC4 /* AttendanceViewController.xib */,
 				EA4DA7AC1FFE1A4D00A0CDF5 /* UploadImageViewController.h */,
 				EA4DA7AD1FFE1A4D00A0CDF5 /* UploadImageViewController.m */,
 				EA4DA7AE1FFE1A4D00A0CDF5 /* UploadImageViewController.xib */,
@@ -378,7 +375,6 @@
 				EA555A641FE765240047409B /* UploadTrainingViewController.xib in Resources */,
 				EA1B42B61FE8F6E8000B8EC4 /* TrainingCollectionViewCell.xib in Resources */,
 				EA50F5B11FE20DF4007D062A /* Main.storyboard in Resources */,
-				EA1B42BE1FE91506000B8EC4 /* AttendanceViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

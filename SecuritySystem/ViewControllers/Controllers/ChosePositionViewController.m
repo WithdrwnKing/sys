@@ -33,6 +33,7 @@
     ViewBorderRadius(_cancelBtn, 5, 0, WhiteColor);
     self.tableView.tableFooterView = [UIView new];
     [self.tableView registerNib:[UINib nibWithNibName:@"ChosePositionCell" bundle:nil] forCellReuseIdentifier:@"cell"];
+    [self searchOrgList];
 }
 
 #pragma mark - 网络
