@@ -25,6 +25,7 @@ static NSString *cellIdentifier = @"AttendanceCell";
 @property (nonatomic, strong) NSMutableArray *selectImageArr;
 @property (nonatomic, strong) YYTextView *textView;
 @property (nonatomic, copy) NSArray *attendanceArray;
+@property (nonatomic, strong) UIButton *selectTypeBtn;
 @end
 
 @implementation AttendanceViewController
@@ -94,6 +95,7 @@ static NSString *cellIdentifier = @"AttendanceCell";
     [selectTypeBtn setContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft];
     [selectTypeBtn addTarget:self action:@selector(showActionVC:) forControlEvents:UIControlEventTouchUpInside];
     [self.scrollView addSubview:selectTypeBtn];
+    self.selectTypeBtn = selectTypeBtn;
     ViewBorderRadius(selectTypeBtn, 0, 1, SEPARATOR_LINE_COLOR);
     
     UILabel *photoLbl = [UILabel new];
@@ -178,7 +180,10 @@ static NSString *cellIdentifier = @"AttendanceCell";
         [ToastUtils show:@"请填写备注"];
         return;
     }
-
+    if ([self.selectTypeBtn.titleLabel.text isEqualToString:@"选择上岗类型"]) {
+        [ToastUtils show:@"请选择上岗类型"];
+        return;
+    }
     [self.navigationController popViewControllerAnimated:YES];
 }
 
