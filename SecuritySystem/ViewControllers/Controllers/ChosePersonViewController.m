@@ -59,7 +59,7 @@ static NSString *cellIdentifier = @"ChosePersonCell";
     
     UIButton *defineBtn = [UIButton buttonWithType:UIButtonTypeSystem];
     defineBtn.frame = CGRectMake(24, SCREEN_HEIGHT -STATUSBAR_HEIGHT-44 - 65, (SCREEN_WIDTH - 48 - 35)/2, 35);
-    defineBtn.backgroundColor = [UIColor redColor];
+    defineBtn.backgroundColor = CommonRedColor;
     [defineBtn setTitle:@"确定" forState:UIControlStateNormal];
     [defineBtn setTitleColor:WhiteColor forState:UIControlStateNormal];
     [defineBtn addTarget:self action:@selector(buttonClcked:) forControlEvents:UIControlEventTouchUpInside];
@@ -68,15 +68,15 @@ static NSString *cellIdentifier = @"ChosePersonCell";
     
     UIButton *cancleBtn = [UIButton buttonWithType:UIButtonTypeSystem];
     cancleBtn.frame = CGRectMake(defineBtn.right+35, defineBtn.top, defineBtn.width, defineBtn.height);
-    cancleBtn.backgroundColor = [UIColor redColor];
+    cancleBtn.backgroundColor = CommonRedColor;
     [cancleBtn setTitle:@"取消" forState:UIControlStateNormal];
     [cancleBtn setTitleColor:WhiteColor forState:UIControlStateNormal];
     [cancleBtn addTarget:self action:@selector(buttonClcked:) forControlEvents:UIControlEventTouchUpInside];
     cancleBtn.tag = 200;
     [self.view addSubview:cancleBtn];
     
-    ViewBorderRadius(defineBtn, 5, 0, WhiteColor);
-    ViewBorderRadius(cancleBtn, 5, 0, WhiteColor);
+    ViewBorderRadius(defineBtn, 10, 0, WhiteColor);
+    ViewBorderRadius(cancleBtn, 10, 0, WhiteColor);
 
 }
 #pragma mark - 网络

@@ -31,6 +31,7 @@
     ViewBorderRadius(_seachTextField, 0, .5, SEPARATOR_LINE_COLOR);
     ViewBorderRadius(_commitBtn, 5, 0, WhiteColor);
     ViewBorderRadius(_cancelBtn, 5, 0, WhiteColor);
+        
     self.tableView.tableFooterView = [UIView new];
     [self.tableView registerNib:[UINib nibWithNibName:@"ChosePositionCell" bundle:nil] forCellReuseIdentifier:@"cell"];
     [self searchOrgList];

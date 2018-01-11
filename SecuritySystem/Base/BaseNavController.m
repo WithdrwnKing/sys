@@ -20,7 +20,7 @@
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.navigationBar.hidden = YES;
     [self.navigationBar setTranslucent:NO];
-    self.navigationBar.barTintColor = [UIColor redColor];
+    self.navigationBar.barTintColor = HEX_RGB(0xc40000);
     self.navigationBar.tintColor = [UIColor whiteColor];
     [self.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], NSForegroundColorAttributeName,[UIFont fontWithName:@"Arial-Bold" size:17.5], NSFontAttributeName,nil]];
     //去掉背景图片

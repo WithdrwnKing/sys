@@ -12,6 +12,7 @@
 #import "ChosePositionViewController.h"
 #import "UserInfoModel.h"
 #import "LoginViewController.h"
+#import "TeamManagerViewController.h"
 
 @interface MainViewController ()
 @property (nonatomic, strong) UIScrollView *myScrollView;
@@ -44,7 +45,7 @@
     [self.view addSubview:self.myScrollView];
     CGFloat headViewHeight = 150 + STATUSBAR_HEIGHT;
     UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, headViewHeight)];
-    headView.backgroundColor = [UIColor redColor];
+    headView.backgroundColor = CommonRedColor;
     
     UIImageView *logoImv = [[UIImageView alloc] initWithFrame:CGRectMake(16, STATUSBAR_HEIGHT+10, 52, 64)];
     logoImv.image = ImageNamed(@"ca_hlogo");
@@ -95,13 +96,13 @@
     
     [_myScrollView addSubview:headView];
 
-    NSArray *titleArray = @[@"上岗考勤",@"训练上传",@"队员管理",@"考勤记录",@"训练记录",@"客户信息"];
-    NSArray *imageArray = @[ImageNamed(@"ca_btn01"),ImageNamed(@"ca_btn02"),ImageNamed(@"ca_btn03"),ImageNamed(@"ca_btn04"),ImageNamed(@"ca_btn05"),ImageNamed(@"ca_btn06")];
-    CGFloat width = (SCREEN_WIDTH-30-50)/3;
-    for (int i = 0; i<6; i++) {
+    NSArray *titleArray = @[@"上岗考勤",@"训练上传",@"脸项登记",@"工作汇报"];
+    NSArray *imageArray = @[ImageNamed(@"ca_btn01"),ImageNamed(@"ca_btn02"),ImageNamed(@"ca_btn06"),ImageNamed(@"ca_btn03")];
+    CGFloat width = (SCREEN_WIDTH-70*3)/2;
+    for (int i = 0; i<4; i++) {
         UIButton *btn = [UIButton new];
         btn.tag = 100+i;
-        btn.frame = CGRectMake(15 + i%3*(width+25), headView.bottom + 50 + i/3*(width+55) , width, width);
+        btn.frame = CGRectMake(70 + i%2*(width+70), headView.bottom + 50 + i/2*(width+55) , width, width);
         [btn setImage:imageArray[i] forState:UIControlStateNormal];
         [btn addTarget:self action:@selector(btnClicked:) forControlEvents:UIControlEventTouchUpInside];
         btn.backgroundColor = WhiteColor;
@@ -114,10 +115,22 @@
         title.font = font(13);
         title.textAlignment = NSTextAlignmentCenter;
         [_myScrollView addSubview:title];
-        if (i == 5) {
+        if (i == 3) {
             _myScrollView.contentSize = CGSizeMake(SCREEN_WIDTH, title.bottom);
         }
     }
+    
+    UIButton *clearBtn = [UIButton new];
+    clearBtn.frame = CGRectMake(0, SCREEN_HEIGHT-40, SCREEN_WIDTH, 40);
+    [clearBtn setTitle:@"清理缓存" forState:UIControlStateNormal];
+    [clearBtn setBackgroundColor:SEPARATOR_LINE_COLOR];
+    [clearBtn setTitleColor:BlackColor forState:UIControlStateNormal];
+    [self.view addSubview:clearBtn];
+    
+    UILabel *redLine = [UILabel new];
+    redLine.backgroundColor = CommonRedColor;
+    redLine.frame = CGRectMake(clearBtn.left, clearBtn.bottom, SCREEN_WIDTH, 1);
+    [self.view addSubview:redLine];
 }
 #pragma mark - AFN
 - (void)loadMainData {
@@ -167,21 +180,15 @@
             break;
         }
         case 102:{
-            
+            TeamManagerViewController *vc = [TeamManagerViewController new];
+            [self.navigationController pushViewController:vc animated:YES];
             break;
         }
         case 103:{
            
             break;
         }
-        case 104:{
-            
-            break;
-        }
-        case 105:{
-            
-            break;
-        }
+        
         case 1024:{
             [CURRENTUSER logout];
             self.navigationController.rootViewController = [LoginViewController new];

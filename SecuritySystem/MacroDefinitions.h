@@ -202,6 +202,11 @@
 #define CommonBlueColor HEX_RGB(0x00a8ff)
 
 /**
+ *  默认红色
+ */
+#define CommonRedColor HEX_RGB(0xc40000)
+
+/**
  * 白色
  */
 #define WhiteColor [UIColor whiteColor]

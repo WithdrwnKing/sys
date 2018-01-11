@@ -48,7 +48,6 @@
     ViewBorderRadius(_upImageBtn, 0, .5, SEPARATOR_LINE_COLOR);
     ViewBorderRadius(_upVideoBtn, 0, .5, SEPARATOR_LINE_COLOR);
     ViewBorderRadius(_themeTextField, 0, .5, BlackColor);
-
     
     [self.view addSubview:self.imgCollectionView];
     [self.view addSubview:self.videoCollectionView];

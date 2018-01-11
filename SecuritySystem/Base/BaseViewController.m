@@ -19,6 +19,11 @@
     self.view.backgroundColor = WhiteColor;
     self.edgesForExtendedLayout = UIRectEdgeNone;
     self.automaticallyAdjustsScrollViewInsets = NO;
+    
+    UIBarButtonItem *backBtn = [[UIBarButtonItem alloc] init];
+    backBtn.title = @"返回";
+    self.navigationItem.backBarButtonItem = backBtn;
+    
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{

@@ -32,6 +32,7 @@ static NSString *cellIdentifier = @"AttendanceCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"上传员工考勤信息";
+    
     [self loadCategoryID];
     [self setUpUI];
     //增加监听，当键盘出现或改变时收出消息
@@ -86,16 +87,15 @@ static NSString *cellIdentifier = @"AttendanceCell";
     
     UIButton *selectTypeBtn = [UIButton new];
     selectTypeBtn.frame = CGRectMake(typeLbl.right, 15, SCREEN_WIDTH-typeLbl.right-30, 30);
-    [selectTypeBtn setImage:ImageNamed(@"") forState:UIControlStateNormal];
-    [selectTypeBtn setTitle:@"选择上岗类型" forState:UIControlStateNormal];
+    [selectTypeBtn setImage:ImageNamed(@"icon_uparrow") forState:UIControlStateNormal];
+    [selectTypeBtn setImageEdgeInsets:UIEdgeInsetsMake(0, selectTypeBtn.width-30, 0, 0)];
+    [selectTypeBtn setTitleEdgeInsets:UIEdgeInsetsMake(0, -30, 0, 0)];
     selectTypeBtn.titleLabel.font = font(15);
-    selectTypeBtn.titleEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);
     [selectTypeBtn setTitleColor:BlackColor forState:UIControlStateNormal];
-    [selectTypeBtn setContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft];
     [selectTypeBtn addTarget:self action:@selector(showActionVC:) forControlEvents:UIControlEventTouchUpInside];
     [self.scrollView addSubview:selectTypeBtn];
     self.selectTypeBtn = selectTypeBtn;
-    ViewBorderRadius(selectTypeBtn, 0, 1, SEPARATOR_LINE_COLOR);
+    ViewBorderRadius(selectTypeBtn, 5, 1, SEPARATOR_LINE_COLOR);
     
     UILabel *photoLbl = [UILabel new];
     photoLbl.text = @"拍照上传：";
@@ -147,7 +147,7 @@ static NSString *cellIdentifier = @"AttendanceCell";
     self.textView = textView;
     
     UIButton *submitBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    submitBtn.backgroundColor = HEX_RGB(0xc40000);
+    submitBtn.backgroundColor = CommonRedColor;
     [submitBtn setTitle:@"提交" forState:UIControlStateNormal];
     submitBtn.titleLabel.font = font(13);
     submitBtn.frame = CGRectMake(0, textView.bottom+10, 135, 30);
@@ -160,17 +160,34 @@ static NSString *cellIdentifier = @"AttendanceCell";
 }
 
 - (void)showActionVC:(UIButton *)sender {
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:@"请选择上岗类型" preferredStyle:UIAlertControllerStyleActionSheet];
-    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
-    for (NSDictionary *dict in self.attendanceArray) {
-        NSString *name = [dict objectForKey:@"Name"];
-        UIAlertAction *action = [UIAlertAction actionWithTitle:name style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            [sender setTitle:name forState:UIControlStateNormal];
-        }];
-        [alert addAction:action];
+    
+    UIView *actionView = [UIView new];
+    actionView.frame = CGRectMake(self.selectTypeBtn.left, self.selectTypeBtn.bottom, self.selectTypeBtn.width, 25*self.attendanceArray.count);
+    [self.scrollView addSubview:actionView];
+    ViewBorderRadius(actionView, 5, 1, SEPARATOR_LINE_COLOR);
+    WeaklySelf(weakSelf);
+    for (int i = 0; i < self.attendanceArray.count; i ++) {
+        UILabel *label = [UILabel new];
+        label.frame = CGRectMake(0, 25*i, actionView.width, 24.5);
+        NSDictionary *dict = self.attendanceArray[i];
+        label.text = [dict objectForKey:@"Name"];
+        label.textAlignment = NSTextAlignmentCenter;
+        label.font = font(15);
+        label.userInteractionEnabled = YES;
+        label.textColor = [UIColor grayColor];
+        [label addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithActionBlock:^(id  _Nonnull sender) {
+            [weakSelf.selectTypeBtn setTitle:label.text forState:UIControlStateNormal];
+            [actionView removeFromSuperview];
+        }]];
+        [actionView addSubview:label];
+        if (i == self.attendanceArray.count-1) {
+            return;
+        }
+        UILabel *line = [UILabel new];
+        line.frame = CGRectMake(5, label.bottom, label.width-10, .5);
+        line.backgroundColor = SEPARATOR_LINE_COLOR;
+        [actionView addSubview:line];
     }
-    [alert addAction:cancel];
-    [self presentViewController:alert animated:YES completion:nil];
 }
 
 - (void)sumitData {
@@ -179,7 +196,7 @@ static NSString *cellIdentifier = @"AttendanceCell";
         [ToastUtils show:@"请填写备注"];
         return;
     }
-    if ([self.selectTypeBtn.titleLabel.text isEqualToString:@"选择上岗类型"]) {
+    if (![self.selectTypeBtn.titleLabel.text isNotEmpty]) {
         [ToastUtils show:@"请选择上岗类型"];
         return;
     }
