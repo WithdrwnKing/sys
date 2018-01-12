@@ -11,6 +11,9 @@
 #import "ChosePersonModel.h"
 #import <ZLCustomCamera.h>
 #import "WKPicturePreviewVC.h"
+#import "WKLocationManager.h"
+#import <MapKit/MapKit.h>
+#import "LocationView.h"
 
 static NSString *cellIdentifier = @"AttendanceCell";
 @interface AttendanceViewController ()<UICollectionViewDelegate,UICollectionViewDataSource,YYTextViewDelegate,UITextFieldDelegate>{
@@ -25,6 +28,9 @@ static NSString *cellIdentifier = @"AttendanceCell";
 @property (nonatomic, strong) NSMutableArray *selectImageArr;
 @property (nonatomic, strong) YYTextView *textView;
 @property (nonatomic, copy) NSArray *attendanceArray;
+@property (nonatomic, assign) CLLocationCoordinate2D location;
+@property (nonatomic, copy) NSString *address;
+
 @end
 
 @implementation AttendanceViewController
@@ -35,6 +41,8 @@ static NSString *cellIdentifier = @"AttendanceCell";
     
     [self loadCategoryID];
     [self setUpUI];
+//    [self updateLocation];
+    
     //增加监听，当键盘出现或改变时收出消息
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardWillShow:)
@@ -47,6 +55,19 @@ static NSString *cellIdentifier = @"AttendanceCell";
                                                object:nil];
     
 }
+
+- (void)updateLocation{
+    WeaklySelf(weakSelf);
+    [[WKLocationManager sharedWKLocationManager].locationManager requestLocationWithReGeocode:YES completionBlock:^(CLLocation *location, AMapLocationReGeocode *regeocode, NSError *error) {
+        if (location) {
+            weakSelf.location = location.coordinate;
+        }
+        if (regeocode) {
+            weakSelf.address = regeocode.formattedAddress;
+        }
+    }];
+}
+
 
 - (void)loadCategoryID{
     [[SMGApiClient sharedClient] dictWithCategoryID:@"11" andCompletion:^(NSURLSessionDataTask *task, NSDictionary *aResponse, NSError *anError) {
@@ -113,14 +134,16 @@ static NSString *cellIdentifier = @"AttendanceCell";
         UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
         btn.frame = CGRectMake(10+width*(i%3), 20+40*(i/3), width, 20);
         [btn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
-        [btn setImage:[UIImage imageNamed:@"ca_right"] forState:UIControlStateNormal];
-         [btn setImage:[UIImage imageNamed:@"ca_error"] forState:UIControlStateSelected];
+        [btn setImage:[UIImage imageNamed:@"ca_right"] forState:UIControlStateSelected];
+         [btn setImage:[UIImage imageNamed:@"ca_error"] forState:UIControlStateNormal];
         [btn setTitle:model.nickName forState:UIControlStateNormal];
         btn.titleLabel.backgroundColor = btn.imageView.backgroundColor;
         [btn setTitleEdgeInsets:UIEdgeInsetsMake(0, - btn.imageView.image.size.width, 0, btn.imageView.image.size.width)];
         [btn setImageEdgeInsets:UIEdgeInsetsMake(0, btn.titleLabel.bounds.size.width+20, 0, -btn.titleLabel.bounds.size.width)];
+        btn.selected = model.isSelected;
         btn.rac_command = [[RACCommand alloc] initWithSignalBlock:^RACSignal * _Nonnull(id  _Nullable input) {
             btn.selected = !btn.selected;
+            model.isSelected = btn.isSelected;
             return [RACSignal empty];
         }];
         [self.nameView addSubview:btn];
@@ -189,18 +212,87 @@ static NSString *cellIdentifier = @"AttendanceCell";
         [actionView addSubview:line];
     }
 }
-
-- (void)sumitData {
-    
-    if (![self.textView.text isNotEmpty]) {
-        [ToastUtils show:@"请填写备注"];
-        return;
-    }
+- (BOOL)judgeSumit{
     if (![self.selectTypeBtn.titleLabel.text isNotEmpty]) {
         [ToastUtils show:@"请选择上岗类型"];
+        return NO;
+    }
+    if (self.selectImageArr.count<1) {
+        [ToastUtils show:@"请拍摄集体照"];
+        return NO;
+    }
+    if (![self.textView.text isNotEmpty]) {
+        [ToastUtils show:@"请填写备注"];
+        return NO;
+    }
+    
+    if (![self.address isNotEmpty]) {
+        @weakify(self);
+        LocationView *view = [[LocationView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
+        [view.loactionSignal subscribeNext:^(id  _Nullable x) {
+            @strongify(self);
+            [self updateLocation];
+            [view removeFromSuperview];
+        }];
+        [[UIApplication sharedApplication].keyWindow addSubview:view];
+        return NO;
+    }
+    
+    MKMapPoint point1 = MKMapPointMake([CURRENTUSER.infoModel.Longitude doubleValue], [CURRENTUSER.infoModel.Dimension doubleValue]);
+    MKMapPoint point2 = MKMapPointMake(self.location.latitude,self.location.longitude);
+    //2.计算距离
+    CLLocationDistance distance = MKMetersBetweenMapPoints(point1,point2);
+    if (distance>1000) {
+        [ToastUtils show:@"当前位置不在考勤范围"];
+        return NO;
+    }
+    
+    
+    
+    
+    return YES;
+}
+
+- (void)sumitData {
+    if (![self judgeSumit]) {
         return;
     }
-    [self.navigationController popViewControllerAnimated:YES];
+
+    NSMutableArray *staffIDArr = [NSMutableArray array];
+    for (ChosePersonModel *obj in self.selectArray) {
+        if (obj.isSelected == YES) {
+            [staffIDArr addObject:obj.userId];
+        }
+    }
+    NSString *typeStr;
+    for (NSDictionary *dict in self.attendanceArray) {
+        NSString *type = dict[@"Name"];
+        if ([type isEqualToString:self.selectTypeBtn.titleLabel.text]) {
+            typeStr = dict[@"ID"];
+        }
+    }
+    [SVProgressHUD show];
+    WeaklySelf(weakSelf);
+    [[SMGApiClient sharedClient] faceRecognitionWithStaffID:[staffIDArr componentsJoinedByString:@","] fileData:UIImagePNGRepresentation([_selectImageArr firstObject]) andCompletion:^(NSURLSessionDataTask *task, NSDictionary *aResponse, NSError *anError) {
+        if (aResponse) {
+            NSString *Status = [aResponse objectForKey:@"Status"];
+            NSString *StaffID = [aResponse objectForKey:@"StaffID"];
+            NSString *ContrastImage = [aResponse objectForKey:@"ContrastImage"];
+            [[SMGApiClient sharedClient] submitCheckingWithOrgID:CURRENTUSER.infoModel.orgId Address:@"" Type:typeStr Remark:weakSelf.textView.text StaffID:StaffID ContrastImage:ContrastImage Status:Status andCompletion:^(NSURLSessionDataTask *task, NSDictionary *aResponse, NSError *anError) {
+                [SVProgressHUD dismiss];
+                if (aResponse) {
+                    ShowToast(@"考勤成功");
+                    [weakSelf.navigationController performSelector:@selector(popToRootViewControllerAnimated:) withObject:@(YES) afterDelay:1.5];
+                }else{
+                    ShowToast(@"考勤失败");
+                }
+            }];
+        }else{
+            [SVProgressHUD dismiss];
+            ShowToast(@"人脸识别失败");
+        }
+    }];
+    
 }
 
 - (void)reloadUI{
@@ -224,8 +316,8 @@ static NSString *cellIdentifier = @"AttendanceCell";
 }
 
 - (void)upImageClicked{
-    if (self.selectImageArr.count >= self.selectArray.count) {
-        [ToastUtils show:@"照片个数不得大于考勤人数"];
+    if (self.selectImageArr.count >1) {
+        [ToastUtils show:@"照片为集体照仅限一张"];
         return;
     }
     WeaklySelf(weakSelf);
@@ -259,9 +351,7 @@ static NSString *cellIdentifier = @"AttendanceCell";
 
 }
 - (void)leaveEditMode {
-    
     [self.textView resignFirstResponder];
-    
 }
 
 #pragma mark - UICollectionViewDataSource

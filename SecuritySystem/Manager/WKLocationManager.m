@@ -15,6 +15,8 @@ SingletonM(WKLocationManager);
 - (AMapLocationManager *)locationManager{
     if (!_locationManager) {
         _locationManager = [[AMapLocationManager alloc] init];
+        [_locationManager setDesiredAccuracy:kCLLocationAccuracyHundredMeters];
+        _locationManager.locationTimeout = 2;
     }
     return _locationManager;
 }

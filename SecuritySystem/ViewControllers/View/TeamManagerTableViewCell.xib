@@ -57,6 +57,11 @@
                     <constraint firstAttribute="bottom" secondItem="Eb9-xy-wuO" secondAttribute="bottom" constant="10" id="x7M-Tk-Zpr"/>
                 </constraints>
             </tableViewCellContentView>
+            <connections>
+                <outlet property="headImv" destination="Eb9-xy-wuO" id="SuM-7u-WJH"/>
+                <outlet property="nameLbl" destination="zDU-rx-cKd" id="Qu7-Z2-5ih"/>
+                <outlet property="telLbl" destination="OJX-LS-edk" id="3ti-hF-PAi"/>
+            </connections>
             <point key="canvasLocation" x="81" y="104"/>
         </tableViewCell>
     </objects>

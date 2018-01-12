@@ -12,5 +12,7 @@
 @property (nonatomic, copy) NSString *orgId;
 @property (nonatomic, copy) NSString *orgName;
 @property (nonatomic, copy) NSString *orgAddress;
-
+@property (nonatomic, copy) NSString *Longitude;
+@property (nonatomic, copy) NSString *Dimension;
+@property (nonatomic, copy) NSString *CustomerID;
 @end

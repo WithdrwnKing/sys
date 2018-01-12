@@ -5,6 +5,7 @@ pod 'Masonry', '~> 1.1.0’
 pod 'SVProgressHUD’, '~> 2.2.1'
 pod 'YYKit'
 pod 'AMapLocation'
+pod 'AMap3DMap'
 pod 'ZLPhotoBrowser'
 pod 'AFNetworking'
 pod 'ReactiveObjC'

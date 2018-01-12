@@ -9,5 +9,5 @@
 #import "BaseViewController.h"
 
 @interface RegistrationViewController : BaseViewController
-
+@property (nonatomic, copy) NSString *staffID;
 @end

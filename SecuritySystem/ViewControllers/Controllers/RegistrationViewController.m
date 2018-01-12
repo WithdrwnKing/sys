@@ -16,7 +16,10 @@ static NSString *cellIdentifier = @"RegistrationCell";
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) NSMutableArray *selectImageArr;
 @property (weak, nonatomic) IBOutlet UIButton *submitBtn;
-
+@property (nonatomic, strong) UITextField *nameField;
+@property (nonatomic, strong) UITextField *telField;
+@property (nonatomic, strong) UITextField *numberField;
+@property (nonatomic, strong) TrainingCollectionViewCell *firstCell;
 @end
 
 @implementation RegistrationViewController
@@ -25,6 +28,80 @@ static NSString *cellIdentifier = @"RegistrationCell";
     [super viewDidLoad];
     self.title = @"脸项登记";
     [self setUpUI];
+    if ([_staffID isNotEmpty]) {
+        [self loadUserInfo];
+    }
+}
+
+- (void)loadUserInfo {
+    WeaklySelf(weakSelf);
+    [[SMGApiClient sharedClient] getStaffInfoWithStaffID:_staffID andCompletion:^(NSURLSessionDataTask *task, NSDictionary *aResponse, NSError *anError) {
+        if (aResponse) {
+            NSString *name = aResponse[@"Name"];
+            NSString *tel = aResponse[@"Tel"];
+            NSString *number = aResponse[@"Number"];
+            NSString *imageUrl = aResponse[@"ImageUrl"];
+            if ([name isNotEmpty]) {
+                weakSelf.nameField.text = name;
+                weakSelf.nameField.enabled = NO;
+            }
+            if ([tel isNotEmpty]) {
+                weakSelf.telField.text = tel;
+                weakSelf.telField.enabled = NO;
+            }
+            if ([number isNotEmpty]) {
+                weakSelf.numberField.text = number;
+                weakSelf.numberField.enabled = NO;
+            }
+            if ([imageUrl isNotEmpty]) {
+                weakSelf.collectionView.userInteractionEnabled = NO;
+                weakSelf.firstCell.imageView.contentMode = UIViewContentModeScaleToFill;
+                [weakSelf.firstCell.imageView setImageWithURL:[NSURL URLWithString:imageUrl] placeholder:ImageNamed(@"ca_head")];
+            }
+            if ([name isNotEmpty]&&[tel isNotEmpty]&&[number isNotEmpty]&&[imageUrl isNotEmpty]) {
+                weakSelf.submitBtn.hidden = YES;
+            }
+        }
+    }];
+}
+
+- (IBAction)submitRegistration:(UIButton *)sender {
+    if (![self.nameField.text isNotEmpty]) {
+        ShowToast(@"姓名不能为空");
+        return;
+    }
+    if (![self.numberField.text isNotEmpty]) {
+        ShowToast(@"身份证号不能为空");
+        return;
+    }
+    if (![self.telField.text isNotEmpty]) {
+        ShowToast(@"电话不能为空");
+        return;
+    }
+    if (self.selectImageArr.count!=2) {
+        [ToastUtils show:@"请拍摄2张照片"];
+        return;
+    }
+    [SVProgressHUD show];
+    WeaklySelf(weakSelf);
+    [[SMGApiClient sharedClient] staffFaceCollectWithStaffID:_staffID Filedata:[self.selectImageArr firstObject] FiledataContrast:[self.selectImageArr lastObject] andCompletion:^(NSURLSessionDataTask *task, NSDictionary *aResponse, NSError *anError) {
+        if (aResponse) {
+            NSString *ContrastImage = [aResponse objectForKey:@"ContrastImage"];
+            NSString *StaffID = [aResponse objectForKey:@"StaffID"];
+            [SVProgressHUD dismiss];
+            DLog(@"%@",aResponse);
+            [[SMGApiClient sharedClient] submitStaffInfo:StaffID orgID:CURRENTUSER.infoModel.orgId Name:self.nameField.text Tel:self.telField.text Number:self.numberField.text ContrastImage:ContrastImage userID:CURRENTUSER.userId andCompletion:^(NSURLSessionDataTask *task, NSDictionary *aResponse, NSError *anError) {
+                if (aResponse) {
+                    DLog(@"%@",aResponse);
+                    ShowToast(@"登记成功");
+                    [weakSelf.navigationController performSelector:@selector(popToRootViewControllerAnimated:) withObject:@(YES) afterDelay:1.5];
+                }
+            }];
+        }else{
+            [SVProgressHUD dismiss];
+            [ToastUtils show:@"脸部识别失败"];
+        }
+    }];
 }
 
 - (void)setUpUI{
@@ -81,6 +158,10 @@ static NSString *cellIdentifier = @"RegistrationCell";
     
     [self.scrollView addSubview:self.collectionView];
     self.collectionView.top = label4.bottom;
+    
+    self.nameField = field1;
+    self.telField = field3;
+    self.numberField = field2;
 }
 
 - (void)reloadUI{
@@ -100,7 +181,6 @@ static NSString *cellIdentifier = @"RegistrationCell";
     self.scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, self.collectionView.bottom);
     
 }
-
 #pragma mark - UITextFieldDelegate
 - (void)textFieldDidBeginEditing:(UITextField *)textField{
     
@@ -127,6 +207,7 @@ static NSString *cellIdentifier = @"RegistrationCell";
         cell.imageView.contentMode = UIViewContentModeCenter;
         cell.deleteBtn.hidden = YES;
         ViewBorderRadius(cell.imageView, 0, .5, SEPARATOR_LINE_COLOR);
+        self.firstCell = cell;
     }else{
         cell.deleteBtn.hidden = NO;
         cell.imageView.image = self.selectImageArr[indexPath.row-1];
@@ -159,14 +240,14 @@ static NSString *cellIdentifier = @"RegistrationCell";
     }
 }
 - (void)upImageClicked{
-//    if (self.selectImageArr.count >= 2) {
-//        [ToastUtils show:@"照片个数不得大于考勤人数"];
-//        return;
-//    }
+    if (self.selectImageArr.count >= 2) {
+        [ToastUtils show:@"照片个数不得超过2张"];
+        return;
+    }
     WeaklySelf(weakSelf);
     ZLCustomCamera *vc = [[ZLCustomCamera alloc] init];
     vc.allowRecordVideo = NO;
-    vc.sessionPreset = ZLCaptureSessionPreset1920x1080;
+    vc.sessionPreset = ZLCaptureSessionPreset640x480;
     vc.doneBlock = ^(UIImage *image, NSURL *videoUrl) {
         if (image) {
             [weakSelf.selectImageArr addObject:image];

@@ -13,6 +13,7 @@
 #import "UserInfoModel.h"
 #import "LoginViewController.h"
 #import "TeamManagerViewController.h"
+#import "WKLocationManager.h"
 
 @interface MainViewController ()
 @property (nonatomic, strong) UIScrollView *myScrollView;
@@ -54,7 +55,6 @@
     UILabel *nameLbl = [[UILabel alloc] initWithFrame:CGRectMake(logoImv.right+13, logoImv.top+10, SCREEN_WIDTH-logoImv.right-13-60, 20)];
     nameLbl.font = font(17.5);
     nameLbl.textColor = WhiteColor;
-    nameLbl.text = @"上海南方大厦保安大队";
     [headView addSubview:nameLbl];
     _orgNameLbl = nameLbl;
     
@@ -77,7 +77,6 @@
     UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(16, line.bottom, SCREEN_WIDTH-16, headViewHeight-line.bottom)];
     btn.enabled = NO;
     [btn setImage:ImageNamed(@"ca_haddress") forState:UIControlStateNormal];
-    [btn setTitle:@"上海市闵行区古方路18号南方大厦" forState:UIControlStateNormal];
     [btn setTitleEdgeInsets:UIEdgeInsetsMake(0, 10, 0, 0)];
     [btn.titleLabel setFont:font(12.5)];
     [btn setTitleColor:WhiteColor forState:UIControlStateNormal];
@@ -137,9 +136,12 @@
     WeaklySelf(weakSelf);
     [[SMGApiClient sharedClient] getOrgWithUserId:CURRENTUSER.userId andCompletion:^(NSURLSessionDataTask *task, NSDictionary *aResponse, NSError *anError) {
         if (aResponse) {
-            NSLog(@"%@",aResponse);
+            DLog(@"%@",aResponse);
             CURRENTUSER.infoModel = [UserInfoModel modelWithJSON:aResponse];
             [CURRENTUSER saveUser];
+            if (![CURRENTUSER.infoModel.orgAddress isNotEmpty]||![CURRENTUSER.infoModel.Longitude isNotEmpty]||![CURRENTUSER.infoModel.Dimension isNotEmpty]) {
+                [weakSelf submitOrgAddr];
+            }
             [weakSelf refreshView];
         }
     }];
@@ -162,6 +164,23 @@
     [self.orgAddressBtn setTitle:CURRENTUSER.infoModel.orgAddress forState:UIControlStateNormal];
     self.orgNameLbl.text = CURRENTUSER.infoModel.orgName;
     self.nameLbl.text = [NSString stringWithFormat:@"%@：%@",self.posString,CURRENTUSER.nickName];
+}
+
+- (void)submitOrgAddr{
+    WeaklySelf(weakSelf);
+    [[WKLocationManager sharedWKLocationManager].locationManager requestLocationWithReGeocode:YES completionBlock:^(CLLocation *location, AMapLocationReGeocode *regeocode, NSError *error) {
+        if (regeocode) {
+            [[SMGApiClient sharedClient] submitOrgAddr:CURRENTUSER.infoModel.orgId userID:CURRENTUSER.userId address:regeocode.formattedAddress longitude:[@(location.coordinate.latitude) asNSString] dimension:[@(location.coordinate.longitude) asNSString] andCompletion:^(NSURLSessionDataTask *task, NSDictionary *aResponse, NSError *anError) {
+                if (aResponse) {
+                    DLog(@"初始化大队信息成功");
+                    [weakSelf refreshView];
+                }
+            }];
+        }else{
+            ShowToast(@"%@", [error.userInfo modelToJSONString]);
+        }
+        
+    }];
 }
 
 #pragma mark - Actions

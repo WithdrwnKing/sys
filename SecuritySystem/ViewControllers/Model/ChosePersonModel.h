@@ -12,6 +12,7 @@
 @property (nonatomic, copy) NSString *nickName;
 @property (nonatomic, copy) NSString *userId;
 @property (nonatomic, copy) NSString *headImgUrl;
+@property (nonatomic, copy) NSString *tel;
 @property (nonatomic, copy) NSString *position;
 @property (nonatomic, assign) BOOL isSelected;
 @end

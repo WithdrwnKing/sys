@@ -10,7 +10,7 @@
 
 @implementation ChosePersonModel
 + (NSDictionary *)modelCustomPropertyMapper{
-    return @{@"userId":@"ID",@"nickName":@"Name",@"headImgUrl":@"ImageUrl"};
+    return @{@"userId":@"ID",@"nickName":@"Name",@"headImgUrl":@"ImageUrl",@"tel":@"Tel"};
 }
 - (id)copyWithZone:(NSZone *)zone{
     return [self modelCopy];

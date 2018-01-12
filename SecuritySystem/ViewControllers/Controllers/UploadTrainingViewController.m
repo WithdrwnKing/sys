@@ -108,8 +108,6 @@
     }
 }
 
-
-
 - (void)locationFirst:(BOOL)isNeedSubmit {
     WeaklySelf(weakSelf);
     [[WKLocationManager sharedWKLocationManager].locationManager requestLocationWithReGeocode:YES completionBlock:^(CLLocation *location, AMapLocationReGeocode *regeocode, NSError *error) {
