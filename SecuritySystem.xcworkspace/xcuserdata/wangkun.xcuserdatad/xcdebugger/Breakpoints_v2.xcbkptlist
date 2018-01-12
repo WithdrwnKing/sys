@@ -10,7 +10,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SecuritySystem/Http/SMGApiClient.m"
-            timestampString = "537441660.294664"
+            timestampString = "537442218.650476"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "152"
@@ -26,7 +26,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SecuritySystem/Http/SMGApiClient.m"
-            timestampString = "537441660.294983"
+            timestampString = "537442218.6510251"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "171"
@@ -42,11 +42,27 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SecuritySystem/Http/SMGApiClient+http.m"
-            timestampString = "537441660.295239"
+            timestampString = "537442218.651355"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "142"
             endingLineNumber = "142"
+            landmarkName = "-staffFaceCollectWithStaffID:Filedata:FiledataContrast:andCompletion:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SecuritySystem/Http/SMGApiClient+http.m"
+            timestampString = "537442218.651842"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "112"
+            endingLineNumber = "112"
             landmarkName = "-staffFaceCollectWithStaffID:Filedata:FiledataContrast:andCompletion:"
             landmarkType = "7">
          </BreakpointContent>

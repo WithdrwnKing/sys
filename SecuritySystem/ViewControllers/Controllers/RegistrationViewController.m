@@ -94,7 +94,7 @@ static NSString *cellIdentifier = @"RegistrationCell";
                 if (aResponse) {
                     DLog(@"%@",aResponse);
                     ShowToast(@"登记成功");
-                    [weakSelf.navigationController performSelector:@selector(popToRootViewControllerAnimated:) withObject:@(YES) afterDelay:1.5];
+                    [weakSelf.navigationController performSelector:@selector(popToRootViewControllerAnimated:) withObject:@(YES) afterDelay:1.f];
                 }
             }];
         }else{
