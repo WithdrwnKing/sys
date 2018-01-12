@@ -250,7 +250,7 @@ static NSString *cellIdentifier = @"RegistrationCell";
     vc.sessionPreset = ZLCaptureSessionPreset640x480;
     vc.doneBlock = ^(UIImage *image, NSURL *videoUrl) {
         if (image) {
-            [weakSelf.selectImageArr addObject:image];
+            [weakSelf.selectImageArr addObject:[image normalizedImage]];
             [weakSelf reloadUI];
             [weakSelf.collectionView reloadData];
         }

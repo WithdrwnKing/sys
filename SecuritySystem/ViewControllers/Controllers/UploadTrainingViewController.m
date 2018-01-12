@@ -279,7 +279,7 @@
     vc.sessionPreset = ZLCaptureSessionPreset1920x1080;
     vc.doneBlock = ^(UIImage *image, NSURL *videoUrl) {
         if (image) {
-            [weakSelf.selectImgArr addObject:image];
+            [weakSelf.selectImgArr addObject:[image normalizedImage]];
             [weakSelf.imgCollectionView reloadData];
         }
     };

@@ -326,7 +326,7 @@ static NSString *cellIdentifier = @"AttendanceCell";
     vc.sessionPreset = ZLCaptureSessionPreset1920x1080;
     vc.doneBlock = ^(UIImage *image, NSURL *videoUrl) {
         if (image) {
-            [weakSelf.selectImageArr addObject:image];
+            [weakSelf.selectImageArr addObject:[image normalizedImage]];
             [weakSelf reloadUI];
             [weakSelf.collectionView reloadData];
         }

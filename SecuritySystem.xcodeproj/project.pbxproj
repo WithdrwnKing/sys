@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		49D159789E2EA34D74E13ADE /* libPods-SecuritySystem.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 05B644037ADAC2ABB80FF374 /* libPods-SecuritySystem.a */; };
+		6C192EFE2008F4A700A21E1F /* UIImage+EasyExtend.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C192EFD2008F4A700A21E1F /* UIImage+EasyExtend.m */; };
 		EA1B42B51FE8F6E8000B8EC4 /* TrainingCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EA1B42B31FE8F6E8000B8EC4 /* TrainingCollectionViewCell.m */; };
 		EA1B42B61FE8F6E8000B8EC4 /* TrainingCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EA1B42B41FE8F6E8000B8EC4 /* TrainingCollectionViewCell.xib */; };
 		EA1B42BD1FE91506000B8EC4 /* AttendanceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EA1B42BB1FE91506000B8EC4 /* AttendanceViewController.m */; };
@@ -54,6 +55,8 @@
 /* Begin PBXFileReference section */
 		05B644037ADAC2ABB80FF374 /* libPods-SecuritySystem.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SecuritySystem.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4ACEFA78DF9640D6E882EB8A /* Pods-SecuritySystem.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SecuritySystem.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SecuritySystem/Pods-SecuritySystem.debug.xcconfig"; sourceTree = "<group>"; };
+		6C192EFC2008F4A700A21E1F /* UIImage+EasyExtend.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIImage+EasyExtend.h"; sourceTree = "<group>"; };
+		6C192EFD2008F4A700A21E1F /* UIImage+EasyExtend.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIImage+EasyExtend.m"; sourceTree = "<group>"; };
 		7696A807ABE891A9169E3D38 /* Pods-SecuritySystem.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SecuritySystem.release.xcconfig"; path = "Pods/Target Support Files/Pods-SecuritySystem/Pods-SecuritySystem.release.xcconfig"; sourceTree = "<group>"; };
 		EA1B42B21FE8F6E8000B8EC4 /* TrainingCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TrainingCollectionViewCell.h; sourceTree = "<group>"; };
 		EA1B42B31FE8F6E8000B8EC4 /* TrainingCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TrainingCollectionViewCell.m; sourceTree = "<group>"; };
@@ -245,6 +248,8 @@
 				EA4C6FB91FE3A2F800776E71 /* BaseViewController.m */,
 				EA4C6FBB1FE3A31900776E71 /* BaseNavController.h */,
 				EA4C6FBC1FE3A31900776E71 /* BaseNavController.m */,
+				6C192EFC2008F4A700A21E1F /* UIImage+EasyExtend.h */,
+				6C192EFD2008F4A700A21E1F /* UIImage+EasyExtend.m */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -470,6 +475,7 @@
 				EA4DA7B61FFE1ED600A0CDF5 /* WKPicturePreviewVC.m in Sources */,
 				EA4C6FBD1FE3A31900776E71 /* BaseNavController.m in Sources */,
 				EA1B42B51FE8F6E8000B8EC4 /* TrainingCollectionViewCell.m in Sources */,
+				6C192EFE2008F4A700A21E1F /* UIImage+EasyExtend.m in Sources */,
 				EA4E47D71FF4C40C00C7CE39 /* OrgModel.m in Sources */,
 				EA4E47D41FF49E5100C7CE39 /* UserInfoModel.m in Sources */,
 				EA4E47D11FF49A3500C7CE39 /* SMGApiClient+http.m in Sources */,
