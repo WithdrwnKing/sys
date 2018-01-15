@@ -151,6 +151,9 @@
 //定义UIImage对象
 #define ImageNamed(_pointer) [UIImage imageNamed:_pointer]
 
+#define kCachePath [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0]
+
+
 //建议使用前两种宏定义,性能高于后者
 //----------------------图片----------------------------
 

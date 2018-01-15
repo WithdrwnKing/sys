@@ -13,6 +13,7 @@
 		EA1B42B61FE8F6E8000B8EC4 /* TrainingCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EA1B42B41FE8F6E8000B8EC4 /* TrainingCollectionViewCell.xib */; };
 		EA1B42BD1FE91506000B8EC4 /* AttendanceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EA1B42BB1FE91506000B8EC4 /* AttendanceViewController.m */; };
 		EA1BE7851FFCD34800C3F674 /* NSObject+EasyExtend.m in Sources */ = {isa = PBXBuildFile; fileRef = EA1BE7831FFCD34700C3F674 /* NSObject+EasyExtend.m */; };
+		EA1E1607200C4678006D8F0A /* WKFileService.m in Sources */ = {isa = PBXBuildFile; fileRef = EA1E1606200C4678006D8F0A /* WKFileService.m */; };
 		EA4C6FBA1FE3A2F800776E71 /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EA4C6FB91FE3A2F800776E71 /* BaseViewController.m */; };
 		EA4C6FBD1FE3A31900776E71 /* BaseNavController.m in Sources */ = {isa = PBXBuildFile; fileRef = EA4C6FBC1FE3A31900776E71 /* BaseNavController.m */; };
 		EA4C6FC11FE3A33D00776E71 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EA4C6FBF1FE3A33D00776E71 /* LoginViewController.m */; };
@@ -65,6 +66,8 @@
 		EA1B42BB1FE91506000B8EC4 /* AttendanceViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AttendanceViewController.m; sourceTree = "<group>"; };
 		EA1BE7831FFCD34700C3F674 /* NSObject+EasyExtend.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+EasyExtend.m"; sourceTree = "<group>"; };
 		EA1BE7841FFCD34800C3F674 /* NSObject+EasyExtend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+EasyExtend.h"; sourceTree = "<group>"; };
+		EA1E1605200C4678006D8F0A /* WKFileService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WKFileService.h; sourceTree = "<group>"; };
+		EA1E1606200C4678006D8F0A /* WKFileService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WKFileService.m; sourceTree = "<group>"; };
 		EA4C6FB81FE3A2F800776E71 /* BaseViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
 		EA4C6FB91FE3A2F800776E71 /* BaseViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
 		EA4C6FBB1FE3A31900776E71 /* BaseNavController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseNavController.h; sourceTree = "<group>"; };
@@ -238,6 +241,8 @@
 		EA4C6FB71FE39FED00776E71 /* Base */ = {
 			isa = PBXGroup;
 			children = (
+				EA1E1605200C4678006D8F0A /* WKFileService.h */,
+				EA1E1606200C4678006D8F0A /* WKFileService.m */,
 				EA1BE7841FFCD34800C3F674 /* NSObject+EasyExtend.h */,
 				EA1BE7831FFCD34700C3F674 /* NSObject+EasyExtend.m */,
 				EA70CC771FF1E7430084A6DD /* UserManager.h */,
@@ -494,6 +499,7 @@
 				EA4DA7A81FFDFD2F00A0CDF5 /* WKLocationManager.m in Sources */,
 				EA50F5AB1FE20DF4007D062A /* AppDelegate.m in Sources */,
 				EA4DA7AB1FFE010600A0CDF5 /* LocationView.m in Sources */,
+				EA1E1607200C4678006D8F0A /* WKFileService.m in Sources */,
 				EA555A5B1FE759880047409B /* ChosePersonTableViewCell.m in Sources */,
 				EA555A6D1FE791FB0047409B /* ChosePositionCell.m in Sources */,
 			);

@@ -12,7 +12,7 @@
 #import <ZLCustomCamera.h>
 #import "WKPicturePreviewVC.h"
 #import "WKLocationManager.h"
-#import <MapKit/MapKit.h>
+#import <MAMapKit/MAMapKit.h>
 #import "LocationView.h"
 
 static NSString *cellIdentifier = @"AttendanceCell";
@@ -41,7 +41,7 @@ static NSString *cellIdentifier = @"AttendanceCell";
     
     [self loadCategoryID];
     [self setUpUI];
-//    [self updateLocation];
+    [self updateLocation];
     
     //增加监听，当键盘出现或改变时收出消息
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -173,10 +173,10 @@ static NSString *cellIdentifier = @"AttendanceCell";
     submitBtn.backgroundColor = CommonRedColor;
     [submitBtn setTitle:@"提交" forState:UIControlStateNormal];
     submitBtn.titleLabel.font = font(13);
-    submitBtn.frame = CGRectMake(0, textView.bottom+10, 135, 30);
-    submitBtn.centerX = textView.centerX;
+    submitBtn.frame = CGRectMake(0, SCREEN_HEIGHT-140, 135, 30);
+    submitBtn.centerX = self.view.centerX;
     [submitBtn addTarget:self action:@selector(sumitData) forControlEvents:UIControlEventTouchUpInside];
-    [_remakView addSubview:submitBtn];
+    [self.view addSubview:submitBtn];
     ViewBorderRadius(submitBtn, 5, 0, WhiteColor);
     
     self.scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, self.remakView.bottom);
@@ -238,18 +238,15 @@ static NSString *cellIdentifier = @"AttendanceCell";
         return NO;
     }
     
-    MKMapPoint point1 = MKMapPointMake([CURRENTUSER.infoModel.Longitude doubleValue], [CURRENTUSER.infoModel.Dimension doubleValue]);
-    MKMapPoint point2 = MKMapPointMake(self.location.latitude,self.location.longitude);
+    //1.将两个经纬度点转成投影点
+    MAMapPoint point1 = MAMapPointForCoordinate(CLLocationCoordinate2DMake([CURRENTUSER.infoModel.Dimension doubleValue],[CURRENTUSER.infoModel.Longitude doubleValue]));
+    MAMapPoint point2 = MAMapPointForCoordinate(self.location);
     //2.计算距离
-    CLLocationDistance distance = MKMetersBetweenMapPoints(point1,point2);
+    CLLocationDistance distance = MAMetersBetweenMapPoints(point1,point2);
     if (distance>1000) {
         [ToastUtils show:@"当前位置不在考勤范围"];
         return NO;
     }
-    
-    
-    
-    
     return YES;
 }
 

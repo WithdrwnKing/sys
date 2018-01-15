@@ -14,6 +14,7 @@
 #import "LoginViewController.h"
 #import "TeamManagerViewController.h"
 #import "WKLocationManager.h"
+#import "WKFileService.h"
 
 @interface MainViewController ()
 @property (nonatomic, strong) UIScrollView *myScrollView;
@@ -124,6 +125,22 @@
     [clearBtn setTitle:@"清理缓存" forState:UIControlStateNormal];
     [clearBtn setBackgroundColor:SEPARATOR_LINE_COLOR];
     [clearBtn setTitleColor:BlackColor forState:UIControlStateNormal];
+    @weakify(self);
+    clearBtn.rac_command = [[RACCommand alloc] initWithSignalBlock:^RACSignal * _Nonnull(id  _Nullable input) {
+        @strongify(self);
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"您希望清理缓存吗？" message:nil preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        }];
+        UIAlertAction *submit = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [WKFileService clearCache:kCachePath];
+            NSLog(@"%f",[WKFileService folderSizeAtPath:kCachePath]);
+        }];
+        [alert addAction:submit];
+        [alert addAction:cancel];
+        [self presentViewController:alert animated:YES completion:nil];
+        
+        return [RACSignal empty];
+    }];
     [self.view addSubview:clearBtn];
     
     UILabel *redLine = [UILabel new];
@@ -170,7 +187,7 @@
     WeaklySelf(weakSelf);
     [[WKLocationManager sharedWKLocationManager].locationManager requestLocationWithReGeocode:YES completionBlock:^(CLLocation *location, AMapLocationReGeocode *regeocode, NSError *error) {
         if (regeocode) {
-            [[SMGApiClient sharedClient] submitOrgAddr:CURRENTUSER.infoModel.orgId userID:CURRENTUSER.userId address:regeocode.formattedAddress longitude:[@(location.coordinate.latitude) asNSString] dimension:[@(location.coordinate.longitude) asNSString] andCompletion:^(NSURLSessionDataTask *task, NSDictionary *aResponse, NSError *anError) {
+            [[SMGApiClient sharedClient] submitOrgAddr:CURRENTUSER.infoModel.orgId userID:CURRENTUSER.userId address:regeocode.formattedAddress longitude:[@(location.coordinate.longitude) asNSString] dimension:[@(location.coordinate.latitude) asNSString] andCompletion:^(NSURLSessionDataTask *task, NSDictionary *aResponse, NSError *anError) {
                 if (aResponse) {
                     DLog(@"初始化大队信息成功");
                     [weakSelf refreshView];
