@@ -56,7 +56,7 @@ static NSString *cellIdentifier = @"RegistrationCell";
             if ([imageUrl isNotEmpty]) {
                 weakSelf.collectionView.userInteractionEnabled = NO;
                 weakSelf.firstCell.imageView.contentMode = UIViewContentModeScaleToFill;
-                [weakSelf.firstCell.imageView setImageWithURL:[NSURL URLWithString:imageUrl] placeholder:ImageNamed(@"ca_head")];
+                [weakSelf.firstCell.imageView setImageWithURL:[NSURL URLWithString:imageUrl] placeholder:ImageNamed(@"icon_head")];
             }
             if ([name isNotEmpty]&&[tel isNotEmpty]&&[number isNotEmpty]&&[imageUrl isNotEmpty]) {
                 weakSelf.submitBtn.hidden = YES;

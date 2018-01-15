@@ -170,7 +170,7 @@
     WeaklySelf(weakSelf);
     [[WKLocationManager sharedWKLocationManager].locationManager requestLocationWithReGeocode:YES completionBlock:^(CLLocation *location, AMapLocationReGeocode *regeocode, NSError *error) {
         if (regeocode) {
-            [[SMGApiClient sharedClient] submitOrgAddr:CURRENTUSER.infoModel.orgId userID:CURRENTUSER.userId address:regeocode.formattedAddress longitude:[@(location.coordinate.latitude) asNSString] dimension:[@(location.coordinate.longitude) asNSString] andCompletion:^(NSURLSessionDataTask *task, NSDictionary *aResponse, NSError *anError) {
+            [[SMGApiClient sharedClient] submitOrgAddr:CURRENTUSER.infoModel.orgId userID:CURRENTUSER.userId address:regeocode.formattedAddress longitude:[@(location.coordinate.longitude) asNSString] dimension:[@(location.coordinate.latitude) asNSString] andCompletion:^(NSURLSessionDataTask *task, NSDictionary *aResponse, NSError *anError) {
                 if (aResponse) {
                     DLog(@"初始化大队信息成功");
                     [weakSelf refreshView];

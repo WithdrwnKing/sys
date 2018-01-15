@@ -12,7 +12,7 @@
 #import <ZLCustomCamera.h>
 #import "WKPicturePreviewVC.h"
 #import "WKLocationManager.h"
-#import <MapKit/MapKit.h>
+#import <MAMapKit/MAMapKit.h>
 #import "LocationView.h"
 
 static NSString *cellIdentifier = @"AttendanceCell";
@@ -41,7 +41,7 @@ static NSString *cellIdentifier = @"AttendanceCell";
     
     [self loadCategoryID];
     [self setUpUI];
-//    [self updateLocation];
+    [self updateLocation];
     
     //增加监听，当键盘出现或改变时收出消息
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -238,18 +238,18 @@ static NSString *cellIdentifier = @"AttendanceCell";
         return NO;
     }
     
-    MKMapPoint point1 = MKMapPointMake([CURRENTUSER.infoModel.Longitude doubleValue], [CURRENTUSER.infoModel.Dimension doubleValue]);
-    MKMapPoint point2 = MKMapPointMake(self.location.latitude,self.location.longitude);
+    //1.将两个经纬度点转成投影点
+    MAMapPoint point1 = MAMapPointForCoordinate(CLLocationCoordinate2DMake([CURRENTUSER.infoModel.Dimension doubleValue],[CURRENTUSER.infoModel.Longitude doubleValue]));
+    MAMapPoint point2 = MAMapPointForCoordinate(self.location);
     //2.计算距离
-    CLLocationDistance distance = MKMetersBetweenMapPoints(point1,point2);
+    CLLocationDistance distance = MAMetersBetweenMapPoints(point1,point2);
+    
     if (distance>1000) {
         [ToastUtils show:@"当前位置不在考勤范围"];
         return NO;
     }
     
-    
-    
-    
+
     return YES;
 }
 
