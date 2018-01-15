@@ -20,14 +20,16 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e5S-6e-yul">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e5S-6e-yul">
                     <rect key="frame" x="107" y="609" width="160" height="36"/>
                     <color key="backgroundColor" red="0.76862745099999996" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="160" id="XkI-Ro-e7a"/>
                         <constraint firstAttribute="height" constant="36" id="uUZ-Af-t6L"/>
                     </constraints>
-                    <state key="normal" title="提交"/>
+                    <state key="normal" title="提交">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </state>
                     <connections>
                         <action selector="submitRegistration:" destination="-1" eventType="touchUpInside" id="zHv-yQ-sMw"/>
                     </connections>
@@ -38,7 +40,7 @@
                 <constraint firstItem="e5S-6e-yul" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="QJg-tV-EID"/>
                 <constraint firstAttribute="bottom" secondItem="e5S-6e-yul" secondAttribute="bottom" constant="22" id="pkW-kO-ESg"/>
             </constraints>
-            <point key="canvasLocation" x="80.5" y="145.5"/>
+            <point key="canvasLocation" x="-10" y="-162"/>
         </view>
     </objects>
 </document>

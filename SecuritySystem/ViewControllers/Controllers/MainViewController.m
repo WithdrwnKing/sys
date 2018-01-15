@@ -15,6 +15,7 @@
 #import "TeamManagerViewController.h"
 #import "WKLocationManager.h"
 #import "WKFileService.h"
+#import "LocationView.h"
 
 @interface MainViewController ()
 @property (nonatomic, strong) UIScrollView *myScrollView;
@@ -67,7 +68,6 @@
     positionLbl.frame = CGRectMake(iconImv.right+5, iconImv.top, nameLbl.width-iconImv.width-5, iconImv.height);
     positionLbl.textColor = HEX_RGB(0xffda71);
     positionLbl.font = font(15);
-    positionLbl.text = @"队长：李秀莲";
     [headView addSubview:positionLbl];
     self.nameLbl = positionLbl;
     
@@ -98,11 +98,11 @@
 
     NSArray *titleArray = @[@"上岗考勤",@"训练上传",@"脸项登记",@"工作汇报"];
     NSArray *imageArray = @[ImageNamed(@"ca_btn01"),ImageNamed(@"ca_btn02"),ImageNamed(@"ca_btn06"),ImageNamed(@"ca_btn03")];
-    CGFloat width = (SCREEN_WIDTH-70*3)/2;
+    CGFloat width = (SCREEN_WIDTH-FitScreenWidth(70)*3)/2;
     for (int i = 0; i<4; i++) {
         UIButton *btn = [UIButton new];
         btn.tag = 100+i;
-        btn.frame = CGRectMake(70 + i%2*(width+70), headView.bottom + 50 + i/2*(width+55) , width, width);
+        btn.frame = CGRectMake(FitScreenWidth(70) + i%2*(width+FitScreenWidth(70)), headView.bottom + 50 + i/2*(width+55) , width, width);
         [btn setImage:imageArray[i] forState:UIControlStateNormal];
         [btn addTarget:self action:@selector(btnClicked:) forControlEvents:UIControlEventTouchUpInside];
         btn.backgroundColor = WhiteColor;
@@ -184,6 +184,18 @@
 }
 
 - (void)submitOrgAddr{
+    @weakify(self);
+    LocationView *view = [[LocationView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
+    view.hintStr = @"您的大队信息还未初始化\n是否要定位到您现在的所在位置？";
+    [view.loactionSignal subscribeNext:^(id  _Nullable x) {
+        @strongify(self);
+        [self initTeamInfo];
+        [view removeFromSuperview];
+    }];
+    [[UIApplication sharedApplication].keyWindow addSubview:view];
+}
+
+- (void)initTeamInfo {
     WeaklySelf(weakSelf);
     [[WKLocationManager sharedWKLocationManager].locationManager requestLocationWithReGeocode:YES completionBlock:^(CLLocation *location, AMapLocationReGeocode *regeocode, NSError *error) {
         if (regeocode) {
@@ -199,11 +211,16 @@
         
     }];
 }
-
 #pragma mark - Actions
 - (void)btnClicked:(UIButton *)sender{
     switch (sender.tag) {
         case 100:{
+            
+            if (![CURRENTUSER.infoModel.orgAddress isNotEmpty]||![CURRENTUSER.infoModel.Longitude isNotEmpty]||![CURRENTUSER.infoModel.Dimension isNotEmpty]) {
+                [self submitOrgAddr];
+                return;
+            }
+            
             ChosePersonViewController *vc = [ChosePersonViewController new];
             vc.orgId = CURRENTUSER.infoModel.orgId;
             vc.orgName = CURRENTUSER.infoModel.orgName;

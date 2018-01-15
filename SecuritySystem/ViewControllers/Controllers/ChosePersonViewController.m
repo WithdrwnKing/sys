@@ -129,11 +129,10 @@ static NSString *cellIdentifier = @"ChosePersonCell";
             }
             if (isPush) {
                 AttendanceViewController *vc = [AttendanceViewController new];
-                vc.selectArray = selectArr.copy;
+                vc.selectArray = [NSArray arrayWithArray:selectArr];
                 [self.navigationController pushViewController:vc animated:YES];
             }else{
                 [ToastUtils showAtTop:@"请选择上岗人员"];
-                
             }
             break;
         }

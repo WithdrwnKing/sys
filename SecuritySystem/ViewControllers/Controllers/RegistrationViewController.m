@@ -31,6 +31,7 @@ static NSString *cellIdentifier = @"RegistrationCell";
     if ([_staffID isNotEmpty]) {
         [self loadUserInfo];
     }
+    [self.view bringSubviewToFront:self.submitBtn];
 }
 
 - (void)loadUserInfo {

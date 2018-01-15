@@ -24,11 +24,11 @@
     [self setNeedsStatusBarAppearanceUpdate];
     [self setUpTextField];
     
-    if (DEBUG) {
-        _nameTextfield.text = @"admin";
-        _passwordField.text = @"1";
-    }
-    
+//    if (DEBUG) {
+//        _nameTextfield.text = @"admin";
+//        _passwordField.text = @"1";
+//    }
+//    
 }
 
 - (void)setUpTextField{

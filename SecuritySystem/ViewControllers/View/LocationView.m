@@ -34,6 +34,9 @@
     UILabel *contenLbl = [UILabel new];
     contenLbl.frame = CGRectMake(0, 40, SCREEN_WIDTH, 55);
     contenLbl.text = @"您的上岗地址还未初始化\n是否要定位到您现在的所在位置？";
+    if ([_hintStr isNotEmpty]) {
+        contenLbl.text = _hintStr;
+    }
     contenLbl.textAlignment = NSTextAlignmentCenter;
     contenLbl.numberOfLines = 0;
     [bgView addSubview:contenLbl];
@@ -42,7 +45,7 @@
     [btn setTitle:@"定位" forState:UIControlStateNormal];
     btn.frame = CGRectMake(0, contenLbl.bottom+35, 73, 24);
     btn.centerX = self.centerX - 45 - 73/2;
-    btn.backgroundColor = [UIColor redColor];
+    btn.backgroundColor = CommonRedColor;
     btn.titleLabel.font = font(15);
     [bgView addSubview:btn];
     self.loactionSignal = [btn rac_signalForControlEvents:UIControlEventTouchUpInside];
@@ -51,7 +54,7 @@
     btn2.frame = CGRectMake(0, contenLbl.bottom+35, 73, 24);
     [btn2 setTitle:@"取消" forState:UIControlStateNormal];
     btn2.titleLabel.font = font(15);
-    btn2.backgroundColor = [UIColor redColor];
+    btn2.backgroundColor = CommonRedColor;
     btn2.centerX = self.centerX + 45 + 73/2;
     [bgView addSubview:btn2];
     btn2.rac_command = [[RACCommand alloc] initWithSignalBlock:^RACSignal * _Nonnull(id  _Nullable input) {
