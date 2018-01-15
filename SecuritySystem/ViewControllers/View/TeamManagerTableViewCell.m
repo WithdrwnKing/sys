@@ -22,7 +22,7 @@
 }
 
 - (void)updateCellWithModel:(ChosePersonModel *)model{
-    [_headImv setImageWithURL:[NSURL URLWithString:model.headImgUrl] placeholder:ImageNamed(@"ca_head")];
+    [_headImv setImageWithURL:[NSURL URLWithString:model.headImgUrl] placeholder:ImageNamed(@"icon_head")];
     _nameLbl.text = [NSString stringWithFormat:@"姓名：%@",model.nickName];
     _telLbl.text = [NSString stringWithFormat:@"电话：%@",model.tel];
 }

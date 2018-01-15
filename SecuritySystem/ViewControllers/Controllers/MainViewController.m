@@ -134,6 +134,7 @@
         UIAlertAction *submit = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             [WKFileService clearCache:kCachePath];
             NSLog(@"%f",[WKFileService folderSizeAtPath:kCachePath]);
+            [ToastUtils show:@"清理成功"];
         }];
         [alert addAction:submit];
         [alert addAction:cancel];
@@ -157,7 +158,7 @@
             CURRENTUSER.infoModel = [UserInfoModel modelWithJSON:aResponse];
             [CURRENTUSER saveUser];
             if (![CURRENTUSER.infoModel.orgAddress isNotEmpty]||![CURRENTUSER.infoModel.Longitude isNotEmpty]||![CURRENTUSER.infoModel.Dimension isNotEmpty]) {
-                [weakSelf submitOrgAddr];
+                [weakSelf submitOrgAddr:NO];
             }
             [weakSelf refreshView];
         }
@@ -183,19 +184,19 @@
     self.nameLbl.text = [NSString stringWithFormat:@"%@：%@",self.posString,CURRENTUSER.nickName];
 }
 
-- (void)submitOrgAddr{
+- (void)submitOrgAddr:(BOOL)isNeedPush{
     @weakify(self);
     LocationView *view = [[LocationView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
-    view.hintStr = @"您的大队信息还未初始化\n是否要定位到您现在的所在位置？";
+    view.hintStr = @"您的上岗地址还未初始化\n是否要定位到您现在的所在位置：获取位置信息？";
     [view.loactionSignal subscribeNext:^(id  _Nullable x) {
         @strongify(self);
-        [self initTeamInfo];
+        [self initTeamInfo:isNeedPush];
         [view removeFromSuperview];
     }];
     [[UIApplication sharedApplication].keyWindow addSubview:view];
 }
 
-- (void)initTeamInfo {
+- (void)initTeamInfo:(BOOL)isNeedPush {
     WeaklySelf(weakSelf);
     [[WKLocationManager sharedWKLocationManager].locationManager requestLocationWithReGeocode:YES completionBlock:^(CLLocation *location, AMapLocationReGeocode *regeocode, NSError *error) {
         if (regeocode) {
@@ -203,6 +204,15 @@
                 if (aResponse) {
                     DLog(@"初始化大队信息成功");
                     [weakSelf refreshView];
+                    if (isNeedPush) {
+                        ChosePersonViewController *vc = [ChosePersonViewController new];
+                        vc.orgId = CURRENTUSER.infoModel.orgId;
+                        vc.orgName = CURRENTUSER.infoModel.orgName;
+                        [weakSelf.navigationController pushViewController:vc animated:YES];
+                    }
+                }
+                if (anError) {
+                    [ToastUtils show:anError.userInfo[@"message"]];
                 }
             }];
         }else{
@@ -217,7 +227,7 @@
         case 100:{
             
             if (![CURRENTUSER.infoModel.orgAddress isNotEmpty]||![CURRENTUSER.infoModel.Longitude isNotEmpty]||![CURRENTUSER.infoModel.Dimension isNotEmpty]) {
-                [self submitOrgAddr];
+                [self submitOrgAddr:YES];
                 return;
             }
             

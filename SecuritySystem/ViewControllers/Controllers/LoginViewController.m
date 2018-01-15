@@ -28,7 +28,7 @@
 //        _nameTextfield.text = @"admin";
 //        _passwordField.text = @"1";
 //    }
-//    
+//
 }
 
 - (void)setUpTextField{
@@ -51,9 +51,11 @@
 - (IBAction)logingBtn:(UIButton *)sender {
     NSLog(@"登录成功");
     if (_nameTextfield.text.length == 0) {
+        ShowToast(@"请输入用户名");
         return;
     }
     if (_passwordField.text.length == 0) {
+        ShowToast(@"请输入密码");
         return;
     }
     sender.enabled = NO;

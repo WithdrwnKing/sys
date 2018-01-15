@@ -9,6 +9,7 @@
 #import "LocationView.h"
 
 @interface LocationView()
+@property (nonatomic, strong) YYLabel *hintLbl;
 @property (nonatomic, strong) UIButton *locBtn;
 @end
 
@@ -22,24 +23,27 @@
     }
     return self;
 }
+- (void)setHintStr:(NSString *)hintStr{
+    _hintStr = hintStr;
+    _hintLbl.text = hintStr;
+}
+
 
 - (void)configView {
     
     UIView *bgView = [UIView new];
-    bgView.frame = CGRectMake(0, 0, SCREEN_WIDTH - 20, 190);
+    bgView.frame = CGRectMake(0, 0, self.width - 20, 190);
     bgView.backgroundColor = WhiteColor;
     bgView.center = self.center;
     [self addSubview:bgView];
     
-    UILabel *contenLbl = [UILabel new];
-    contenLbl.frame = CGRectMake(0, 40, SCREEN_WIDTH, 55);
+    YYLabel *contenLbl = [YYLabel new];
+    contenLbl.frame = CGRectMake(0, 40, bgView.width, 55);
     contenLbl.text = @"您的上岗地址还未初始化\n是否要定位到您现在的所在位置？";
-    if ([_hintStr isNotEmpty]) {
-        contenLbl.text = _hintStr;
-    }
     contenLbl.textAlignment = NSTextAlignmentCenter;
     contenLbl.numberOfLines = 0;
     [bgView addSubview:contenLbl];
+    self.hintLbl = contenLbl;
     
     UIButton *btn = [UIButton new];
     [btn setTitle:@"定位" forState:UIControlStateNormal];
