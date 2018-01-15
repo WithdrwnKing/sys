@@ -31,6 +31,7 @@ static NSString *cellIdentifier = @"RegistrationCell";
     if ([_staffID isNotEmpty]) {
         [self loadUserInfo];
     }
+    [self.view bringSubviewToFront:self.submitBtn];
 }
 
 - (void)loadUserInfo {
@@ -67,19 +68,19 @@ static NSString *cellIdentifier = @"RegistrationCell";
 
 - (IBAction)submitRegistration:(UIButton *)sender {
     if (![self.nameField.text isNotEmpty]) {
-        ShowToast(@"姓名不能为空");
+        ShowToast(@"请填写队员姓名");
         return;
     }
     if (![self.numberField.text isNotEmpty]) {
-        ShowToast(@"身份证号不能为空");
+        ShowToast(@"请填写身份证信息");
         return;
     }
     if (![self.telField.text isNotEmpty]) {
-        ShowToast(@"电话不能为空");
+        ShowToast(@"请填写电话信息");
         return;
     }
     if (self.selectImageArr.count!=2) {
-        [ToastUtils show:@"请拍摄2张照片"];
+        [ToastUtils show:@"请拍摄同一个人2张不同的照片再提交"];
         return;
     }
     [SVProgressHUD show];
@@ -93,7 +94,7 @@ static NSString *cellIdentifier = @"RegistrationCell";
             [[SMGApiClient sharedClient] submitStaffInfo:StaffID orgID:CURRENTUSER.infoModel.orgId Name:self.nameField.text Tel:self.telField.text Number:self.numberField.text ContrastImage:ContrastImage userID:CURRENTUSER.userId andCompletion:^(NSURLSessionDataTask *task, NSDictionary *aResponse, NSError *anError) {
                 if (aResponse) {
                     DLog(@"%@",aResponse);
-                    ShowToast(@"登记成功");
+                    ShowToast(@"脸项信息登记完成");
                     [weakSelf.navigationController performSelector:@selector(popToRootViewControllerAnimated:) withObject:@(YES) afterDelay:1.f];
                 }
             }];
@@ -137,7 +138,7 @@ static NSString *cellIdentifier = @"RegistrationCell";
     field2.frame = CGRectMake(label2.right + 5, label2.top, SCREEN_WIDTH-label2.right-25, label2.height);
     field2.font = font(15);
     field2.delegate = self;
-    field2.keyboardType = UIKeyboardTypePhonePad;
+    field2.keyboardType = UIKeyboardTypeDefault;
     field2.clearButtonMode = UITextFieldViewModeWhileEditing;
     [self.scrollView addSubview:field2];
     ViewBorderRadius(field2, 5, 1, SEPARATOR_LINE_COLOR);

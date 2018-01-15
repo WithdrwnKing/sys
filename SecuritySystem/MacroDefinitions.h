@@ -16,7 +16,11 @@
  *状态条高度
  */
 #define STATUSBAR_HEIGHT ([[UIApplication sharedApplication] statusBarFrame].size.height)
-
+#define kStatusBarHeight [[UIApplication sharedApplication] statusBarFrame].size.height
+#define kNavBarHeight 44.0
+//注意：请直接获取系统的tabbar高度，若没有用系统tabbar，建议判断屏幕高度；之前判断状态栏高度的方法不妥，如果正在通话状态栏会变高，导致判断异常，下面只是一个例子，请勿直接使用！
+#define kTabBarHeight kAppDelegate.mainTabBar.tabBar.frame.size.height
+#define kTopHeight (kStatusBarHeight + kNavBarHeight)
 /**
  *  tabbar 高度
  */
@@ -150,6 +154,9 @@
 
 //定义UIImage对象
 #define ImageNamed(_pointer) [UIImage imageNamed:_pointer]
+
+#define kCachePath [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0]
+
 
 //建议使用前两种宏定义,性能高于后者
 //----------------------图片----------------------------

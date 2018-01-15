@@ -82,10 +82,6 @@
 }
 - (IBAction)seachBtnClicked:(UIButton *)sender {
     [_seachTextField resignFirstResponder];
-    if (_seachTextField.text.length == 0) {
-        [SVProgressHUD showErrorWithStatus:@"搜索内容不能为空"];
-        return;
-    }
     [self searchOrgList];
 }
 - (IBAction)cancelBtnClicked:(UIButton *)sender {
@@ -106,7 +102,7 @@
         vc.orgIdStr = [orgArr componentsJoinedByString:@","];
         [self.navigationController pushViewController:vc animated:YES];
     }else
-        [ToastUtils show:@"请选择训练大队"];
+        [ToastUtils show:@"请选择要上传训练视频的大队"];
         
 }
 @end

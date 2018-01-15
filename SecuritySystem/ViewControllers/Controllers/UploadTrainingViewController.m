@@ -13,16 +13,18 @@
 #import "LocationView.h"
 #import "WKPicturePreviewVC.h"
 
-@interface UploadTrainingViewController ()<UITextViewDelegate,UITextFieldDelegate,UICollectionViewDelegate,UICollectionViewDataSource>{
+@interface UploadTrainingViewController ()<YYTextViewDelegate,UITextFieldDelegate,UICollectionViewDelegate,UICollectionViewDataSource>{
     CGFloat moveHeight;
 }
-@property (weak, nonatomic) IBOutlet UITextView *descTextView;
-@property (weak, nonatomic) IBOutlet UIButton *upImageBtn;
-@property (weak, nonatomic) IBOutlet UIButton *upVideoBtn;
-@property (weak, nonatomic) IBOutlet UITextField *themeTextField;
+@property (strong, nonatomic)  YYTextView *descTextView;
+@property (strong, nonatomic)  UILabel *label;
+@property (strong, nonatomic)  UIButton *submitBtn;
+@property (strong, nonatomic)  UITextField *themeTextField;
 
 @property (nonatomic, strong) NSMutableArray *selectImgArr;
 @property (nonatomic, strong) NSMutableArray *selectVideoArr;
+
+@property (nonatomic, strong) UIScrollView *bgScrollView;
 
 @property (nonatomic, strong) UICollectionView *imgCollectionView;
 @property (nonatomic, strong) UICollectionView *videoCollectionView;
@@ -43,17 +45,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"上传员工训练情况";
+    
+    [self setUpView];
+    
+    ViewBorderRadius(_descTextView, 5, .5, BlackColor);
+    ViewBorderRadius(_themeTextField, 5, .5, BlackColor);
+    ViewBorderRadius(_submitBtn, 5, 0, BlackColor);
 
-    ViewBorderRadius(_descTextView, 0, .5, BlackColor);
-    ViewBorderRadius(_upImageBtn, 0, .5, SEPARATOR_LINE_COLOR);
-    ViewBorderRadius(_upVideoBtn, 0, .5, SEPARATOR_LINE_COLOR);
-    ViewBorderRadius(_themeTextField, 0, .5, BlackColor);
     
-    [self.view addSubview:self.imgCollectionView];
-    [self.view addSubview:self.videoCollectionView];
-    
-    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"提交" style:UIBarButtonItemStylePlain target:self action:@selector(upLoadFiles)];
-    self.navigationItem.rightBarButtonItem = rightItem;
     [self locationFirst:NO];
     
     //增加监听，当键盘出现或改变时收出消息
@@ -72,7 +71,90 @@
 }
 
 - (void)viewDidDisappear:(BOOL)animated{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    if ([SVProgressHUD isVisible]) {
+        [SVProgressHUD dismiss];
+    }
+}
+
+- (void)setUpView{
+    [self.view addSubview:self.bgScrollView];
+    UILabel *lbl1 = [UILabel new];
+    lbl1.text = @"训练主题：";
+    lbl1.font = font(15);
+    lbl1.frame = CGRectMake(20, 20, 80, 20);
+    [self.bgScrollView addSubview:lbl1];
+    
+    UILabel *lbl2 = [UILabel new];
+    lbl2.text = @"上传视频：";
+    lbl2.font = font(15);
+    lbl2.frame = CGRectMake(lbl1.left, lbl1.bottom+30, lbl1.width, 20);
+    [self.bgScrollView addSubview:lbl2];
+    CGFloat width = SCREEN_WIDTH - 20;
+    width = width/3 - 10;
+    
+    [self.bgScrollView addSubview:self.videoCollectionView];
+
+    UILabel *lbl3 = [UILabel new];
+    lbl3.text = @"上传图片：";
+    lbl3.font = font(15);
+    lbl3.frame = CGRectMake(lbl1.left, self.videoCollectionView.bottom+30, lbl1.width, 20);
+    [self.bgScrollView addSubview:lbl3];
+    
+    UITextField *field = [[UITextField alloc] initWithFrame:CGRectMake(lbl1.right, lbl1.top-7.5, self.view.width-lbl1.right-30, 30)];
+    field.placeholder = @"请输入训练主题";
+    field.font = font(15);
+    field.delegate = self;
+    [self.bgScrollView addSubview:field];
+    self.themeTextField = field;
+    
+    [self.bgScrollView addSubview:self.imgCollectionView];
+    
+    UILabel *lbl4 = [UILabel new];
+    lbl4.text = @"训练说明：";
+    lbl4.font = font(15);
+    lbl4.frame = CGRectMake(lbl1.left, self.imgCollectionView.bottom+30, lbl1.width, 20);
+    [self.bgScrollView addSubview:lbl4];
+    self.label = lbl4;
+    
+    YYTextView *textView = [[YYTextView alloc] initWithFrame:CGRectMake(lbl4.left, lbl4.bottom+20, SCREEN_WIDTH-40, 60)];
+    textView.font = font(15);
+    textView.delegate = self;
+    textView.contentInset = UIEdgeInsetsMake(0, 5, 0, 0);
+    [self.bgScrollView addSubview:textView];
+    self.descTextView = textView;
+    
+    UIButton *submitBtn = [UIButton buttonWithType:UIButtonTypeSystem];
+    submitBtn.frame = CGRectMake(0, textView.bottom+30, 140, 40);
+    submitBtn.backgroundColor = CommonRedColor;
+    [submitBtn setTitle:@"提交" forState:UIControlStateNormal];
+    [submitBtn setTitleColor:WhiteColor forState:UIControlStateNormal];
+    submitBtn.centerX = SCREEN_WIDTH/2;
+    [submitBtn addTarget:self action:@selector(upLoadFiles) forControlEvents:UIControlEventTouchUpInside];
+    [self.bgScrollView addSubview:submitBtn];
+    self.submitBtn = submitBtn;
+    self.bgScrollView.contentSize = CGSizeMake(SCREEN_WIDTH, submitBtn.bottom+kTopHeight+30);
+}
+
+- (void)reloadUI{
+    CGFloat width = SCREEN_WIDTH - 20;
+    width = width/3 - 10;
+    CGFloat collectHeight = width + 10;
+    NSInteger count = self.selectImgArr.count - 2;
+    if (count > 0) {
+        NSInteger row = count/3 + 2;
+        if (count%3 == 0) {
+            row--;
+        }
+        self.imgCollectionView.height = collectHeight * row ;
+    }else{
+        self.imgCollectionView.height = collectHeight;
+    }
+    self.label.top = self.imgCollectionView.bottom+30;
+    self.descTextView.top = self.label.bottom+20;
+    self.submitBtn.top = self.descTextView.bottom+30;
+    
+    self.bgScrollView.contentSize = CGSizeMake(SCREEN_WIDTH, self.submitBtn.bottom+kTopHeight+30);
+
 }
 
 //当键盘出现或改变时调用
@@ -96,16 +178,32 @@
 - (void)keyboardWillHide:(NSNotification *)aNotification{
     
 }
-
-- (void)textViewDidBeginEditing:(UITextView *)textView{
+- (void)textViewDidBeginEditing:(YYTextView *)textView{
     if (moveHeight>0) {
         self.view.centerY = self.view.centerY - moveHeight;
     }
+    UIBarButtonItem *done = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(leaveEditMode)];
+    self.navigationItem.rightBarButtonItem = done;
 }
-- (void)textViewDidEndEditing:(UITextView *)textView{
+- (void)textViewDidEndEditing:(YYTextView *)textView{
     if (moveHeight>0) {
-        self.view.centerY = self.view.centerY + moveHeight;
+        self.view.centerY = self.view.height/2 + kTopHeight;
     }
+    self.navigationItem.rightBarButtonItem = nil;
+
+}
+- (void)textFieldDidBeginEditing:(UITextField *)textField{
+    UIBarButtonItem *done = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(leaveEditMode)];
+    self.navigationItem.rightBarButtonItem = done;
+}
+- (void)textFieldDidEndEditing:(UITextField *)textField{
+    self.navigationItem.rightBarButtonItem = nil;
+
+}
+
+- (void)leaveEditMode {
+    [self.descTextView resignFirstResponder];
+    [self.themeTextField resignFirstResponder];
 }
 
 - (void)locationFirst:(BOOL)isNeedSubmit {
@@ -152,7 +250,7 @@
     [[SMGApiClient sharedClient] uploadTrainInfoWithTheme:_themeTextField.text address:@"dsad" remark:_descTextView.text orgId:_orgIdStr classId:[_classIdArr componentsJoinedByString:@","] SimagesUrl:[_uploadSimgArr componentsJoinedByString:@","] ImagesUrl:[_uploadImgArr componentsJoinedByString:@","] VideoUrl:[_uploadVideoArr componentsJoinedByString:@","] andCompletion:^(NSURLSessionDataTask *task, NSDictionary *aResponse, NSError *anError) {
         if (aResponse) {
             NSLog(@"提交。。。。。。%@",aResponse);
-            [ToastUtils show:@"提交成功"];
+            [ToastUtils show:@"训练信息已提交成功"];
             [weakSelf.navigationController performSelector:@selector(popViewControllerAnimated:) withObject:@(YES) afterDelay:1.5];
         }
     }];
@@ -175,7 +273,7 @@
     
     [SVProgressHUD showWithStatus:@"上传文件"];
     if (![_selectImgArr isNotEmpty]&&![_selectVideoArr isNotEmpty]) {
-        [ToastUtils show:@"请添加训练视频或图片"];
+        [ToastUtils show:@"请拍摄训练视频或上传照片再提交"];
         [SVProgressHUD dismiss];
         return;
     }
@@ -256,7 +354,6 @@
         [ToastUtils showAtTop:@"最多可上传一段视频，可点击删除已上传的视频"];
         return;
     }
-    
     WeaklySelf(weakSelf);
     ZLCustomCamera *vc = [[ZLCustomCamera alloc] init];
     vc.allowRecordVideo = YES;
@@ -273,6 +370,7 @@
     [self presentViewController:vc animated:YES completion:nil];
 }
 - (IBAction)upImageClicked:(UIButton *)sender {
+    
     WeaklySelf(weakSelf);
     ZLCustomCamera *vc = [[ZLCustomCamera alloc] init];
     vc.allowRecordVideo = NO;
@@ -280,6 +378,7 @@
     vc.doneBlock = ^(UIImage *image, NSURL *videoUrl) {
         if (image) {
             [weakSelf.selectImgArr addObject:[image normalizedImage]];
+            [self reloadUI];
             [weakSelf.imgCollectionView reloadData];
         }
     };
@@ -290,29 +389,49 @@
 #pragma mark - UICollectionViewDataSource
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
     if (collectionView == _imgCollectionView) {
-        return self.selectImgArr.count;
+        return self.selectImgArr.count+1;
     }else{
-        return self.selectVideoArr.count;
+        return self.selectVideoArr.count+1;
     }
 }
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     TrainingCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
     
-    if (collectionView == _imgCollectionView) {
-        cell.imageView.image = self.selectImgArr[indexPath.row];
-    }
-    @weakify(self);
-    cell.deleteBtn.rac_command = [[RACCommand alloc] initWithSignalBlock:^RACSignal * _Nonnull(id  _Nullable input) {
-        @strongify(self);
-        if (collectionView == self.imgCollectionView) {
-            [self.selectImgArr removeObjectAtIndex:indexPath.row];
-            [self.imgCollectionView reloadData];
-        }else if (collectionView == self.videoCollectionView){
-            [self.selectVideoArr removeObjectAtIndex:indexPath.row];
-            [self.videoCollectionView reloadData];
+    if (indexPath.row == 0) {
+        
+        if (collectionView == _videoCollectionView) {
+            cell.imageView.image = ImageNamed(@"ca_video");
+        }else{
+            cell.imageView.image = ImageNamed(@"ca_photo");
         }
-        return [RACSignal empty];
-    }];
+            
+        cell.imageView.contentMode = UIViewContentModeCenter;
+        cell.deleteBtn.hidden = YES;
+    }else{
+        @weakify(self);
+        if (collectionView == _videoCollectionView) {
+            cell.imageView.image = ImageNamed(@"icon_video");
+            cell.deleteBtn.rac_command = [[RACCommand alloc] initWithSignalBlock:^RACSignal * _Nonnull(id  _Nullable input) {
+                @strongify(self);
+                [self.selectVideoArr removeAllObjects];
+                [self.videoCollectionView reloadData];
+                return [RACSignal empty];
+            }];
+        }else{
+            cell.imageView.image = self.selectImgArr[indexPath.row-1];
+            cell.deleteBtn.rac_command = [[RACCommand alloc] initWithSignalBlock:^RACSignal * _Nonnull(id  _Nullable input) {
+                @strongify(self);
+                [self.selectImgArr removeObjectAtIndex:indexPath.row-1];
+                [self reloadUI];
+                [self.imgCollectionView reloadData];
+                return [RACSignal empty];
+            }];
+        }
+        cell.deleteBtn.hidden = NO;
+        cell.imageView.contentMode = UIViewContentModeScaleToFill;
+    }
+    ViewBorderRadius(cell.imageView, 3, .5, SEPARATOR_LINE_COLOR);
+
     return cell;
     
 }
@@ -324,11 +443,19 @@
 }
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     if (collectionView == _videoCollectionView) {
+        if (indexPath.row == 0) {
+            [self upVideoClicked:nil];
+            return;
+        }
         WKPicturePreviewVC *vc = [WKPicturePreviewVC new];
         vc.imageList = self.selectVideoArr;
         vc.selectIndex = 0;
         [self presentViewController:vc animated:YES completion:nil];
     }else{
+        if (indexPath.row == 0) {
+            [self upImageClicked:nil];
+            return;
+        }
         WKPicturePreviewVC *vc = [WKPicturePreviewVC new];
         vc.imageList = self.selectImgArr;
         vc.selectIndex = indexPath.row;
@@ -372,30 +499,41 @@
     }
     return _classIdArr;
 }
+- (UIScrollView *)bgScrollView{
+    if (!_bgScrollView) {
+        _bgScrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
+    }
+    return _bgScrollView;
+}
+
 - (UICollectionView *)imgCollectionView{
     if (!_imgCollectionView) {
+        CGFloat width = SCREEN_WIDTH - 20;
+        width = width/3 - 10;
         UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-        [layout setScrollDirection:UICollectionViewScrollDirectionHorizontal];
-        layout.itemSize = CGSizeMake(self.upImageBtn.width, self.upImageBtn.width);
-        _imgCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(self.upImageBtn.right, self.upImageBtn.top, SCREEN_WIDTH-self.upImageBtn.right, self.upImageBtn.height) collectionViewLayout:layout];
+        [layout setScrollDirection:UICollectionViewScrollDirectionVertical];
+        layout.itemSize = CGSizeMake(width, width);
+        _imgCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(15, self.videoCollectionView.bottom+70, SCREEN_WIDTH-20, width+5) collectionViewLayout:layout];
         [_imgCollectionView registerNib:[UINib nibWithNibName:@"TrainingCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:@"cell"];
         _imgCollectionView.delegate = self;
         _imgCollectionView.dataSource = self;
         _imgCollectionView.backgroundColor = WhiteColor;
+        _imgCollectionView.scrollEnabled = NO;
     }
     return _imgCollectionView;
 }
 - (UICollectionView *)videoCollectionView{
     if (!_videoCollectionView) {
+        CGFloat width = SCREEN_WIDTH - 20;
+        width = width/3 - 10;
         UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-        [layout setScrollDirection:UICollectionViewScrollDirectionHorizontal];
-        layout.itemSize = CGSizeMake(self.upVideoBtn.width, self.upVideoBtn.width);
-        _videoCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(self.upVideoBtn.right, self.upVideoBtn.top, SCREEN_WIDTH-self.upVideoBtn.right, self.upVideoBtn.height) collectionViewLayout:layout];
+        [layout setScrollDirection:UICollectionViewScrollDirectionVertical];
+        layout.itemSize = CGSizeMake(width, width);
+        _videoCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(15, 40+50+20, SCREEN_WIDTH-20, width+5) collectionViewLayout:layout];
         _videoCollectionView.delegate = self;
         _videoCollectionView.dataSource = self;
         _videoCollectionView.backgroundColor = WhiteColor;
         [_videoCollectionView registerNib:[UINib nibWithNibName:@"TrainingCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:@"cell"];
-
     }
     return _videoCollectionView;
 }

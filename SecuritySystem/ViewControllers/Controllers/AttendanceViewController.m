@@ -38,6 +38,7 @@ static NSString *cellIdentifier = @"AttendanceCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"上传员工考勤信息";
+    self.view.userInteractionEnabled = YES;
     
     [self loadCategoryID];
     [self setUpUI];
@@ -131,6 +132,7 @@ static NSString *cellIdentifier = @"AttendanceCell";
     CGFloat width = (SCREEN_WIDTH-20)/3;
     for (int i = 0; i < self.selectArray.count; i++) {
         ChosePersonModel *model = self.selectArray[i];
+        model.isSelected = NO;
         UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
         btn.frame = CGRectMake(10+width*(i%3), 20+40*(i/3), width, 20);
         [btn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
@@ -141,11 +143,7 @@ static NSString *cellIdentifier = @"AttendanceCell";
         [btn setTitleEdgeInsets:UIEdgeInsetsMake(0, - btn.imageView.image.size.width, 0, btn.imageView.image.size.width)];
         [btn setImageEdgeInsets:UIEdgeInsetsMake(0, btn.titleLabel.bounds.size.width+20, 0, -btn.titleLabel.bounds.size.width)];
         btn.selected = model.isSelected;
-        btn.rac_command = [[RACCommand alloc] initWithSignalBlock:^RACSignal * _Nonnull(id  _Nullable input) {
-            btn.selected = !btn.selected;
-            model.isSelected = btn.isSelected;
-            return [RACSignal empty];
-        }];
+        btn.tag = 100 + [model.userId integerValue];
         [self.nameView addSubview:btn];
         
         if (i == self.selectArray.count-1) {
@@ -169,14 +167,15 @@ static NSString *cellIdentifier = @"AttendanceCell";
     ViewBorderRadius(textView, 0, 1, SEPARATOR_LINE_COLOR);
     self.textView = textView;
     
-    UIButton *submitBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    UIButton *submitBtn = [UIButton buttonWithType:UIButtonTypeSystem];
     submitBtn.backgroundColor = CommonRedColor;
     [submitBtn setTitle:@"提交" forState:UIControlStateNormal];
+    [submitBtn setTitleColor:WhiteColor forState:UIControlStateNormal];
     submitBtn.titleLabel.font = font(13);
-    submitBtn.frame = CGRectMake(0, textView.bottom+10, 135, 30);
-    submitBtn.centerX = textView.centerX;
+    submitBtn.frame = CGRectMake(0, SCREEN_HEIGHT-45-kTopHeight, 135, 30);
+    submitBtn.centerX = self.view.centerX;
     [submitBtn addTarget:self action:@selector(sumitData) forControlEvents:UIControlEventTouchUpInside];
-    [_remakView addSubview:submitBtn];
+    [self.view addSubview:submitBtn];
     ViewBorderRadius(submitBtn, 5, 0, WhiteColor);
     
     self.scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, self.remakView.bottom);
@@ -218,7 +217,7 @@ static NSString *cellIdentifier = @"AttendanceCell";
         return NO;
     }
     if (self.selectImageArr.count<1) {
-        [ToastUtils show:@"请拍摄集体照"];
+        [ToastUtils show:@"请拍照进行人脸识别"];
         return NO;
     }
     if (![self.textView.text isNotEmpty]) {
@@ -243,14 +242,31 @@ static NSString *cellIdentifier = @"AttendanceCell";
     MAMapPoint point2 = MAMapPointForCoordinate(self.location);
     //2.计算距离
     CLLocationDistance distance = MAMetersBetweenMapPoints(point1,point2);
-    
     if (distance>1000) {
-        [ToastUtils show:@"当前位置不在考勤范围"];
+        [ToastUtils show:@"请在您负责的客户地址上传考勤信息"];
         return NO;
     }
-    
 
     return YES;
+}
+
+- (void)sumitNext:(NSString *)staffID status:(NSString *)status contrastImage:(NSString *)contrastImage{
+    NSString *typeStr;
+    for (NSDictionary *dict in self.attendanceArray) {
+        NSString *type = dict[@"Name"];
+        if ([type isEqualToString:self.selectTypeBtn.titleLabel.text]) {
+            typeStr = dict[@"ID"];
+        }
+    }
+    [[SMGApiClient sharedClient] submitCheckingWithOrgID:CURRENTUSER.infoModel.orgId Address:@"" Type:typeStr Remark:self.textView.text StaffID:staffID ContrastImage:contrastImage Status:status andCompletion:^(NSURLSessionDataTask *task, NSDictionary *aResponse, NSError *anError) {
+        [SVProgressHUD dismiss];
+        if (aResponse) {
+            ShowToast(@"考勤信息已提交成功");
+            [self.navigationController performSelector:@selector(popViewControllerAnimated:) withObject:@(YES) afterDelay:1.5];
+        }else{
+            ShowToast(@"考勤失败");
+        }
+    }];
 }
 
 - (void)sumitData {
@@ -260,33 +276,18 @@ static NSString *cellIdentifier = @"AttendanceCell";
 
     NSMutableArray *staffIDArr = [NSMutableArray array];
     for (ChosePersonModel *obj in self.selectArray) {
-        if (obj.isSelected == YES) {
-            [staffIDArr addObject:obj.userId];
-        }
+        [staffIDArr addObject:obj.userId];
     }
-    NSString *typeStr;
-    for (NSDictionary *dict in self.attendanceArray) {
-        NSString *type = dict[@"Name"];
-        if ([type isEqualToString:self.selectTypeBtn.titleLabel.text]) {
-            typeStr = dict[@"ID"];
-        }
-    }
+    
     [SVProgressHUD show];
     WeaklySelf(weakSelf);
     [[SMGApiClient sharedClient] faceRecognitionWithStaffID:[staffIDArr componentsJoinedByString:@","] fileData:UIImagePNGRepresentation([_selectImageArr firstObject]) andCompletion:^(NSURLSessionDataTask *task, NSDictionary *aResponse, NSError *anError) {
         if (aResponse) {
-            NSString *Status = [aResponse objectForKey:@"Status"];
+            NSString *Status  = [aResponse objectForKey:@"Status"];
             NSString *StaffID = [aResponse objectForKey:@"StaffID"];
             NSString *ContrastImage = [aResponse objectForKey:@"ContrastImage"];
-            [[SMGApiClient sharedClient] submitCheckingWithOrgID:CURRENTUSER.infoModel.orgId Address:@"" Type:typeStr Remark:weakSelf.textView.text StaffID:StaffID ContrastImage:ContrastImage Status:Status andCompletion:^(NSURLSessionDataTask *task, NSDictionary *aResponse, NSError *anError) {
-                [SVProgressHUD dismiss];
-                if (aResponse) {
-                    ShowToast(@"考勤成功");
-                    [weakSelf.navigationController performSelector:@selector(popToRootViewControllerAnimated:) withObject:@(YES) afterDelay:1.5];
-                }else{
-                    ShowToast(@"考勤失败");
-                }
-            }];
+            [weakSelf sumitNext:StaffID status:Status contrastImage:ContrastImage];
+            
         }else{
             [SVProgressHUD dismiss];
             ShowToast(@"人脸识别失败");
