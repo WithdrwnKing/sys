@@ -51,7 +51,6 @@
     ViewBorderRadius(_descTextView, 5, .5, BlackColor);
     ViewBorderRadius(_themeTextField, 5, .5, BlackColor);
     ViewBorderRadius(_submitBtn, 5, 0, BlackColor);
-
     
     [self locationFirst:NO];
     
@@ -247,7 +246,7 @@
     NSLog(@"=======================");
     WeaklySelf(weakSelf);
     
-    [[SMGApiClient sharedClient] uploadTrainInfoWithTheme:_themeTextField.text address:@"dsad" remark:_descTextView.text orgId:_orgIdStr classId:[_classIdArr componentsJoinedByString:@","] SimagesUrl:[_uploadSimgArr componentsJoinedByString:@","] ImagesUrl:[_uploadImgArr componentsJoinedByString:@","] VideoUrl:[_uploadVideoArr componentsJoinedByString:@","] andCompletion:^(NSURLSessionDataTask *task, NSDictionary *aResponse, NSError *anError) {
+    [[SMGApiClient sharedClient] uploadTrainInfoWithTheme:_themeTextField.text address:_addressStr remark:_descTextView.text orgId:_orgIdStr classId:[_classIdArr componentsJoinedByString:@","] SimagesUrl:[_uploadSimgArr componentsJoinedByString:@","] ImagesUrl:[_uploadImgArr componentsJoinedByString:@","] VideoUrl:[_uploadVideoArr componentsJoinedByString:@","] andCompletion:^(NSURLSessionDataTask *task, NSDictionary *aResponse, NSError *anError) {
         if (aResponse) {
             NSLog(@"提交。。。。。。%@",aResponse);
             [ToastUtils show:@"训练信息已提交成功"];
