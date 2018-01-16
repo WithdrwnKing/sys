@@ -22,7 +22,7 @@
 - (NSString *)asNSString
 {
     if ( [self isKindOfClass:[NSNull class]] )
-        return nil;
+        return @"";
     
     if ( [self isKindOfClass:[NSString class]] )
     {

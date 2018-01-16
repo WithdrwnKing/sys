@@ -89,5 +89,5 @@
 /**
  @brief 上传考勤信息
  */
-- (NSURLSessionDataTask *)submitCheckingWithOrgID:(NSString *)OrgID Address:(NSString *)Address Type:(NSString *)Type Remark:(NSString *)Remark StaffID:(NSString *)StaffID ContrastImage:(NSString *)ContrastImage Status:(NSString *)Status andCompletion:(ApiCompletion)completion;
+- (NSURLSessionDataTask *)submitCheckingWithOrgID:(NSString *)OrgID Address:(NSString *)Address Type:(NSString *)Type Remark:(NSString *)Remark StaffID:(NSString *)StaffID ContrastImage:(NSString *)ContrastImage Status:(NSString *)Status upload:(NSInteger )upload failStaffID:(NSString *)failStaffID failStatus:(NSString *)failStatus failContrastImage:(NSString *)failContrastImage andCompletion:(ApiCompletion)completion;
 @end

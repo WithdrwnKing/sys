@@ -251,7 +251,7 @@
         if (aResponse) {
             NSLog(@"提交。。。。。。%@",aResponse);
             [ToastUtils show:@"训练信息已提交成功"];
-            [weakSelf.navigationController performSelector:@selector(popViewControllerAnimated:) withObject:@(YES) afterDelay:1.5];
+            [weakSelf.navigationController performSelector:@selector(popToRootViewControllerAnimated:) withObject:@(YES) afterDelay:1.5];
         }
     }];
 }
@@ -262,10 +262,7 @@
         [ToastUtils show:@"请填写训练主题"];
         return;
     }
-    if (![_descTextView.text isNotEmpty]) {
-        [ToastUtils show:@"请填写训练说明"];
-        return;
-    }
+    
     if (![self.addressStr isNotEmpty]) {
         [self showLocationView];
         return;

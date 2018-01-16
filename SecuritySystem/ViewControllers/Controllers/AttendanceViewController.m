@@ -57,6 +57,7 @@ static NSString *cellIdentifier = @"AttendanceCell";
     
 }
 
+/* 更新用户地理位置 */
 - (void)updateLocation{
     WeaklySelf(weakSelf);
     [[WKLocationManager sharedWKLocationManager].locationManager requestLocationWithReGeocode:YES completionBlock:^(CLLocation *location, AMapLocationReGeocode *regeocode, NSError *error) {
@@ -69,7 +70,7 @@ static NSString *cellIdentifier = @"AttendanceCell";
     }];
 }
 
-
+/* 加载上岗类型 */
 - (void)loadCategoryID{
     [[SMGApiClient sharedClient] dictWithCategoryID:@"11" andCompletion:^(NSURLSessionDataTask *task, NSDictionary *aResponse, NSError *anError) {
         if (aResponse) {
@@ -211,6 +212,21 @@ static NSString *cellIdentifier = @"AttendanceCell";
         [actionView addSubview:line];
     }
 }
+/**
+ @brief 置空所有考勤人员按钮
+ */
+- (void)resetSlectPerson {
+    for (int i = 0; i < self.selectArray.count; i++) {
+        ChosePersonModel *model = self.selectArray[i];
+        model.isSelected = NO;
+        UIButton *btn = VIEWWITHTAG(self.view, [model.userId integerValue]+100);
+        btn.selected = model.isSelected;
+    }
+}
+
+/**
+ @brief 判断考勤上传条件
+ */
 - (BOOL)judgeSumit{
     if (![self.selectTypeBtn.titleLabel.text isNotEmpty]) {
         [ToastUtils show:@"请选择上岗类型"];
@@ -220,11 +236,7 @@ static NSString *cellIdentifier = @"AttendanceCell";
         [ToastUtils show:@"请拍照进行人脸识别"];
         return NO;
     }
-    if (![self.textView.text isNotEmpty]) {
-        [ToastUtils show:@"请填写备注"];
-        return NO;
-    }
-    
+
     if (![self.address isNotEmpty]) {
         @weakify(self);
         LocationView *view = [[LocationView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
@@ -244,13 +256,64 @@ static NSString *cellIdentifier = @"AttendanceCell";
     CLLocationDistance distance = MAMetersBetweenMapPoints(point1,point2);
     if (distance>1000) {
         [ToastUtils show:@"请在您负责的客户地址上传考勤信息"];
-        return NO;
+//        return NO;
     }
 
     return YES;
 }
 
-- (void)sumitNext:(NSString *)staffID status:(NSString *)status contrastImage:(NSString *)contrastImage{
+/**
+ @brief 判断考勤人员
+ */
+- (void)sumitNext:(NSString *)staffID status:(NSString *)status contrastImage:(NSString *)contrastImage failName:(NSString *)failName failStaffID:(NSString *)failStaffID failStatus:(NSString *)failStatus failContrastImage:(NSString *)failContrastImage{
+    NSString *allStaffID = staffID;
+    NSString *allStatus = status;
+    if ([failStaffID isNotEmpty]) {
+        allStaffID = [NSString stringWithFormat:@"%@,%@",staffID,failStaffID];
+    }
+    if ([failStatus isNotEmpty]) {
+      allStatus = [NSString stringWithFormat:@"%@,%@",status,failStatus];
+    }
+    
+    NSArray *staffArr = [staffID componentsSeparatedByString:@","];
+    for (int i = 0; i < staffArr.count; i++) {
+        NSInteger tag = [staffArr[i] integerValue]+100;
+        UIButton *btn = VIEWWITHTAG(self.view, tag);
+        btn.selected = YES;
+        for (ChosePersonModel *obj in self.selectArray) {
+            obj.isSelected = YES;
+        }
+    }
+    
+    if (staffArr.count==self.selectArray.count) {
+        [self sumitEnd:staffID status:status contrastImage:contrastImage upload:1 failstaffID:failStaffID failStatus:failStatus failContrastImage:failContrastImage];
+    }else{
+        NSArray *nameArr = [failName componentsSeparatedByString:@","];
+        LocationView *view = [[LocationView alloc] initWithFrame:kKeywindow.bounds];
+        view.hintStr = [NSString stringWithFormat:@"%@识别失败，是否上传%@的考勤信息？",failName,nameArr==0?@"他":@"他们"];
+        view.confirmStr = @"确定";
+        @weakify(self);
+        [view.cancelSignal subscribeNext:^(id  _Nullable x) {
+            @strongify(self);
+            [self sumitEnd:staffID status:status contrastImage:contrastImage upload:0 failstaffID:failStaffID failStatus:failStatus failContrastImage:failContrastImage];
+        }];
+        
+        [view.loactionSignal subscribeNext:^(id  _Nullable x) {
+            @strongify(self);
+            [view removeFromSuperview];
+            [self sumitEnd:allStaffID status:allStatus contrastImage:contrastImage upload:1 failstaffID:failStaffID failStatus:failStatus failContrastImage:failContrastImage];
+            [self.navigationController popViewControllerAnimated:NO];
+        }];
+        [kKeywindow addSubview:view];
+    }
+    
+}
+
+/**
+ @brief 提交考勤信息
+ */
+- (void)sumitEnd:(NSString *)staffID status:(NSString *)status contrastImage:(NSString *)contrastImage upload:(NSInteger )upload failstaffID:(NSString *)failstaffID failStatus:(NSString *)failStatus failContrastImage:(NSString *)failContrastImage{
+    WeaklySelf(weakSelf);
     NSString *typeStr;
     for (NSDictionary *dict in self.attendanceArray) {
         NSString *type = dict[@"Name"];
@@ -258,38 +321,46 @@ static NSString *cellIdentifier = @"AttendanceCell";
             typeStr = dict[@"ID"];
         }
     }
-    [[SMGApiClient sharedClient] submitCheckingWithOrgID:CURRENTUSER.infoModel.orgId Address:@"" Type:typeStr Remark:self.textView.text StaffID:staffID ContrastImage:contrastImage Status:status andCompletion:^(NSURLSessionDataTask *task, NSDictionary *aResponse, NSError *anError) {
+    [[SMGApiClient sharedClient] submitCheckingWithOrgID:CURRENTUSER.infoModel.orgId Address:self.address Type:typeStr Remark:self.textView.text StaffID:staffID ContrastImage:contrastImage Status:status  upload:upload failStaffID:failstaffID failStatus:failStatus failContrastImage:failContrastImage andCompletion:^(NSURLSessionDataTask *task, NSDictionary *aResponse, NSError *anError) {
         [SVProgressHUD dismiss];
         if (aResponse) {
             ShowToast(@"考勤信息已提交成功");
-            [self.navigationController performSelector:@selector(popViewControllerAnimated:) withObject:@(YES) afterDelay:1.5];
+            [weakSelf.navigationController performSelector:@selector(popViewControllerAnimated:) withObject:@(YES) afterDelay:1.5];
         }else{
             ShowToast(@"考勤失败");
         }
     }];
 }
-
+/**
+ @brief 人脸识别
+ */
 - (void)sumitData {
     if (![self judgeSumit]) {
         return;
     }
 
+    [self resetSlectPerson];
+    
     NSMutableArray *staffIDArr = [NSMutableArray array];
     for (ChosePersonModel *obj in self.selectArray) {
         [staffIDArr addObject:obj.userId];
     }
     
-    [SVProgressHUD show];
+    [SVProgressHUD showWithStatus:@"正在识别考勤人员"];
     WeaklySelf(weakSelf);
     [[SMGApiClient sharedClient] faceRecognitionWithStaffID:[staffIDArr componentsJoinedByString:@","] fileData:UIImagePNGRepresentation([_selectImageArr firstObject]) andCompletion:^(NSURLSessionDataTask *task, NSDictionary *aResponse, NSError *anError) {
+        [SVProgressHUD dismiss];
         if (aResponse) {
-            NSString *Status  = [aResponse objectForKey:@"Status"];
-            NSString *StaffID = [aResponse objectForKey:@"StaffID"];
-            NSString *ContrastImage = [aResponse objectForKey:@"ContrastImage"];
-            [weakSelf sumitNext:StaffID status:Status contrastImage:ContrastImage];
-            
+            NSString *Status  = [[aResponse objectForKey:@"Status"] asNSString];
+            NSString *StaffID = [[aResponse objectForKey:@"StaffID"] asNSString];
+            NSString *ContrastImage = [[aResponse objectForKey:@"ContrastImage"] asNSString];
+            NSString *failStaffID = [[aResponse objectForKey:@"failStaffID"] asNSString];
+            NSString *failName = [[aResponse objectForKey:@"failName"] asNSString];
+            NSString *failStatus = [[aResponse objectForKey:@"failStatus"] asNSString];
+            NSString *failContrastImage = [[aResponse objectForKey:@"failContrastImage"] asNSString];
+            ShowToast(@"识别成功");
+            [weakSelf sumitNext:StaffID status:Status contrastImage:ContrastImage failName:failName failStaffID:failStaffID failStatus:failStatus failContrastImage:failContrastImage];
         }else{
-            [SVProgressHUD dismiss];
             ShowToast(@"人脸识别失败");
         }
     }];

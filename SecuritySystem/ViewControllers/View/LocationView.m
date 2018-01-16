@@ -27,7 +27,10 @@
     _hintStr = hintStr;
     _hintLbl.text = hintStr;
 }
-
+- (void)setConfirmStr:(NSString *)confirmStr{
+    _confirmStr = confirmStr;
+    [_locBtn setTitle:confirmStr forState:UIControlStateNormal];
+}
 
 - (void)configView {
     
@@ -52,6 +55,7 @@
     btn.backgroundColor = CommonRedColor;
     btn.titleLabel.font = font(15);
     [bgView addSubview:btn];
+    self.locBtn = btn;
     self.loactionSignal = [btn rac_signalForControlEvents:UIControlEventTouchUpInside];
     
     UIButton *btn2 = [UIButton new];
@@ -65,6 +69,7 @@
         [self removeFromSuperview];
         return [RACSignal empty];
     }];
+    self.cancelSignal = [btn2 rac_signalForControlEvents:UIControlEventTouchUpInside];
     
     ViewBorderRadius(btn, 5, 0, WhiteColor);
     ViewBorderRadius(btn2, 5, 0, WhiteColor);

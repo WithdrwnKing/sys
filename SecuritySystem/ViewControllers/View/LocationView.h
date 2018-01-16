@@ -10,6 +10,9 @@
 
 @interface LocationView : UIView
 @property (nonatomic, strong) RACSignal *loactionSignal;
+@property (nonatomic, strong) RACSignal *cancelSignal;
+
 @property (nonatomic, copy) NSString *hintStr;
+@property (nonatomic, copy) NSString *confirmStr;
 
 @end

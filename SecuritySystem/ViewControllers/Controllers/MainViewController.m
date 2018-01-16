@@ -43,6 +43,12 @@
     [super viewWillDisappear:animated];
     [self.navigationController setNavigationBarHidden:NO animated:animated];
 }
+
+- (void)viewDidAppear:(BOOL)animated{
+    if ([SVProgressHUD isVisible]) {
+        [SVProgressHUD dismiss];
+    }
+}
 - (void)setUpMainView{
     
     [self.view addSubview:self.myScrollView];
