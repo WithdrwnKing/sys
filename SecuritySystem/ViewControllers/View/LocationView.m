@@ -43,6 +43,7 @@
     YYLabel *contenLbl = [YYLabel new];
     contenLbl.frame = CGRectMake(0, 40, bgView.width, 55);
     contenLbl.text = @"您的上岗地址还未初始化\n是否要定位到您现在的所在位置？";
+    contenLbl.font = font(15);
     contenLbl.textAlignment = NSTextAlignmentCenter;
     contenLbl.numberOfLines = 0;
     [bgView addSubview:contenLbl];

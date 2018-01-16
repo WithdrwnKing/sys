@@ -23,6 +23,8 @@
 @property (nonatomic, strong) UIButton *orgAddressBtn;
 @property (nonatomic, strong) UILabel *nameLbl;
 @property (nonatomic, copy) NSString *posString;
+@property (nonatomic, copy) NSString *addressStr;
+@property (nonatomic, strong) CLLocation *location;
 @end
 
 @implementation MainViewController
@@ -32,6 +34,7 @@
     [self setUpMainView];
     self.view.backgroundColor = RGB(245, 246, 247);
     [self loadMainData];
+    
 }
 //对导航栏隐藏的设置，避免子页面缺失
 -(void)viewWillAppear:(BOOL)animated{
@@ -164,7 +167,7 @@
             CURRENTUSER.infoModel = [UserInfoModel modelWithJSON:aResponse];
             [CURRENTUSER saveUser];
             if (![CURRENTUSER.infoModel.orgAddress isNotEmpty]||![CURRENTUSER.infoModel.Longitude isNotEmpty]||![CURRENTUSER.infoModel.Dimension isNotEmpty]) {
-                [weakSelf submitOrgAddr:NO];
+                [weakSelf startLocation:NO];
             }
             [weakSelf refreshView];
         }
@@ -193,7 +196,7 @@
 - (void)submitOrgAddr:(BOOL)isNeedPush{
     @weakify(self);
     LocationView *view = [[LocationView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
-    view.hintStr = @"您的上岗地址还未初始化\n是否要定位到您现在的所在位置：获取位置信息？";
+    view.hintStr = [NSString stringWithFormat:@"您的上岗地址还未初始化\n是否要定位到您现在的所在位置：%@",self.addressStr];
     [view.loactionSignal subscribeNext:^(id  _Nullable x) {
         @strongify(self);
         [self initTeamInfo:isNeedPush];
@@ -202,34 +205,41 @@
     [[UIApplication sharedApplication].keyWindow addSubview:view];
 }
 
-- (void)initTeamInfo:(BOOL)isNeedPush {
+- (void)startLocation:(BOOL)isNeedPush {
     WeaklySelf(weakSelf);
     [[WKLocationManager sharedWKLocationManager].locationManager requestLocationWithReGeocode:YES completionBlock:^(CLLocation *location, AMapLocationReGeocode *regeocode, NSError *error) {
         if (regeocode) {
-            [[SMGApiClient sharedClient] submitOrgAddr:CURRENTUSER.infoModel.orgId userID:CURRENTUSER.userId address:regeocode.formattedAddress longitude:[@(location.coordinate.longitude) asNSString] dimension:[@(location.coordinate.latitude) asNSString] andCompletion:^(NSURLSessionDataTask *task, NSDictionary *aResponse, NSError *anError) {
-                if (aResponse) {
-                    DLog(@"初始化大队信息成功");
-                    CURRENTUSER.infoModel.orgAddress = regeocode.formattedAddress;
-                    CURRENTUSER.infoModel.Dimension = [NSString stringWithFormat:@"%f",location.coordinate.latitude];
-                    CURRENTUSER.infoModel.Longitude = [NSString stringWithFormat:@"%f",location.coordinate.longitude];
-                    [CURRENTUSER saveUser];
-                    [weakSelf refreshView];
-                    if (isNeedPush) {
-                        ChosePersonViewController *vc = [ChosePersonViewController new];
-                        vc.orgId = CURRENTUSER.infoModel.orgId;
-                        vc.orgName = CURRENTUSER.infoModel.orgName;
-                        [weakSelf.navigationController pushViewController:vc animated:YES];
-                    }
-                }
-                if (anError) {
-                    [ToastUtils show:anError.userInfo[@"message"]];
-                }
-            }];
+            weakSelf.addressStr = regeocode.formattedAddress;
+            weakSelf.location = location;
+            [self submitOrgAddr:isNeedPush];
         }else{
-            ShowToast(@"%@", [error.userInfo modelToJSONString]);
+            ShowToastAtTop(@"定位失败");
         }
-        
     }];
+}
+
+- (void)initTeamInfo:(BOOL)isNeedPush {
+    WeaklySelf(weakSelf);
+    [[SMGApiClient sharedClient] submitOrgAddr:CURRENTUSER.infoModel.orgId userID:CURRENTUSER.userId address:self.addressStr longitude:[@(_location.coordinate.longitude) asNSString] dimension:[@(_location.coordinate.latitude) asNSString] andCompletion:^(NSURLSessionDataTask *task, NSDictionary *aResponse, NSError *anError) {
+        if (aResponse) {
+            DLog(@"初始化大队信息成功");
+            CURRENTUSER.infoModel.orgAddress = _addressStr;
+            CURRENTUSER.infoModel.Dimension = [NSString stringWithFormat:@"%f",_location.coordinate.latitude];
+            CURRENTUSER.infoModel.Longitude = [NSString stringWithFormat:@"%f",_location.coordinate.longitude];
+            [CURRENTUSER saveUser];
+            [weakSelf refreshView];
+            if (isNeedPush) {
+                ChosePersonViewController *vc = [ChosePersonViewController new];
+                vc.orgId = CURRENTUSER.infoModel.orgId;
+                vc.orgName = CURRENTUSER.infoModel.orgName;
+                [weakSelf.navigationController pushViewController:vc animated:YES];
+            }
+        }
+        if (anError) {
+            [ToastUtils show:anError.userInfo[@"message"]];
+        }
+    }];
+
 }
 #pragma mark - Actions
 - (void)btnClicked:(UIButton *)sender{
@@ -237,7 +247,7 @@
         case 100:{
             
             if (![CURRENTUSER.infoModel.orgAddress isNotEmpty]||![CURRENTUSER.infoModel.Longitude isNotEmpty]||![CURRENTUSER.infoModel.Dimension isNotEmpty]) {
-                [self submitOrgAddr:YES];
+                [self startLocation:YES];
                 return;
             }
             
