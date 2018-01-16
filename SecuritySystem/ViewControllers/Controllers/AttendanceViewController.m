@@ -186,6 +186,7 @@ static NSString *cellIdentifier = @"AttendanceCell";
     
     UIView *actionView = [UIView new];
     actionView.frame = CGRectMake(self.selectTypeBtn.left, self.selectTypeBtn.bottom, self.selectTypeBtn.width, 25*self.attendanceArray.count);
+    actionView.backgroundColor = WhiteColor;
     [self.scrollView addSubview:actionView];
     ViewBorderRadius(actionView, 5, 1, SEPARATOR_LINE_COLOR);
     WeaklySelf(weakSelf);
@@ -266,15 +267,7 @@ static NSString *cellIdentifier = @"AttendanceCell";
  @brief 判断考勤人员
  */
 - (void)sumitNext:(NSString *)staffID status:(NSString *)status contrastImage:(NSString *)contrastImage failName:(NSString *)failName failStaffID:(NSString *)failStaffID failStatus:(NSString *)failStatus failContrastImage:(NSString *)failContrastImage{
-    NSString *allStaffID = staffID;
-    NSString *allStatus = status;
-    if ([failStaffID isNotEmpty]) {
-        allStaffID = [NSString stringWithFormat:@"%@,%@",staffID,failStaffID];
-    }
-    if ([failStatus isNotEmpty]) {
-      allStatus = [NSString stringWithFormat:@"%@,%@",status,failStatus];
-    }
-    
+   
     NSArray *staffArr = [staffID componentsSeparatedByString:@","];
     for (int i = 0; i < staffArr.count; i++) {
         NSInteger tag = [staffArr[i] integerValue]+100;
@@ -290,7 +283,7 @@ static NSString *cellIdentifier = @"AttendanceCell";
     }else{
         NSArray *nameArr = [failName componentsSeparatedByString:@","];
         LocationView *view = [[LocationView alloc] initWithFrame:kKeywindow.bounds];
-        view.hintStr = [NSString stringWithFormat:@"%@识别失败，是否上传%@的考勤信息？",failName,nameArr==0?@"他":@"他们"];
+        view.hintStr = [NSString stringWithFormat:@"%@识别失败，是否上传%@的考勤信息？",failName,nameArr.count==1?@"他":@"他们"];
         view.confirmStr = @"确定";
         @weakify(self);
         [view.cancelSignal subscribeNext:^(id  _Nullable x) {
@@ -301,8 +294,7 @@ static NSString *cellIdentifier = @"AttendanceCell";
         [view.loactionSignal subscribeNext:^(id  _Nullable x) {
             @strongify(self);
             [view removeFromSuperview];
-            [self sumitEnd:allStaffID status:allStatus contrastImage:contrastImage upload:1 failstaffID:failStaffID failStatus:failStatus failContrastImage:failContrastImage];
-            [self.navigationController popViewControllerAnimated:NO];
+            [self sumitEnd:staffID status:status contrastImage:contrastImage upload:1 failstaffID:failStaffID failStatus:failStatus failContrastImage:failContrastImage];
         }];
         [kKeywindow addSubview:view];
     }

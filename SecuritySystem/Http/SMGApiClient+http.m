@@ -35,7 +35,7 @@
 - (NSURLSessionDataTask *)searchOrgWithName:(NSString *)orgName andCompletion:(ApiCompletion)completion{
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     [dict setObject:orgName forKey:@"OrgName"];
-    return [self getPath:@"GetOrgsByName.ashx" parameters:dict completion:completion];
+    return [self postPath:@"GetOrgsByName.ashx" parameters:dict completion:completion];
 }
 - (NSURLSessionDataTask *)uploadTrainInfoWithTheme:(NSString *)theme address:(NSString *)address remark:(NSString *)remark orgId:(NSString *)orgId classId:(NSString *)classId SimagesUrl:(NSString *)SimagesUrl ImagesUrl:(NSString *)ImagesUrl VideoUrl:(NSString *)VideoUrl andCompletion:(ApiCompletion)completion{
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];

@@ -86,10 +86,10 @@ static NSString *cellIdentifier = @"RegistrationCell";
     [SVProgressHUD show];
     WeaklySelf(weakSelf);
     [[SMGApiClient sharedClient] staffFaceCollectWithStaffID:_staffID Filedata:[self.selectImageArr firstObject] FiledataContrast:[self.selectImageArr lastObject] andCompletion:^(NSURLSessionDataTask *task, NSDictionary *aResponse, NSError *anError) {
+        [SVProgressHUD dismiss];
         if (aResponse) {
             NSString *ContrastImage = [aResponse objectForKey:@"ContrastImage"];
             NSString *StaffID = [aResponse objectForKey:@"StaffID"];
-            [SVProgressHUD dismiss];
             DLog(@"%@",aResponse);
             [[SMGApiClient sharedClient] submitStaffInfo:StaffID orgID:CURRENTUSER.infoModel.orgId Name:self.nameField.text Tel:self.telField.text Number:self.numberField.text ContrastImage:ContrastImage userID:CURRENTUSER.userId andCompletion:^(NSURLSessionDataTask *task, NSDictionary *aResponse, NSError *anError) {
                 if (aResponse) {
@@ -99,8 +99,7 @@ static NSString *cellIdentifier = @"RegistrationCell";
                 }
             }];
         }else{
-            [SVProgressHUD dismiss];
-            [ToastUtils show:@"脸部识别失败"];
+            [ToastUtils show:anError.userInfo[@"message"]];
         }
     }];
 }

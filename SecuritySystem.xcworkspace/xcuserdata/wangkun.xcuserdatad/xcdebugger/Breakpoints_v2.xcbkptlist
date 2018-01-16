@@ -42,7 +42,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SecuritySystem/Http/SMGApiClient+http.m"
-            timestampString = "537781732.45885"
+            timestampString = "537783281.451665"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "146"
@@ -80,6 +80,22 @@
             startingLineNumber = "210"
             endingLineNumber = "210"
             landmarkName = "-initTeamInfo:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SecuritySystem/Http/SMGApiClient+http.m"
+            timestampString = "537783281.45222"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "109"
+            endingLineNumber = "109"
+            landmarkName = "-submitCheckingWithOrgID:Address:Type:Remark:StaffID:ContrastImage:Status:upload:failStaffID:failStatus:failContrastImage:andCompletion:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
