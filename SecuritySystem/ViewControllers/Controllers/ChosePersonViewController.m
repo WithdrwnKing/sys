@@ -22,7 +22,10 @@ static NSString *cellIdentifier = @"ChosePersonCell";
 
 - (void)viewWillAppear:(BOOL)animated{
     self.navigationController.navigationBar.hidden = NO;
+    _allChoseBtn.selected = NO;
+    [self.myTableView reloadData];
 }
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -132,7 +135,7 @@ static NSString *cellIdentifier = @"ChosePersonCell";
                 vc.selectArray = [NSArray arrayWithArray:selectArr];
                 [self.navigationController pushViewController:vc animated:YES];
             }else{
-                [ToastUtils showAtTop:@"请选择要上传考勤信息的大队"];
+                ShowToastAtTop(@"请选择要上传考勤信息的大队");
             }
             break;
         }

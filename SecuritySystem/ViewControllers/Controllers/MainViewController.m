@@ -134,6 +134,7 @@
     [clearBtn setTitle:@"清理缓存" forState:UIControlStateNormal];
     [clearBtn setBackgroundColor:SEPARATOR_LINE_COLOR];
     [clearBtn setTitleColor:BlackColor forState:UIControlStateNormal];
+    [clearBtn.titleLabel setFont:font(15)];
     @weakify(self);
     clearBtn.rac_command = [[RACCommand alloc] initWithSignalBlock:^RACSignal * _Nonnull(id  _Nullable input) {
         @strongify(self);
@@ -143,7 +144,7 @@
         UIAlertAction *submit = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             [WKFileService clearCache:kCachePath];
             NSLog(@"%f",[WKFileService folderSizeAtPath:kCachePath]);
-            [ToastUtils show:@"清理成功"];
+            ShowToastAtTop(@"清理成功");
         }];
         [alert addAction:submit];
         [alert addAction:cancel];
@@ -236,7 +237,7 @@
             }
         }
         if (anError) {
-            [ToastUtils show:anError.userInfo[@"message"]];
+            ShowToastAtTop(@"%@",anError.userInfo[@"message"]);
         }
     }];
 

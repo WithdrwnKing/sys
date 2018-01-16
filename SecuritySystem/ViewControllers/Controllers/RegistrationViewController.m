@@ -68,19 +68,19 @@ static NSString *cellIdentifier = @"RegistrationCell";
 
 - (IBAction)submitRegistration:(UIButton *)sender {
     if (![self.nameField.text isNotEmpty]) {
-        ShowToast(@"请填写队员姓名");
+        ShowToastAtTop(@"请填写队员姓名");
         return;
     }
     if (![self.numberField.text isNotEmpty]) {
-        ShowToast(@"请填写身份证信息");
+        ShowToastAtTop(@"请填写身份证信息");
         return;
     }
     if (![self.telField.text isNotEmpty]) {
-        ShowToast(@"请填写电话信息");
+        ShowToastAtTop(@"请填写电话信息");
         return;
     }
     if (self.selectImageArr.count!=2) {
-        [ToastUtils show:@"请拍摄同一个人2张不同的照片再提交"];
+        ShowToastAtTop(@"请拍摄同一个人2张不同的照片再提交");
         return;
     }
     [SVProgressHUD show];
@@ -94,12 +94,12 @@ static NSString *cellIdentifier = @"RegistrationCell";
             [[SMGApiClient sharedClient] submitStaffInfo:StaffID orgID:CURRENTUSER.infoModel.orgId Name:self.nameField.text Tel:self.telField.text Number:self.numberField.text ContrastImage:ContrastImage userID:CURRENTUSER.userId andCompletion:^(NSURLSessionDataTask *task, NSDictionary *aResponse, NSError *anError) {
                 if (aResponse) {
                     DLog(@"%@",aResponse);
-                    ShowToast(@"脸项信息登记完成");
+                    ShowToastAtTop(@"脸项信息登记完成");
                     [weakSelf.navigationController performSelector:@selector(popToRootViewControllerAnimated:) withObject:@(YES) afterDelay:1.f];
                 }
             }];
         }else{
-            [ToastUtils show:anError.userInfo[@"message"]];
+            ShowToastAtTop(@"%@", anError.userInfo[@"message"]);
         }
     }];
 }
@@ -241,7 +241,7 @@ static NSString *cellIdentifier = @"RegistrationCell";
 }
 - (void)upImageClicked{
     if (self.selectImageArr.count >= 2) {
-        [ToastUtils show:@"照片个数不得超过2张"];
+        ShowToastAtTop(@"照片个数不得超过2张");
         return;
     }
     WeaklySelf(weakSelf);

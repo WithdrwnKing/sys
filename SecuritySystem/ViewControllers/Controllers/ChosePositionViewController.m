@@ -16,6 +16,7 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIButton *commitBtn;
 @property (weak, nonatomic) IBOutlet UIButton *cancelBtn;
+@property (weak, nonatomic) IBOutlet UIButton *allSelectBtn;
 @property (nonatomic, copy) NSArray *orgList;
 @end
 
@@ -28,7 +29,7 @@
     [super viewDidLoad];
     self.title = @"选择训练大队";
     ViewBorderRadius(_searchBtn, 5, 0, WhiteColor);
-    ViewBorderRadius(_seachTextField, 0, .5, SEPARATOR_LINE_COLOR);
+    ViewBorderRadius(_seachTextField, 5, .5, SEPARATOR_LINE_COLOR);
     ViewBorderRadius(_commitBtn, 5, 0, WhiteColor);
     ViewBorderRadius(_cancelBtn, 5, 0, WhiteColor);
         
@@ -81,6 +82,7 @@
     [self.tableView reloadData];
 }
 - (IBAction)seachBtnClicked:(UIButton *)sender {
+    self.allSelectBtn.selected = NO;
     [_seachTextField resignFirstResponder];
     [self searchOrgList];
 }
@@ -102,7 +104,6 @@
         vc.orgIdStr = [orgArr componentsJoinedByString:@","];
         [self.navigationController pushViewController:vc animated:YES];
     }else
-        [ToastUtils show:@"请选择要上传训练视频的大队"];
-        
+        ShowToastAtTop(@"请选择要上传训练视频的大队");        
 }
 @end

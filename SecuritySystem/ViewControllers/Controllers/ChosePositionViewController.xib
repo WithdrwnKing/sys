@@ -11,6 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ChosePositionViewController">
             <connections>
+                <outlet property="allSelectBtn" destination="k98-BC-8TQ" id="qa5-y5-rhe"/>
                 <outlet property="cancelBtn" destination="QhE-kK-cii" id="hgZ-Oz-JzL"/>
                 <outlet property="commitBtn" destination="6CP-lG-9AX" id="Z8m-2l-myA"/>
                 <outlet property="seachTextField" destination="qEX-6S-tXe" id="CRX-1f-hvP"/>

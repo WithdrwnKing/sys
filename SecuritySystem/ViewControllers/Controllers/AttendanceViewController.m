@@ -173,7 +173,7 @@ static NSString *cellIdentifier = @"AttendanceCell";
     [submitBtn setTitle:@"提交" forState:UIControlStateNormal];
     [submitBtn setTitleColor:WhiteColor forState:UIControlStateNormal];
     submitBtn.titleLabel.font = font(13);
-    submitBtn.frame = CGRectMake(0, SCREEN_HEIGHT-45-kTopHeight, 135, 30);
+    submitBtn.frame = CGRectMake(0, SCREEN_HEIGHT-45-kTopHeight, 140, 36);
     submitBtn.centerX = self.view.centerX;
     [submitBtn addTarget:self action:@selector(sumitData) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:submitBtn];
@@ -230,11 +230,11 @@ static NSString *cellIdentifier = @"AttendanceCell";
  */
 - (BOOL)judgeSumit{
     if (![self.selectTypeBtn.titleLabel.text isNotEmpty]) {
-        [ToastUtils show:@"请选择上岗类型"];
+        ShowToastAtTop(@"请选择上岗类型");
         return NO;
     }
     if (self.selectImageArr.count<1) {
-        [ToastUtils show:@"请拍照进行人脸识别"];
+        ShowToastAtTop(@"请拍照进行人脸识别");
         return NO;
     }
 
@@ -256,8 +256,8 @@ static NSString *cellIdentifier = @"AttendanceCell";
     //2.计算距离
     CLLocationDistance distance = MAMetersBetweenMapPoints(point1,point2);
     if (distance>1000) {
-        [ToastUtils show:@"请在您负责的客户地址上传考勤信息"];
-//        return NO;
+        ShowToastAtTop(@"请在您负责的客户地址上传考勤信息");
+        return NO;
     }
 
     return YES;
@@ -316,10 +316,10 @@ static NSString *cellIdentifier = @"AttendanceCell";
     [[SMGApiClient sharedClient] submitCheckingWithOrgID:CURRENTUSER.infoModel.orgId Address:self.address Type:typeStr Remark:self.textView.text StaffID:staffID ContrastImage:contrastImage Status:status  upload:upload failStaffID:failstaffID failStatus:failStatus failContrastImage:failContrastImage andCompletion:^(NSURLSessionDataTask *task, NSDictionary *aResponse, NSError *anError) {
         [SVProgressHUD dismiss];
         if (aResponse) {
-            ShowToast(@"考勤信息已提交成功");
+            ShowToastAtTop(@"考勤信息已提交成功");
             [weakSelf.navigationController performSelector:@selector(popViewControllerAnimated:) withObject:@(YES) afterDelay:1.5];
         }else{
-            ShowToast(@"考勤失败");
+            ShowToastAtTop(@"考勤失败");
         }
     }];
 }
@@ -350,10 +350,10 @@ static NSString *cellIdentifier = @"AttendanceCell";
             NSString *failName = [[aResponse objectForKey:@"failName"] asNSString];
             NSString *failStatus = [[aResponse objectForKey:@"failStatus"] asNSString];
             NSString *failContrastImage = [[aResponse objectForKey:@"failContrastImage"] asNSString];
-            ShowToast(@"识别成功");
+            ShowToastAtTop(@"识别成功");
             [weakSelf sumitNext:StaffID status:Status contrastImage:ContrastImage failName:failName failStaffID:failStaffID failStatus:failStatus failContrastImage:failContrastImage];
         }else{
-            ShowToast(@"人脸识别失败");
+            ShowToastAtTop(@"人脸识别失败");
         }
     }];
     
@@ -381,7 +381,7 @@ static NSString *cellIdentifier = @"AttendanceCell";
 
 - (void)upImageClicked{
     if (self.selectImageArr.count >1) {
-        [ToastUtils show:@"照片为集体照仅限一张"];
+        ShowToastAtTop(@"照片为集体照仅限一张");
         return;
     }
     WeaklySelf(weakSelf);
@@ -441,6 +441,7 @@ static NSString *cellIdentifier = @"AttendanceCell";
             [self.collectionView reloadData];
             return [RACSignal empty];
         }];
+        ViewBorderRadius(cell.imageView, 3, 0, SEPARATOR_LINE_COLOR);
     }
     return cell;
 }

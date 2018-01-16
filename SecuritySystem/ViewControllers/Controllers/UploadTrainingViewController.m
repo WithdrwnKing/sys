@@ -96,7 +96,7 @@
     UILabel *lbl3 = [UILabel new];
     lbl3.text = @"上传图片：";
     lbl3.font = font(15);
-    lbl3.frame = CGRectMake(lbl1.left, self.videoCollectionView.bottom+30, lbl1.width, 20);
+    lbl3.frame = CGRectMake(lbl1.left, self.videoCollectionView.bottom+20, lbl1.width, 20);
     [self.bgScrollView addSubview:lbl3];
     
     UITextField *field = [[UITextField alloc] initWithFrame:CGRectMake(lbl1.right, lbl1.top-7.5, self.view.width-lbl1.right-30, 30)];
@@ -111,7 +111,7 @@
     UILabel *lbl4 = [UILabel new];
     lbl4.text = @"训练说明：";
     lbl4.font = font(15);
-    lbl4.frame = CGRectMake(lbl1.left, self.imgCollectionView.bottom+30, lbl1.width, 20);
+    lbl4.frame = CGRectMake(lbl1.left, self.imgCollectionView.bottom+20, lbl1.width, 20);
     [self.bgScrollView addSubview:lbl4];
     self.label = lbl4;
     
@@ -123,7 +123,7 @@
     self.descTextView = textView;
     
     UIButton *submitBtn = [UIButton buttonWithType:UIButtonTypeSystem];
-    submitBtn.frame = CGRectMake(0, textView.bottom+30, 140, 40);
+    submitBtn.frame = CGRectMake(0, textView.bottom+30, 140, 36);
     submitBtn.backgroundColor = CommonRedColor;
     [submitBtn setTitle:@"提交" forState:UIControlStateNormal];
     [submitBtn setTitleColor:WhiteColor forState:UIControlStateNormal];
@@ -148,7 +148,7 @@
     }else{
         self.imgCollectionView.height = collectHeight;
     }
-    self.label.top = self.imgCollectionView.bottom+30;
+    self.label.top = self.imgCollectionView.bottom+20;
     self.descTextView.top = self.label.bottom+20;
     self.submitBtn.top = self.descTextView.bottom+30;
     
@@ -249,7 +249,7 @@
     [[SMGApiClient sharedClient] uploadTrainInfoWithTheme:_themeTextField.text address:_addressStr remark:_descTextView.text orgId:_orgIdStr classId:[_classIdArr componentsJoinedByString:@","] SimagesUrl:[_uploadSimgArr componentsJoinedByString:@","] ImagesUrl:[_uploadImgArr componentsJoinedByString:@","] VideoUrl:[_uploadVideoArr componentsJoinedByString:@","] andCompletion:^(NSURLSessionDataTask *task, NSDictionary *aResponse, NSError *anError) {
         if (aResponse) {
             NSLog(@"提交。。。。。。%@",aResponse);
-            [ToastUtils show:@"训练信息已提交成功"];
+            ShowToastAtTop(@"训练信息已提交成功");
             [weakSelf.navigationController performSelector:@selector(popToRootViewControllerAnimated:) withObject:@(YES) afterDelay:1.5];
         }
     }];
@@ -258,7 +258,7 @@
 - (void)upLoadFiles{
     [self hideKeyboard];
     if (![_themeTextField.text isNotEmpty]) {
-        [ToastUtils show:@"请填写训练主题"];
+        ShowToastAtTop(@"请填写训练主题");
         return;
     }
     
@@ -267,9 +267,8 @@
         return;
     }
     
-    [SVProgressHUD showWithStatus:@"上传文件"];
     if (![_selectImgArr isNotEmpty]&&![_selectVideoArr isNotEmpty]) {
-        [ToastUtils show:@"请拍摄训练视频或上传照片再提交"];
+        ShowToastAtTop(@"请拍摄训练视频或上传照片再提交");
         [SVProgressHUD dismiss];
         return;
     }
@@ -277,7 +276,8 @@
         [self submitTrainingInfo];
         return;
     }
-    
+    [SVProgressHUD showWithStatus:@"上传文件"];
+
     self.isFinshed = NO;
     WeaklySelf(weakSelf);
     dispatch_queue_t concurrentQueue = dispatch_queue_create("com.wk.sys.concurrentqueue",DISPATCH_QUEUE_CONCURRENT);
@@ -347,7 +347,7 @@
 - (IBAction)upVideoClicked:(UIButton *)sender {
     
     if (self.selectVideoArr.count>0) {
-        [ToastUtils showAtTop:@"最多可上传一段视频，可点击删除已上传的视频"];
+        ShowToastAtTop(@"最多可上传一段视频，可点击删除已上传的视频");
         return;
     }
     WeaklySelf(weakSelf);
@@ -370,7 +370,7 @@
     WeaklySelf(weakSelf);
     ZLCustomCamera *vc = [[ZLCustomCamera alloc] init];
     vc.allowRecordVideo = NO;
-    vc.sessionPreset = ZLCaptureSessionPreset1920x1080;
+    vc.sessionPreset = ZLCaptureSessionPreset1280x720;
     vc.doneBlock = ^(UIImage *image, NSURL *videoUrl) {
         if (image) {
             [weakSelf.selectImgArr addObject:[image normalizedImage]];
@@ -404,9 +404,12 @@
         cell.imageView.contentMode = UIViewContentModeCenter;
         cell.deleteBtn.hidden = YES;
     }else{
+        cell.deleteBtn.hidden = NO;
+        
         @weakify(self);
         if (collectionView == _videoCollectionView) {
             cell.imageView.image = ImageNamed(@"icon_video");
+            cell.imageView.contentMode = UIViewContentModeCenter;
             cell.deleteBtn.rac_command = [[RACCommand alloc] initWithSignalBlock:^RACSignal * _Nonnull(id  _Nullable input) {
                 @strongify(self);
                 [self.selectVideoArr removeAllObjects];
@@ -415,6 +418,7 @@
             }];
         }else{
             cell.imageView.image = self.selectImgArr[indexPath.row-1];
+            cell.imageView.contentMode = UIViewContentModeScaleToFill;
             cell.deleteBtn.rac_command = [[RACCommand alloc] initWithSignalBlock:^RACSignal * _Nonnull(id  _Nullable input) {
                 @strongify(self);
                 [self.selectImgArr removeObjectAtIndex:indexPath.row-1];
@@ -423,8 +427,6 @@
                 return [RACSignal empty];
             }];
         }
-        cell.deleteBtn.hidden = NO;
-        cell.imageView.contentMode = UIViewContentModeScaleToFill;
     }
     ViewBorderRadius(cell.imageView, 3, .5, SEPARATOR_LINE_COLOR);
 
@@ -509,7 +511,7 @@
         UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
         [layout setScrollDirection:UICollectionViewScrollDirectionVertical];
         layout.itemSize = CGSizeMake(width, width);
-        _imgCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(15, self.videoCollectionView.bottom+70, SCREEN_WIDTH-20, width+5) collectionViewLayout:layout];
+        _imgCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(15, self.videoCollectionView.bottom+60, SCREEN_WIDTH-20, width+5) collectionViewLayout:layout];
         [_imgCollectionView registerNib:[UINib nibWithNibName:@"TrainingCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:@"cell"];
         _imgCollectionView.delegate = self;
         _imgCollectionView.dataSource = self;
