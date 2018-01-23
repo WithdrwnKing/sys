@@ -22,6 +22,8 @@
 	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>需要使用您的相机</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>需要访问您的相册</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDeion</key>
 	<string>App需要您的同意,才能始终访问位置</string>
 	<key>NSLocationAlwaysUsageDescription</key>

@@ -9,6 +9,21 @@
 /* Begin PBXBuildFile section */
 		49D159789E2EA34D74E13ADE /* libPods-SecuritySystem.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 05B644037ADAC2ABB80FF374 /* libPods-SecuritySystem.a */; };
 		6C192EFE2008F4A700A21E1F /* UIImage+EasyExtend.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C192EFD2008F4A700A21E1F /* UIImage+EasyExtend.m */; };
+		EA12053420171452001B27D7 /* IDLFaceSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA12053120171451001B27D7 /* IDLFaceSDK.framework */; };
+		EA12053520171452001B27D7 /* com.baidu.idl.face.model.bundle in Resources */ = {isa = PBXBuildFile; fileRef = EA12053220171452001B27D7 /* com.baidu.idl.face.model.bundle */; };
+		EA12053620171452001B27D7 /* com.baidu.idl.face.faceSDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = EA12053320171452001B27D7 /* com.baidu.idl.face.faceSDK.bundle */; };
+		EA1205382017145D001B27D7 /* idl-license.face-ios in Resources */ = {isa = PBXBuildFile; fileRef = EA1205372017145D001B27D7 /* idl-license.face-ios */; };
+		EA12053B20171480001B27D7 /* AppDelegate+baiduFace.m in Sources */ = {isa = PBXBuildFile; fileRef = EA12053A20171480001B27D7 /* AppDelegate+baiduFace.m */; };
+		EA12053D201714BB001B27D7 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = EA12053C201714BB001B27D7 /* libc++.tbd */; };
+		EA12054B201716CD001B27D7 /* DetectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EA12053F201716CB001B27D7 /* DetectionViewController.m */; };
+		EA12054C201716CD001B27D7 /* LivenessViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EA120541201716CB001B27D7 /* LivenessViewController.m */; };
+		EA12054D201716CD001B27D7 /* CircleView.m in Sources */ = {isa = PBXBuildFile; fileRef = EA120542201716CC001B27D7 /* CircleView.m */; };
+		EA12054E201716CD001B27D7 /* FaceBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EA120543201716CC001B27D7 /* FaceBaseViewController.m */; };
+		EA12054F201716CD001B27D7 /* RemindView.m in Sources */ = {isa = PBXBuildFile; fileRef = EA120547201716CC001B27D7 /* RemindView.m */; };
+		EA120550201716CD001B27D7 /* LivingConfigViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EA120549201716CC001B27D7 /* LivingConfigViewController.m */; };
+		EA12055420171703001B27D7 /* ImageUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = EA12055220171703001B27D7 /* ImageUtils.m */; };
+		EA1205572017170D001B27D7 /* LivingConfigModel.m in Sources */ = {isa = PBXBuildFile; fileRef = EA1205552017170D001B27D7 /* LivingConfigModel.m */; };
+		EA12055A20171717001B27D7 /* VideoCaptureDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = EA12055920171717001B27D7 /* VideoCaptureDevice.m */; };
 		EA1B42B51FE8F6E8000B8EC4 /* TrainingCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EA1B42B31FE8F6E8000B8EC4 /* TrainingCollectionViewCell.m */; };
 		EA1B42B61FE8F6E8000B8EC4 /* TrainingCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EA1B42B41FE8F6E8000B8EC4 /* TrainingCollectionViewCell.xib */; };
 		EA1B42BD1FE91506000B8EC4 /* AttendanceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EA1B42BB1FE91506000B8EC4 /* AttendanceViewController.m */; };
@@ -58,6 +73,31 @@
 		6C192EFC2008F4A700A21E1F /* UIImage+EasyExtend.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIImage+EasyExtend.h"; sourceTree = "<group>"; };
 		6C192EFD2008F4A700A21E1F /* UIImage+EasyExtend.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIImage+EasyExtend.m"; sourceTree = "<group>"; };
 		7696A807ABE891A9169E3D38 /* Pods-SecuritySystem.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SecuritySystem.release.xcconfig"; path = "Pods/Target Support Files/Pods-SecuritySystem/Pods-SecuritySystem.release.xcconfig"; sourceTree = "<group>"; };
+		EA12053120171451001B27D7 /* IDLFaceSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = IDLFaceSDK.framework; sourceTree = "<group>"; };
+		EA12053220171452001B27D7 /* com.baidu.idl.face.model.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = com.baidu.idl.face.model.bundle; sourceTree = "<group>"; };
+		EA12053320171452001B27D7 /* com.baidu.idl.face.faceSDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = com.baidu.idl.face.faceSDK.bundle; sourceTree = "<group>"; };
+		EA1205372017145D001B27D7 /* idl-license.face-ios */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "idl-license.face-ios"; sourceTree = "<group>"; };
+		EA12053920171480001B27D7 /* AppDelegate+baiduFace.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AppDelegate+baiduFace.h"; sourceTree = "<group>"; };
+		EA12053A20171480001B27D7 /* AppDelegate+baiduFace.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "AppDelegate+baiduFace.m"; sourceTree = "<group>"; };
+		EA12053C201714BB001B27D7 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
+		EA12053F201716CB001B27D7 /* DetectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetectionViewController.m; sourceTree = "<group>"; };
+		EA120540201716CB001B27D7 /* DetectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetectionViewController.h; sourceTree = "<group>"; };
+		EA120541201716CB001B27D7 /* LivenessViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LivenessViewController.m; sourceTree = "<group>"; };
+		EA120542201716CC001B27D7 /* CircleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CircleView.m; sourceTree = "<group>"; };
+		EA120543201716CC001B27D7 /* FaceBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FaceBaseViewController.m; sourceTree = "<group>"; };
+		EA120544201716CC001B27D7 /* LivingConfigViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LivingConfigViewController.h; sourceTree = "<group>"; };
+		EA120545201716CC001B27D7 /* RemindView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RemindView.h; sourceTree = "<group>"; };
+		EA120546201716CC001B27D7 /* CircleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CircleView.h; sourceTree = "<group>"; };
+		EA120547201716CC001B27D7 /* RemindView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RemindView.m; sourceTree = "<group>"; };
+		EA120548201716CC001B27D7 /* LivenessViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LivenessViewController.h; sourceTree = "<group>"; };
+		EA120549201716CC001B27D7 /* LivingConfigViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LivingConfigViewController.m; sourceTree = "<group>"; };
+		EA12054A201716CD001B27D7 /* FaceBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FaceBaseViewController.h; sourceTree = "<group>"; };
+		EA12055220171703001B27D7 /* ImageUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageUtils.m; sourceTree = "<group>"; };
+		EA12055320171703001B27D7 /* ImageUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageUtils.h; sourceTree = "<group>"; };
+		EA1205552017170D001B27D7 /* LivingConfigModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LivingConfigModel.m; sourceTree = "<group>"; };
+		EA1205562017170D001B27D7 /* LivingConfigModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LivingConfigModel.h; sourceTree = "<group>"; };
+		EA12055820171717001B27D7 /* VideoCaptureDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoCaptureDevice.h; sourceTree = "<group>"; };
+		EA12055920171717001B27D7 /* VideoCaptureDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoCaptureDevice.m; sourceTree = "<group>"; };
 		EA1B42B21FE8F6E8000B8EC4 /* TrainingCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TrainingCollectionViewCell.h; sourceTree = "<group>"; };
 		EA1B42B31FE8F6E8000B8EC4 /* TrainingCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TrainingCollectionViewCell.m; sourceTree = "<group>"; };
 		EA1B42B41FE8F6E8000B8EC4 /* TrainingCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TrainingCollectionViewCell.xib; sourceTree = "<group>"; };
@@ -139,6 +179,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EA12053D201714BB001B27D7 /* libc++.tbd in Frameworks */,
+				EA12053420171452001B27D7 /* IDLFaceSDK.framework in Frameworks */,
 				49D159789E2EA34D74E13ADE /* libPods-SecuritySystem.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -149,6 +191,7 @@
 		5343BD65CE98BF1B50E14F35 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				EA12053C201714BB001B27D7 /* libc++.tbd */,
 				05B644037ADAC2ABB80FF374 /* libPods-SecuritySystem.a */,
 			);
 			name = Frameworks;
@@ -161,6 +204,50 @@
 				7696A807ABE891A9169E3D38 /* Pods-SecuritySystem.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		EA12053020171413001B27D7 /* Thrid */ = {
+			isa = PBXGroup;
+			children = (
+				EA12053E20171668001B27D7 /* BadiduFaceVC */,
+				EA1205372017145D001B27D7 /* idl-license.face-ios */,
+				EA12053320171452001B27D7 /* com.baidu.idl.face.faceSDK.bundle */,
+				EA12053220171452001B27D7 /* com.baidu.idl.face.model.bundle */,
+				EA12053120171451001B27D7 /* IDLFaceSDK.framework */,
+			);
+			path = Thrid;
+			sourceTree = "<group>";
+		};
+		EA12053E20171668001B27D7 /* BadiduFaceVC */ = {
+			isa = PBXGroup;
+			children = (
+				EA120546201716CC001B27D7 /* CircleView.h */,
+				EA120542201716CC001B27D7 /* CircleView.m */,
+				EA120540201716CB001B27D7 /* DetectionViewController.h */,
+				EA12053F201716CB001B27D7 /* DetectionViewController.m */,
+				EA12054A201716CD001B27D7 /* FaceBaseViewController.h */,
+				EA120543201716CC001B27D7 /* FaceBaseViewController.m */,
+				EA120548201716CC001B27D7 /* LivenessViewController.h */,
+				EA120541201716CB001B27D7 /* LivenessViewController.m */,
+				EA120544201716CC001B27D7 /* LivingConfigViewController.h */,
+				EA120549201716CC001B27D7 /* LivingConfigViewController.m */,
+				EA120545201716CC001B27D7 /* RemindView.h */,
+				EA120547201716CC001B27D7 /* RemindView.m */,
+			);
+			path = BadiduFaceVC;
+			sourceTree = "<group>";
+		};
+		EA12055120171703001B27D7 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				EA12055820171717001B27D7 /* VideoCaptureDevice.h */,
+				EA12055920171717001B27D7 /* VideoCaptureDevice.m */,
+				EA1205562017170D001B27D7 /* LivingConfigModel.h */,
+				EA1205552017170D001B27D7 /* LivingConfigModel.m */,
+				EA12055220171703001B27D7 /* ImageUtils.m */,
+				EA12055320171703001B27D7 /* ImageUtils.h */,
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 		EA4C6FB31FE39FA900776E71 /* ViewControllers */ = {
@@ -297,11 +384,14 @@
 		EA50F5A81FE20DF4007D062A /* SecuritySystem */ = {
 			isa = PBXGroup;
 			children = (
+				EA12055120171703001B27D7 /* Utils */,
 				EA4DA7A51FFDFD1E00A0CDF5 /* Manager */,
 				EA4C6FB71FE39FED00776E71 /* Base */,
 				EA70CC721FF1E3480084A6DD /* Http */,
 				EA50F5A91FE20DF4007D062A /* AppDelegate.h */,
 				EA50F5AA1FE20DF4007D062A /* AppDelegate.m */,
+				EA12053920171480001B27D7 /* AppDelegate+baiduFace.h */,
+				EA12053A20171480001B27D7 /* AppDelegate+baiduFace.m */,
 				EA4C6FB31FE39FA900776E71 /* ViewControllers */,
 				EA50F5AC1FE20DF4007D062A /* ViewController.h */,
 				EA50F5AD1FE20DF4007D062A /* ViewController.m */,
@@ -309,6 +399,7 @@
 				EA50F5B21FE20DF4007D062A /* Assets.xcassets */,
 				EA50F5B41FE20DF4007D062A /* LaunchScreen.storyboard */,
 				EA50F5B71FE20DF4007D062A /* Info.plist */,
+				EA12053020171413001B27D7 /* Thrid */,
 				EA50F5B81FE20DF4007D062A /* main.m */,
 				EA4C6FC51FE3A4B600776E71 /* MacroDefinitions.h */,
 				EA4C6FC41FE3A4A800776E71 /* PrefixHeader.pch */,
@@ -388,6 +479,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EA12053620171452001B27D7 /* com.baidu.idl.face.faceSDK.bundle in Resources */,
 				EA4C6FC21FE3A33D00776E71 /* LoginViewController.xib in Resources */,
 				EA51DABA20074A22002A1D32 /* TeamManagerViewController.xib in Resources */,
 				EA555A691FE76BEE0047409B /* ChosePositionViewController.xib in Resources */,
@@ -395,7 +487,9 @@
 				EA51DABF20074AF0002A1D32 /* TeamManagerTableViewCell.xib in Resources */,
 				EA50F5B31FE20DF4007D062A /* Assets.xcassets in Resources */,
 				EA555A5C1FE759880047409B /* ChosePersonTableViewCell.xib in Resources */,
+				EA1205382017145D001B27D7 /* idl-license.face-ios in Resources */,
 				EA555A6E1FE791FB0047409B /* ChosePositionCell.xib in Resources */,
+				EA12053520171452001B27D7 /* com.baidu.idl.face.model.bundle in Resources */,
 				EA51DAC420074F43002A1D32 /* RegistrationViewController.xib in Resources */,
 				EA1B42B61FE8F6E8000B8EC4 /* TrainingCollectionViewCell.xib in Resources */,
 				EA50F5B11FE20DF4007D062A /* Main.storyboard in Resources */,
@@ -473,13 +567,19 @@
 				EA555A631FE765240047409B /* UploadTrainingViewController.m in Sources */,
 				EA50F5AE1FE20DF4007D062A /* ViewController.m in Sources */,
 				EA4C6FCE1FE3C2F000776E71 /* ChosePersonViewController.m in Sources */,
+				EA12054F201716CD001B27D7 /* RemindView.m in Sources */,
 				EA4DA7B61FFE1ED600A0CDF5 /* WKPicturePreviewVC.m in Sources */,
 				EA4C6FBD1FE3A31900776E71 /* BaseNavController.m in Sources */,
+				EA12054E201716CD001B27D7 /* FaceBaseViewController.m in Sources */,
 				EA1B42B51FE8F6E8000B8EC4 /* TrainingCollectionViewCell.m in Sources */,
+				EA12055A20171717001B27D7 /* VideoCaptureDevice.m in Sources */,
 				6C192EFE2008F4A700A21E1F /* UIImage+EasyExtend.m in Sources */,
+				EA12055420171703001B27D7 /* ImageUtils.m in Sources */,
 				EA4E47D71FF4C40C00C7CE39 /* OrgModel.m in Sources */,
+				EA12054D201716CD001B27D7 /* CircleView.m in Sources */,
 				EA4E47D41FF49E5100C7CE39 /* UserInfoModel.m in Sources */,
 				EA4E47D11FF49A3500C7CE39 /* SMGApiClient+http.m in Sources */,
+				EA12053B20171480001B27D7 /* AppDelegate+baiduFace.m in Sources */,
 				EA4C6FC11FE3A33D00776E71 /* LoginViewController.m in Sources */,
 				EA4C6FBA1FE3A2F800776E71 /* BaseViewController.m in Sources */,
 				EA70CC751FF1E3820084A6DD /* SMGApiClient.m in Sources */,
@@ -490,13 +590,17 @@
 				EA51DABE20074AF0002A1D32 /* TeamManagerTableViewCell.m in Sources */,
 				EA555A681FE76BEE0047409B /* ChosePositionViewController.m in Sources */,
 				EA555A5F1FE75D2E0047409B /* ChosePersonModel.m in Sources */,
+				EA120550201716CD001B27D7 /* LivingConfigViewController.m in Sources */,
 				EA1B42BD1FE91506000B8EC4 /* AttendanceViewController.m in Sources */,
+				EA12054C201716CD001B27D7 /* LivenessViewController.m in Sources */,
+				EA12054B201716CD001B27D7 /* DetectionViewController.m in Sources */,
 				EA50F5B91FE20DF4007D062A /* main.m in Sources */,
 				EA4DA7A81FFDFD2F00A0CDF5 /* WKLocationManager.m in Sources */,
 				EA50F5AB1FE20DF4007D062A /* AppDelegate.m in Sources */,
 				EA4DA7AB1FFE010600A0CDF5 /* LocationView.m in Sources */,
 				EA1E1607200C4678006D8F0A /* WKFileService.m in Sources */,
 				EA555A5B1FE759880047409B /* ChosePersonTableViewCell.m in Sources */,
+				EA1205572017170D001B27D7 /* LivingConfigModel.m in Sources */,
 				EA555A6D1FE791FB0047409B /* ChosePositionCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -634,6 +738,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 3LZ5AMJH8P;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/SecuritySystem/Thrid",
+				);
 				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = SecuritySystem/PrefixHeader.pch;
@@ -655,6 +763,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 3LZ5AMJH8P;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/SecuritySystem/Thrid",
+				);
 				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = SecuritySystem/PrefixHeader.pch;
