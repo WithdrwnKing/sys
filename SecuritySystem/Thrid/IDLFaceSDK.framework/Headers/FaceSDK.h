@@ -95,7 +95,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  init with authorization api key,this method should be called before any other instance methods
  *
  *
- *  @param apiKey: authorized api key
+ *  @param licenseId authorized api key
  *
  *  @param localLicencePath localLicensePath
  */

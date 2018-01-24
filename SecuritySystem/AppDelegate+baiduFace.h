@@ -9,5 +9,9 @@
 #import "AppDelegate.h"
 
 @interface AppDelegate (baiduFace)
+
+/**
+ @brief 开启百度人脸识别功能
+ */
 - (void)startBaiduFace;
 @end

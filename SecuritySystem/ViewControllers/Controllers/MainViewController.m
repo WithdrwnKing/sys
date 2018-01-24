@@ -105,13 +105,16 @@
     
     [_myScrollView addSubview:headView];
 
-    NSArray *titleArray = @[@"上岗考勤",@"训练上传",@"脸项登记",@"工作汇报"];
-    NSArray *imageArray = @[ImageNamed(@"ca_btn01"),ImageNamed(@"ca_btn02"),ImageNamed(@"ca_btn06"),ImageNamed(@"ca_btn03")];
-    CGFloat width = (SCREEN_WIDTH-FitScreenWidth(70)*3)/2;
-    for (int i = 0; i<4; i++) {
+    NSArray *titleArray = @[@"脸项登记",@"上岗考勤",@"训练上传",@"工作汇报",@"信息查看",@"客户回访"];
+    NSArray *imageArray = @[ImageNamed(@"ca_btn06"),ImageNamed(@"ca_btn01"),ImageNamed(@"ca_btn02"),ImageNamed(@"ca_btn03"),ImageNamed(@"ca_btn05"),ImageNamed(@"ca_btn08")];
+    
+    int row = 3;
+    CGFloat spacing = FitScreenWidth(20);
+    CGFloat width = (SCREEN_WIDTH-FitScreenWidth(20)*(row+1))/row;
+    for (int i = 0; i<titleArray.count; i++) {
         UIButton *btn = [UIButton new];
         btn.tag = 100+i;
-        btn.frame = CGRectMake(FitScreenWidth(70) + i%2*(width+FitScreenWidth(70)), headView.bottom + 50 + i/2*(width+55) , width, width);
+        btn.frame = CGRectMake(spacing + i%row*(width+spacing), headView.bottom + 50 + i/row*(width+55) , width, width);
         [btn setImage:imageArray[i] forState:UIControlStateNormal];
         [btn addTarget:self action:@selector(btnClicked:) forControlEvents:UIControlEventTouchUpInside];
         btn.backgroundColor = WhiteColor;
@@ -246,7 +249,11 @@
 - (void)btnClicked:(UIButton *)sender{
     switch (sender.tag) {
         case 100:{
-            
+            TeamManagerViewController *vc = [TeamManagerViewController new];
+            [self.navigationController pushViewController:vc animated:YES];
+            break;
+        }
+        case 101:{
             if (![CURRENTUSER.infoModel.orgAddress isNotEmpty]||![CURRENTUSER.infoModel.Longitude isNotEmpty]||![CURRENTUSER.infoModel.Dimension isNotEmpty]) {
                 [self startLocation:YES];
                 return;
@@ -256,16 +263,13 @@
             vc.orgId = CURRENTUSER.infoModel.orgId;
             vc.orgName = CURRENTUSER.infoModel.orgName;
             [self.navigationController pushViewController:vc animated:YES];
-            break;
-        }
-        case 101:{
-            ChosePositionViewController *vc = [ChosePositionViewController new];
-            [self.navigationController pushViewController:vc animated:YES];
+           
             break;
         }
         case 102:{
-            TeamManagerViewController *vc = [TeamManagerViewController new];
+            ChosePositionViewController *vc = [ChosePositionViewController new];
             [self.navigationController pushViewController:vc animated:YES];
+            
             break;
         }
         case 103:{

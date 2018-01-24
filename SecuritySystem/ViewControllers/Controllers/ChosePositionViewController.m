@@ -99,6 +99,12 @@
             [orgArr addObject:model.orgId];
         }
     }
+    
+    if (orgArr.count>1) {
+        ShowToastAtTop(@"每次只能选择一个大队");
+        return;
+    }
+    
     if (isPush) {
         UploadTrainingViewController *vc = [UploadTrainingViewController new];
         vc.orgIdStr = [orgArr componentsJoinedByString:@","];
