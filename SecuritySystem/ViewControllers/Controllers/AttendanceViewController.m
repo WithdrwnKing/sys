@@ -6,26 +6,30 @@
 //  Copyright © 2017年 wangkun. All rights reserved.
 //
 
+#define ActionViewTag       12345
+
 #import "AttendanceViewController.h"
-#import "TrainingCollectionViewCell.h"
+#import "AttenddanceCollectionViewCell.h"
 #import "ChosePersonModel.h"
 #import <ZLCustomCamera.h>
 #import "WKPicturePreviewVC.h"
 #import "WKLocationManager.h"
 #import <MAMapKit/MAMapKit.h>
 #import "LocationView.h"
+#import "DetectionViewController.h"
+#import "AttendanceModel.h"
 
 static NSString *cellIdentifier = @"AttendanceCell";
 @interface AttendanceViewController ()<UICollectionViewDelegate,UICollectionViewDataSource,YYTextViewDelegate,UITextFieldDelegate>{
     CGFloat moveHeight;
 }
 @property (nonatomic, strong) UIScrollView *scrollView;
-@property (nonatomic, strong) UIView *nameView;
 @property (nonatomic, strong) UIView *remakView;
 @property (nonatomic, strong) UIButton *selectPhotoBtn;
 @property (nonatomic, strong) UIButton *selectTypeBtn;
+@property (nonatomic, strong) UIButton *commitBtn;
 @property (nonatomic, strong) UICollectionView *collectionView;
-@property (nonatomic, strong) NSMutableArray *selectImageArr;
+@property (nonatomic, strong) NSMutableArray <AttendanceModel *>*attendModelArr;
 @property (nonatomic, strong) YYTextView *textView;
 @property (nonatomic, copy) NSArray *attendanceArray;
 @property (nonatomic, assign) CLLocationCoordinate2D location;
@@ -72,7 +76,17 @@ static NSString *cellIdentifier = @"AttendanceCell";
 
 /* 加载上岗类型 */
 - (void)loadCategoryID{
-    [[SMGApiClient sharedClient] dictWithCategoryID:@"11" andCompletion:^(NSURLSessionDataTask *task, NSDictionary *aResponse, NSError *anError) {
+    
+    for (ChosePersonModel *obj in self.selectArray) {
+        AttendanceModel *model = [[AttendanceModel alloc] init];
+        model.staffID = obj.userId;
+        model.contrastImage = @"";
+        model.status = @"";
+        model.nickName = obj.nickName;
+        [self.attendModelArr addObject:model];
+    }
+    
+    [[SMGApiClient sharedClient] getTypeOfWorkAndCompletion:^(NSURLSessionDataTask *task, NSDictionary *aResponse, NSError *anError) {
         if (aResponse) {
             self.attendanceArray = (NSArray *)aResponse;
         }
@@ -127,32 +141,7 @@ static NSString *cellIdentifier = @"AttendanceCell";
     [self.scrollView addSubview:photoLbl];
     [self.scrollView addSubview:self.collectionView];
     
-    _nameView = [[UIView alloc] initWithFrame:CGRectMake(0, self.collectionView.bottom, SCREEN_WIDTH, 10)];
-    [self.scrollView addSubview:_nameView];
-    
-    CGFloat width = (SCREEN_WIDTH-20)/3;
-    for (int i = 0; i < self.selectArray.count; i++) {
-        ChosePersonModel *model = self.selectArray[i];
-        model.isSelected = NO;
-        UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-        btn.frame = CGRectMake(10+width*(i%3), 20+40*(i/3), width, 20);
-        [btn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
-        [btn setImage:[UIImage imageNamed:@"ca_right"] forState:UIControlStateSelected];
-         [btn setImage:[UIImage imageNamed:@"ca_error"] forState:UIControlStateNormal];
-        [btn setTitle:model.nickName forState:UIControlStateNormal];
-        btn.titleLabel.backgroundColor = btn.imageView.backgroundColor;
-        [btn setTitleEdgeInsets:UIEdgeInsetsMake(0, - btn.imageView.image.size.width, 0, btn.imageView.image.size.width)];
-        [btn setImageEdgeInsets:UIEdgeInsetsMake(0, btn.titleLabel.bounds.size.width+20, 0, -btn.titleLabel.bounds.size.width)];
-        btn.selected = model.isSelected;
-        btn.tag = 100 + [model.userId integerValue];
-        [self.nameView addSubview:btn];
-        
-        if (i == self.selectArray.count-1) {
-            self.nameView.height = btn.bottom;
-        }
-    }
-    
-    _remakView = [[UIView alloc] initWithFrame:CGRectMake(0, self.nameView.bottom, SCREEN_WIDTH, 135+28)];
+    _remakView = [[UIView alloc] initWithFrame:CGRectMake(0, self.collectionView.bottom, SCREEN_WIDTH, 135+28)];
     [self.scrollView addSubview:_remakView];
     
     UILabel *remarkLbl = [[UILabel alloc] initWithFrame:CGRectMake(20, 28, 100, 20)];
@@ -173,20 +162,27 @@ static NSString *cellIdentifier = @"AttendanceCell";
     [submitBtn setTitle:@"提交" forState:UIControlStateNormal];
     [submitBtn setTitleColor:WhiteColor forState:UIControlStateNormal];
     submitBtn.titleLabel.font = font(13);
-    submitBtn.frame = CGRectMake(0, SCREEN_HEIGHT-45-kTopHeight, 140, 36);
-    submitBtn.centerX = self.view.centerX;
-    [submitBtn addTarget:self action:@selector(sumitData) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:submitBtn];
+    submitBtn.frame = CGRectMake(0, _remakView.bottom+30, 140, 36);
+    submitBtn.centerX = SCREEN_WIDTH/2;
+    [submitBtn addTarget:self action:@selector(sumitNext) forControlEvents:UIControlEventTouchUpInside];
+    [self.scrollView addSubview:submitBtn];
     ViewBorderRadius(submitBtn, 5, 0, WhiteColor);
+    self.commitBtn = submitBtn;
     
-    self.scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, self.remakView.bottom);
+    self.scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, self.commitBtn.bottom+20);
 }
 
 - (void)showActionVC:(UIButton *)sender {
     
+    if (VIEWWITHTAG(self.view, ActionViewTag)) {
+        [VIEWWITHTAG(self.view, ActionViewTag) removeFromSuperview];
+        return;
+    }
+    
     UIView *actionView = [UIView new];
     actionView.frame = CGRectMake(self.selectTypeBtn.left, self.selectTypeBtn.bottom, self.selectTypeBtn.width, 25*self.attendanceArray.count);
     actionView.backgroundColor = WhiteColor;
+    actionView.tag = ActionViewTag;
     [self.scrollView addSubview:actionView];
     ViewBorderRadius(actionView, 5, 1, SEPARATOR_LINE_COLOR);
     WeaklySelf(weakSelf);
@@ -213,17 +209,6 @@ static NSString *cellIdentifier = @"AttendanceCell";
         [actionView addSubview:line];
     }
 }
-/**
- @brief 置空所有考勤人员按钮
- */
-- (void)resetSlectPerson {
-    for (int i = 0; i < self.selectArray.count; i++) {
-        ChosePersonModel *model = self.selectArray[i];
-        model.isSelected = NO;
-        UIButton *btn = VIEWWITHTAG(self.view, [model.userId integerValue]+100);
-        btn.selected = model.isSelected;
-    }
-}
 
 /**
  @brief 判断考勤上传条件
@@ -233,9 +218,11 @@ static NSString *cellIdentifier = @"AttendanceCell";
         ShowToastAtTop(@"请选择上岗类型");
         return NO;
     }
-    if (self.selectImageArr.count<1) {
-        ShowToastAtTop(@"请拍照进行人脸识别");
-        return NO;
+    for (AttendanceModel *modelObj in self.attendModelArr) {
+        if (![modelObj.contrastImage isNotEmpty]) {
+            ShowToastAtTop(@"存在未识别人员");
+            return NO;
+        }
     }
 
     if (![self.address isNotEmpty]) {
@@ -264,56 +251,29 @@ static NSString *cellIdentifier = @"AttendanceCell";
 }
 
 /**
- @brief 判断考勤人员
+ @brief 上传考勤信息
  */
-- (void)sumitNext:(NSString *)staffID status:(NSString *)status contrastImage:(NSString *)contrastImage failName:(NSString *)failName failStaffID:(NSString *)failStaffID failStatus:(NSString *)failStatus failContrastImage:(NSString *)failContrastImage{
-   
-    NSArray *staffArr = [staffID componentsSeparatedByString:@","];
-    for (int i = 0; i < staffArr.count; i++) {
-        NSInteger tag = [staffArr[i] integerValue]+100;
-        UIButton *btn = VIEWWITHTAG(self.view, tag);
-        btn.selected = YES;
-        for (ChosePersonModel *obj in self.selectArray) {
-            obj.isSelected = YES;
-        }
-    }
+- (void)uploadAttendanceInfo {
     
-    if (staffArr.count==self.selectArray.count) {
-        [self sumitEnd:staffID status:status contrastImage:contrastImage upload:1 failstaffID:failStaffID failStatus:failStatus failContrastImage:failContrastImage];
-    }else{
-        NSArray *nameArr = [failName componentsSeparatedByString:@","];
-        LocationView *view = [[LocationView alloc] initWithFrame:kKeywindow.bounds];
-        view.hintStr = [NSString stringWithFormat:@"%@识别失败，是否上传%@的考勤信息？",failName,nameArr.count==1?@"他":@"他们"];
-        view.confirmStr = @"确定";
-        @weakify(self);
-        [view.cancelSignal subscribeNext:^(id  _Nullable x) {
-            @strongify(self);
-            [self sumitEnd:staffID status:status contrastImage:contrastImage upload:0 failstaffID:failStaffID failStatus:failStatus failContrastImage:failContrastImage];
-        }];
-        
-        [view.loactionSignal subscribeNext:^(id  _Nullable x) {
-            @strongify(self);
-            [view removeFromSuperview];
-            [self sumitEnd:staffID status:status contrastImage:contrastImage upload:1 failstaffID:failStaffID failStatus:failStatus failContrastImage:failContrastImage];
-        }];
-        [kKeywindow addSubview:view];
-    }
-    
-}
-
-/**
- @brief 提交考勤信息
- */
-- (void)sumitEnd:(NSString *)staffID status:(NSString *)status contrastImage:(NSString *)contrastImage upload:(NSInteger )upload failstaffID:(NSString *)failstaffID failStatus:(NSString *)failStatus failContrastImage:(NSString *)failContrastImage{
     WeaklySelf(weakSelf);
     NSString *typeStr;
+    NSMutableArray *staffTemArr = [NSMutableArray array];
+    NSMutableArray *statusTemArr = [NSMutableArray array];
+    NSMutableArray *contrastImageTemArr = [NSMutableArray array];
     for (NSDictionary *dict in self.attendanceArray) {
         NSString *type = dict[@"Name"];
         if ([type isEqualToString:self.selectTypeBtn.titleLabel.text]) {
             typeStr = dict[@"ID"];
         }
     }
-    [[SMGApiClient sharedClient] submitCheckingWithOrgID:CURRENTUSER.infoModel.orgId Address:self.address Type:typeStr Remark:self.textView.text StaffID:staffID ContrastImage:contrastImage Status:status  upload:upload failStaffID:failstaffID failStatus:failStatus failContrastImage:failContrastImage andCompletion:^(NSURLSessionDataTask *task, NSDictionary *aResponse, NSError *anError) {
+    
+    for (AttendanceModel *obj in self.attendModelArr) {
+        [staffTemArr addObject:obj.staffID];
+        [statusTemArr addObject:obj.status];
+        [contrastImageTemArr addObject:obj.contrastImage];
+    }
+    
+    [[SMGApiClient sharedClient] submitCheckingWithOrgID:CURRENTUSER.infoModel.orgId Address:self.address Type:typeStr Remark:self.textView.text StaffID:[staffTemArr componentsJoinedByString:@","] ContrastImage:[contrastImageTemArr componentsJoinedByString:@","] Status:[statusTemArr componentsJoinedByString:@","] andCompletion:^(NSURLSessionDataTask *task, NSDictionary *aResponse, NSError *anError) {
         [SVProgressHUD dismiss];
         if (aResponse) {
             ShowToastAtTop(@"考勤信息已提交成功");
@@ -323,35 +283,78 @@ static NSString *cellIdentifier = @"AttendanceCell";
         }
     }];
 }
+
+
 /**
- @brief 人脸识别
+ @brief 判断考勤人员
  */
-- (void)sumitData {
+- (void)sumitNext{
+   
     if (![self judgeSumit]) {
         return;
     }
-
-    [self resetSlectPerson];
     
-    NSMutableArray *staffIDArr = [NSMutableArray array];
-    for (ChosePersonModel *obj in self.selectArray) {
-        [staffIDArr addObject:obj.userId];
+    NSMutableArray *nameArray = [NSMutableArray array];
+    for (AttendanceModel *modelObj in self.attendModelArr) {
+        if ([modelObj.status integerValue] == 0) {
+            [nameArray addObject:modelObj.nickName];
+        }
+    }
+    if (nameArray.count==0) {
+        [self uploadAttendanceInfo];
+    }else{
+        LocationView *view = [[LocationView alloc] initWithFrame:kKeywindow.bounds];
+        view.hintStr = [NSString stringWithFormat:@"%@未识别成功，是否要提交？",[nameArray componentsJoinedByString:@","]];
+        view.confirmStr = @"确定";
+        @weakify(self);
+        [view.cancelSignal subscribeNext:^(id  _Nullable x) {
+            [view removeFromSuperview];
+        }];
+        
+        [view.loactionSignal subscribeNext:^(id  _Nullable x) {
+            @strongify(self);
+            [view removeFromSuperview];
+            [self uploadAttendanceInfo];
+        }];
+        [kKeywindow addSubview:view];
     }
     
+}
+/**
+ @brief 人脸识别
+ */
+- (void)sumitData:(UIImage *)image staffID:(NSString *)staffID cell:(AttenddanceCollectionViewCell *)cell{
+    if (!image) {
+        return;
+    }
     [SVProgressHUD showWithStatus:@"正在识别考勤人员"];
-    WeaklySelf(weakSelf);
-    [[SMGApiClient sharedClient] faceRecognitionWithStaffID:[staffIDArr componentsJoinedByString:@","] fileData:UIImagePNGRepresentation([_selectImageArr firstObject]) andCompletion:^(NSURLSessionDataTask *task, NSDictionary *aResponse, NSError *anError) {
+    [[SMGApiClient sharedClient] faceRecognitionWithStaffID:staffID fileData:UIImagePNGRepresentation(image) andCompletion:^(NSURLSessionDataTask *task, NSDictionary *aResponse, NSError *anError) {
         [SVProgressHUD dismiss];
         if (aResponse) {
             NSString *Status  = [[aResponse objectForKey:@"Status"] asNSString];
             NSString *StaffID = [[aResponse objectForKey:@"StaffID"] asNSString];
             NSString *ContrastImage = [[aResponse objectForKey:@"ContrastImage"] asNSString];
-            NSString *failStaffID = [[aResponse objectForKey:@"failStaffID"] asNSString];
-            NSString *failName = [[aResponse objectForKey:@"failName"] asNSString];
-            NSString *failStatus = [[aResponse objectForKey:@"failStatus"] asNSString];
-            NSString *failContrastImage = [[aResponse objectForKey:@"failContrastImage"] asNSString];
-            ShowToastAtTop(@"识别成功");
-            [weakSelf sumitNext:StaffID status:Status contrastImage:ContrastImage failName:failName failStaffID:failStaffID failStatus:failStatus failContrastImage:failContrastImage];
+            for (ChosePersonModel *obj in self.selectArray) {
+                if ([obj.userId isEqualToString:StaffID]) {
+                    obj.isSelected = [Status integerValue];
+                }
+            }
+            
+            for (AttendanceModel *model in self.attendModelArr) {
+                if ([model.staffID isEqualToString:StaffID]) {
+                    model.contrastImage = ContrastImage;
+                    model.status = Status;
+                }
+            }
+            
+            cell.nameBtn.enabled = [Status integerValue];
+            if ([Status integerValue] == 1) {
+                ShowToastAtTop(@"人脸识别成功");
+                cell.imageView.image = image;
+            }else{
+                ShowToastAtTop(@"人脸识别失败");
+                cell.imageView.image = ImageNamed(@"ca_head");
+            }
         }else{
             ShowToastAtTop(@"人脸识别失败");
         }
@@ -363,7 +366,7 @@ static NSString *cellIdentifier = @"AttendanceCell";
     CGFloat width = SCREEN_WIDTH - 20;
     width = width/3 - 10;
     CGFloat collectHeight = width + 5;
-    NSInteger count = self.selectImageArr.count - 2;
+    NSInteger count = self.selectImageArr.count - 3;
     if (count > 0) {
         NSInteger row = count/3 + 2;
         if (count%3 == 0) {
@@ -373,17 +376,14 @@ static NSString *cellIdentifier = @"AttendanceCell";
     }else{
         self.collectionView.height = collectHeight;
     }
-    self.nameView.top = self.collectionView.bottom;
-    self.remakView.top = self.nameView.bottom;
-    self.scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, self.remakView.bottom);
+    self.remakView.top = self.collectionView.bottom;
+    self.commitBtn.top = self.remakView.bottom+30;
+    self.scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, self.commitBtn.bottom+20);
 
 }
 
 - (void)upImageClicked{
-    if (self.selectImageArr.count >1) {
-        ShowToastAtTop(@"照片为集体照仅限一张");
-        return;
-    }
+
     WeaklySelf(weakSelf);
     ZLCustomCamera *vc = [[ZLCustomCamera alloc] init];
     vc.allowRecordVideo = NO;
@@ -420,29 +420,14 @@ static NSString *cellIdentifier = @"AttendanceCell";
 
 #pragma mark - UICollectionViewDataSource
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    return self.selectImageArr.count+1;
+    return self.selectArray.count;
 }
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
-    TrainingCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
-    if (indexPath.row == 0) {
-        cell.imageView.image = ImageNamed(@"ca_photo");
-        cell.imageView.contentMode = UIViewContentModeCenter;
-        cell.deleteBtn.hidden = YES;
-        ViewBorderRadius(cell.imageView, 0, .5, SEPARATOR_LINE_COLOR);
-    }else{
-        cell.deleteBtn.hidden = NO;
-        cell.imageView.image = self.selectImageArr[indexPath.row-1];
-        cell.imageView.contentMode = UIViewContentModeScaleToFill;
-        @weakify(self);
-        cell.deleteBtn.rac_command = [[RACCommand alloc] initWithSignalBlock:^RACSignal * _Nonnull(id  _Nullable input) {
-            @strongify(self);
-            [self.selectImageArr removeObjectAtIndex:indexPath.row-1];
-            [self reloadUI];
-            [self.collectionView reloadData];
-            return [RACSignal empty];
-        }];
-        ViewBorderRadius(cell.imageView, 3, 0, SEPARATOR_LINE_COLOR);
-    }
+    AttenddanceCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
+    ChosePersonModel *model = self.selectArray[indexPath.row];
+    [cell.nameBtn setTitle:model.nickName forState:UIControlStateNormal];
+    cell.nameBtn.enabled = model.isSelected;
+    [self btnRightImage:cell.nameBtn];
     return cell;
 }
 #pragma mark - UICollectionViewDelegate
@@ -452,14 +437,21 @@ static NSString *cellIdentifier = @"AttendanceCell";
     return UIEdgeInsetsMake(0, 0, 0, 0);
 }
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.row == 0) {
-        [self upImageClicked];
-    }else{
-        WKPicturePreviewVC *vc = [WKPicturePreviewVC new];
-        vc.imageList = self.selectImageArr.copy;
-        vc.selectIndex = indexPath.row-1;
-        [self presentViewController:vc animated:YES completion:nil];
-    }
+    WeaklySelf(weakSelf);
+    ChosePersonModel *model = self.selectArray[indexPath.row];
+    AttenddanceCollectionViewCell *cell = (AttenddanceCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
+    DetectionViewController *vc = [DetectionViewController new];
+    vc.imageBlock = ^(UIImage *image) {
+        [weakSelf sumitData:image staffID:model.userId cell:cell];
+    };
+    [self presentViewController:vc animated:YES completion:nil];
+    
+}
+
+- (void)btnRightImage:(UIButton *)btn{
+    btn.titleLabel.backgroundColor = btn.imageView.backgroundColor;
+    [btn setTitleEdgeInsets:UIEdgeInsetsMake(0, - btn.imageView.image.size.width, 0, btn.imageView.image.size.width)];
+    [btn setImageEdgeInsets:UIEdgeInsetsMake(0, btn.titleLabel.bounds.size.width+20, 0, -btn.titleLabel.bounds.size.width)];    
 }
 
 #pragma mark - lazyLoading
@@ -473,23 +465,40 @@ static NSString *cellIdentifier = @"AttendanceCell";
     if (!_collectionView) {
         CGFloat width = SCREEN_WIDTH - 20;
         width = width/3 - 10;
+        
+        CGFloat height = (width+35);
+        NSInteger count = self.selectArray.count - 3;
+        if (count > 0) {
+            NSInteger row = count/3 + 2;
+            if (count%3 == 0) {
+                row--;
+            }
+            height = (width+35) * row ;
+        }
+        
         UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
         [layout setScrollDirection:UICollectionViewScrollDirectionVertical];
-        layout.itemSize = CGSizeMake(width, width);
+        layout.itemSize = CGSizeMake(width, width+30);
         CGFloat top = 88.f + 5.f;
-        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(10, top, SCREEN_WIDTH-20, width+5) collectionViewLayout:layout];
+        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(10, top, SCREEN_WIDTH-20, height) collectionViewLayout:layout];
         _collectionView.delegate = self;
         _collectionView.dataSource = self;
         _collectionView.backgroundColor = WhiteColor;
         _collectionView.scrollEnabled = NO;
-        [_collectionView registerNib:[UINib nibWithNibName:@"TrainingCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:cellIdentifier];
+        [_collectionView registerNib:[UINib nibWithNibName:@"AttenddanceCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:cellIdentifier];
     }
     return _collectionView;
 }
 - (NSMutableArray *)selectImageArr{
-    if (!_selectImageArr) {
-        _selectImageArr = [NSMutableArray array];
+    if (!_attendModelArr) {
+        _attendModelArr = [NSMutableArray array];
     }
-    return _selectImageArr;
+    return _attendModelArr;
+}
+- (NSMutableArray<AttendanceModel *> *)attendModelArr{
+    if (!_attendModelArr) {
+        _attendModelArr = [NSMutableArray array];
+    }
+    return _attendModelArr;
 }
 @end

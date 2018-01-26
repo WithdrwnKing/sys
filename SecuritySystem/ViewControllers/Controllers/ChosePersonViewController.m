@@ -23,6 +23,9 @@ static NSString *cellIdentifier = @"ChosePersonCell";
 - (void)viewWillAppear:(BOOL)animated{
     self.navigationController.navigationBar.hidden = NO;
     _allChoseBtn.selected = NO;
+    for (ChosePersonModel *model in self.modelArray) {
+        model.isSelected = NO;
+    }
     [self.myTableView reloadData];
 }
 
@@ -128,6 +131,10 @@ static NSString *cellIdentifier = @"ChosePersonCell";
                 if (model.isSelected == YES) {
                     isPush = YES;
                     [selectArr addObject:model];
+                    if (isPush) {
+                        // 取消当前选择
+                        model.isSelected = NO;
+                    }
                 }
             }
             if (isPush) {

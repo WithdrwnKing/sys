@@ -16,6 +16,7 @@
 #import "WKLocationManager.h"
 #import "WKFileService.h"
 #import "LocationView.h"
+#import "CustomerVisitsViewController.h"
 
 @interface MainViewController ()
 @property (nonatomic, strong) UIScrollView *myScrollView;
@@ -267,7 +268,8 @@
             break;
         }
         case 102:{
-            ChosePositionViewController *vc = [ChosePositionViewController new];
+            UploadTrainingViewController *vc = [UploadTrainingViewController new];
+            vc.orgIdStr = CURRENTUSER.infoModel.orgId;
             [self.navigationController pushViewController:vc animated:YES];
             
             break;
@@ -276,7 +278,15 @@
            
             break;
         }
-        
+        case 104:{
+            break;
+        }
+        case 105:{
+            CustomerVisitsViewController *vc = [CustomerVisitsViewController new];
+            [self.navigationController pushViewController:vc animated:YES];
+            break;
+        }
+       
         case 1024:{
             [CURRENTUSER logout];
             self.navigationController.rootViewController = [LoginViewController new];

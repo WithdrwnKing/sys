@@ -24,6 +24,10 @@
 		EA12055420171703001B27D7 /* ImageUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = EA12055220171703001B27D7 /* ImageUtils.m */; };
 		EA1205572017170D001B27D7 /* LivingConfigModel.m in Sources */ = {isa = PBXBuildFile; fileRef = EA1205552017170D001B27D7 /* LivingConfigModel.m */; };
 		EA12055A20171717001B27D7 /* VideoCaptureDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = EA12055920171717001B27D7 /* VideoCaptureDevice.m */; };
+		EA191866201B08FD00317631 /* AttenddanceCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EA191864201B08FD00317631 /* AttenddanceCollectionViewCell.m */; };
+		EA191867201B08FD00317631 /* AttenddanceCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EA191865201B08FD00317631 /* AttenddanceCollectionViewCell.xib */; };
+		EA19186A201B16D300317631 /* AttendanceModel.m in Sources */ = {isa = PBXBuildFile; fileRef = EA191869201B16D300317631 /* AttendanceModel.m */; };
+		EA19186D201B238400317631 /* CustomerVisitsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EA19186C201B238400317631 /* CustomerVisitsViewController.m */; };
 		EA1B42B51FE8F6E8000B8EC4 /* TrainingCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EA1B42B31FE8F6E8000B8EC4 /* TrainingCollectionViewCell.m */; };
 		EA1B42B61FE8F6E8000B8EC4 /* TrainingCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EA1B42B41FE8F6E8000B8EC4 /* TrainingCollectionViewCell.xib */; };
 		EA1B42BD1FE91506000B8EC4 /* AttendanceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EA1B42BB1FE91506000B8EC4 /* AttendanceViewController.m */; };
@@ -98,6 +102,13 @@
 		EA1205562017170D001B27D7 /* LivingConfigModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LivingConfigModel.h; sourceTree = "<group>"; };
 		EA12055820171717001B27D7 /* VideoCaptureDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoCaptureDevice.h; sourceTree = "<group>"; };
 		EA12055920171717001B27D7 /* VideoCaptureDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoCaptureDevice.m; sourceTree = "<group>"; };
+		EA191863201B08FD00317631 /* AttenddanceCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AttenddanceCollectionViewCell.h; sourceTree = "<group>"; };
+		EA191864201B08FD00317631 /* AttenddanceCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AttenddanceCollectionViewCell.m; sourceTree = "<group>"; };
+		EA191865201B08FD00317631 /* AttenddanceCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AttenddanceCollectionViewCell.xib; sourceTree = "<group>"; };
+		EA191868201B16D300317631 /* AttendanceModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AttendanceModel.h; sourceTree = "<group>"; };
+		EA191869201B16D300317631 /* AttendanceModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AttendanceModel.m; sourceTree = "<group>"; };
+		EA19186B201B238400317631 /* CustomerVisitsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomerVisitsViewController.h; sourceTree = "<group>"; };
+		EA19186C201B238400317631 /* CustomerVisitsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomerVisitsViewController.m; sourceTree = "<group>"; };
 		EA1B42B21FE8F6E8000B8EC4 /* TrainingCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TrainingCollectionViewCell.h; sourceTree = "<group>"; };
 		EA1B42B31FE8F6E8000B8EC4 /* TrainingCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TrainingCollectionViewCell.m; sourceTree = "<group>"; };
 		EA1B42B41FE8F6E8000B8EC4 /* TrainingCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TrainingCollectionViewCell.xib; sourceTree = "<group>"; };
@@ -270,6 +281,8 @@
 				EA4E47D31FF49E5100C7CE39 /* UserInfoModel.m */,
 				EA4E47D51FF4C40C00C7CE39 /* OrgModel.h */,
 				EA4E47D61FF4C40C00C7CE39 /* OrgModel.m */,
+				EA191868201B16D300317631 /* AttendanceModel.h */,
+				EA191869201B16D300317631 /* AttendanceModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -291,6 +304,9 @@
 				EA51DABB20074AF0002A1D32 /* TeamManagerTableViewCell.h */,
 				EA51DABC20074AF0002A1D32 /* TeamManagerTableViewCell.m */,
 				EA51DABD20074AF0002A1D32 /* TeamManagerTableViewCell.xib */,
+				EA191863201B08FD00317631 /* AttenddanceCollectionViewCell.h */,
+				EA191864201B08FD00317631 /* AttenddanceCollectionViewCell.m */,
+				EA191865201B08FD00317631 /* AttenddanceCollectionViewCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -318,6 +334,8 @@
 				EA51DAC020074F43002A1D32 /* RegistrationViewController.h */,
 				EA51DAC120074F43002A1D32 /* RegistrationViewController.m */,
 				EA51DAC220074F43002A1D32 /* RegistrationViewController.xib */,
+				EA19186B201B238400317631 /* CustomerVisitsViewController.h */,
+				EA19186C201B238400317631 /* CustomerVisitsViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -492,6 +510,7 @@
 				EA12053520171452001B27D7 /* com.baidu.idl.face.model.bundle in Resources */,
 				EA51DAC420074F43002A1D32 /* RegistrationViewController.xib in Resources */,
 				EA1B42B61FE8F6E8000B8EC4 /* TrainingCollectionViewCell.xib in Resources */,
+				EA191867201B08FD00317631 /* AttenddanceCollectionViewCell.xib in Resources */,
 				EA50F5B11FE20DF4007D062A /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -569,6 +588,7 @@
 				EA4C6FCE1FE3C2F000776E71 /* ChosePersonViewController.m in Sources */,
 				EA12054F201716CD001B27D7 /* RemindView.m in Sources */,
 				EA4DA7B61FFE1ED600A0CDF5 /* WKPicturePreviewVC.m in Sources */,
+				EA19186D201B238400317631 /* CustomerVisitsViewController.m in Sources */,
 				EA4C6FBD1FE3A31900776E71 /* BaseNavController.m in Sources */,
 				EA12054E201716CD001B27D7 /* FaceBaseViewController.m in Sources */,
 				EA1B42B51FE8F6E8000B8EC4 /* TrainingCollectionViewCell.m in Sources */,
@@ -584,6 +604,7 @@
 				EA4C6FBA1FE3A2F800776E71 /* BaseViewController.m in Sources */,
 				EA70CC751FF1E3820084A6DD /* SMGApiClient.m in Sources */,
 				EA4C6FC81FE3B63600776E71 /* MainViewController.m in Sources */,
+				EA19186A201B16D300317631 /* AttendanceModel.m in Sources */,
 				EA70CC781FF1E7430084A6DD /* UserManager.m in Sources */,
 				EA1BE7851FFCD34800C3F674 /* NSObject+EasyExtend.m in Sources */,
 				EA51DAC320074F43002A1D32 /* RegistrationViewController.m in Sources */,
@@ -595,6 +616,7 @@
 				EA12054C201716CD001B27D7 /* LivenessViewController.m in Sources */,
 				EA12054B201716CD001B27D7 /* DetectionViewController.m in Sources */,
 				EA50F5B91FE20DF4007D062A /* main.m in Sources */,
+				EA191866201B08FD00317631 /* AttenddanceCollectionViewCell.m in Sources */,
 				EA4DA7A81FFDFD2F00A0CDF5 /* WKLocationManager.m in Sources */,
 				EA50F5AB1FE20DF4007D062A /* AppDelegate.m in Sources */,
 				EA4DA7AB1FFE010600A0CDF5 /* LocationView.m in Sources */,

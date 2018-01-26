@@ -314,7 +314,7 @@
         dispatch_group_async(group, concurrentQueue, ^{
             [[SMGApiClient sharedClient] postPath:@"UploadBigfile.ashx" withVideo:[NSData dataWithContentsOfFile:videoUrl] parameters:nil completion:^(NSURLSessionDataTask *task, NSDictionary *aResponse, NSError *anError) {
                 if (aResponse) {
-                    [weakSelf.uploadVideoArr addObject:aResponse[@"videoUrl"]];
+                    [weakSelf.uploadVideoArr addObject:aResponse[@"imageUrl"]];
                     [weakSelf.uploadSimgArr addObject:aResponse[@"Surl"]];
                     [weakSelf.uploadImgArr addObject:@"\"\""];
                     [weakSelf.classIdArr addObject:aResponse[@"ClassId"]];

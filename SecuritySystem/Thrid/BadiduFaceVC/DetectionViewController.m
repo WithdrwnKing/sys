@@ -65,6 +65,11 @@
                     NSData* data = [[NSData alloc] initWithBase64EncodedString:[images[@"bestImage"] lastObject] options:NSDataBase64DecodingIgnoreUnknownCharacters];
                     UIImage* bestImage = [UIImage imageWithData:data];
                     NSLog(@"bestImage = %@",bestImage);
+                    MAIN(^{
+                        if (self.imageBlock) {
+                            self.imageBlock(bestImage);
+                        }
+                    });
                 }
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [UIView animateWithDuration:0.5 animations:^{
@@ -74,6 +79,7 @@
                             weakSelf.animaView.alpha = 0;
                         } completion:^(BOOL finished) {
                             [weakSelf closeAction];
+                            
                         }];
                     }];
                 });

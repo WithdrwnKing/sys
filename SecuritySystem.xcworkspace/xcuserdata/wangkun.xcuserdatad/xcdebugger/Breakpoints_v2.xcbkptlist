@@ -10,7 +10,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SecuritySystem/Http/SMGApiClient.m"
-            timestampString = "537442218.650476"
+            timestampString = "538652169.990203"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "152"
@@ -26,7 +26,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SecuritySystem/Http/SMGApiClient.m"
-            timestampString = "537442218.6510251"
+            timestampString = "538652169.990533"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "171"
@@ -42,28 +42,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SecuritySystem/Http/SMGApiClient+http.m"
-            timestampString = "537783281.451665"
+            timestampString = "538652169.990738"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "146"
-            endingLineNumber = "146"
+            startingLineNumber = "158"
+            endingLineNumber = "158"
             landmarkName = "-staffFaceCollectWithStaffID:Filedata:FiledataContrast:andCompletion:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "SecuritySystem/Http/SMGApiClient+http.m"
-            timestampString = "537783281.45222"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "109"
-            endingLineNumber = "109"
-            landmarkName = "-submitCheckingWithOrgID:Address:Type:Remark:StaffID:ContrastImage:Status:upload:failStaffID:failStatus:failContrastImage:andCompletion:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -80,6 +64,22 @@
             startingLineNumber = "71"
             endingLineNumber = "71"
             landmarkName = "-faceProcesss:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SecuritySystem/ViewControllers/Controllers/CustomerVisitsViewController.m"
+            timestampString = "538652169.9908299"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "126"
+            endingLineNumber = "126"
+            landmarkName = "-submitVisitsInfo"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

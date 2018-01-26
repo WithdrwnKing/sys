@@ -89,5 +89,21 @@
 /**
  @brief 上传考勤信息
  */
-- (NSURLSessionDataTask *)submitCheckingWithOrgID:(NSString *)OrgID Address:(NSString *)Address Type:(NSString *)Type Remark:(NSString *)Remark StaffID:(NSString *)StaffID ContrastImage:(NSString *)ContrastImage Status:(NSString *)Status upload:(NSInteger )upload failStaffID:(NSString *)failStaffID failStatus:(NSString *)failStatus failContrastImage:(NSString *)failContrastImage andCompletion:(ApiCompletion)completion;
+- (NSURLSessionDataTask *)submitCheckingWithOrgID:(NSString *)OrgID Address:(NSString *)Address Type:(NSString *)Type Remark:(NSString *)Remark StaffID:(NSString *)StaffID ContrastImage:(NSString *)ContrastImage Status:(NSString *)Status andCompletion:(ApiCompletion)completion;
+
+
+/**
+ @brief 获取考勤类型
+ */
+- (NSURLSessionDataTask *)getTypeOfWorkAndCompletion:(ApiCompletion)completion;
+
+/**
+ @brief 上传回访客户拍的照片
+ */
+- (NSURLSessionDataTask *)uploadClientImgWithImageData:(NSData *)fileData andCompletion:(ApiCompletion)completion;
+
+/**
+ @brief 上传客户回访信息
+ */
+- (NSURLSessionDataTask *)subClientReviewTheme:(NSString *)theme imageUrl:(NSString *)imageUrl andCompletion:(ApiCompletion)completion;
 @end

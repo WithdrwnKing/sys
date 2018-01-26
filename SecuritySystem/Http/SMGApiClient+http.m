@@ -91,22 +91,34 @@
     return [self postPath:@"FaceRecognition.ashx" withImage:fileData parameters:dict completion:completion];
 }
 
-- (NSURLSessionDataTask *)submitCheckingWithOrgID:(NSString *)OrgID Address:(NSString *)Address Type:(NSString *)Type Remark:(NSString *)Remark StaffID:(NSString *)StaffID ContrastImage:(NSString *)ContrastImage Status:(NSString *)Status upload:(NSInteger )upload failStaffID:(NSString *)failStaffID failStatus:(NSString *)failStatus failContrastImage:(NSString *)failContrastImage andCompletion:(ApiCompletion)completion{
+- (NSURLSessionDataTask *)uploadClientImgWithImageData:(NSData *)fileData andCompletion:(ApiCompletion)completion{
+    return [self postPath:@"UploadClientImg.ashx" withImage:fileData parameters:nil completion:completion];
+}
+
+- (NSURLSessionDataTask *)submitCheckingWithOrgID:(NSString *)OrgID Address:(NSString *)Address Type:(NSString *)Type Remark:(NSString *)Remark StaffID:(NSString *)StaffID ContrastImage:(NSString *)ContrastImage Status:(NSString *)Status andCompletion:(ApiCompletion)completion{
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     [dict setObject:OrgID forKey:@"OrgID"];
     [dict setObject:Address forKey:@"Address"];
     [dict setObject:StaffID forKey:@"StaffID"];
-    [dict setObject:Type forKey:@"Type"];
+    [dict setObject:Type forKey:@"TypeID"];
     [dict setObject:Remark forKey:@"Remark"];
     [dict setObject:ContrastImage forKey:@"ContrastImage"];
     [dict setObject:Status forKey:@"Status"];
     [dict setObject:CURRENTUSER.userId forKey:@"userID"];
-    [dict setObject:@(upload) forKey:@"upload"];
-    [dict setObject:failStaffID forKey:@"failStaffID"];
-    [dict setObject:failContrastImage forKey:@"failContrastImage"];
-    [dict setObject:failStatus forKey:@"failStatus"];
 
     return [self postPath:@"SubmitChecking.ashx" parameters:dict completion:completion];
+}
+
+- (NSURLSessionDataTask *)getTypeOfWorkAndCompletion:(ApiCompletion)completion{
+    return [self getPath:@"GetTypeOfWork.ashx" parameters:nil completion:completion];
+}
+
+- (NSURLSessionDataTask *)subClientReviewTheme:(NSString *)theme imageUrl:(NSString *)imageUrl andCompletion:(ApiCompletion)completion{
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+    [dict setObject:CURRENTUSER.userId forKey:@"StaffId"];
+    [dict setObject:theme forKey:@"Theme"];
+    [dict setObject:imageUrl forKey:@"imageUrl"];
+    return [self postPath:@"SubClientReview.ashx" parameters:dict completion:completion];
 }
 
 - (NSURLSessionDataTask *)staffFaceCollectWithStaffID:(NSString *)StaffID Filedata:(UIImage *)Filedata FiledataContrast:(UIImage *)FiledataContrast andCompletion:(ApiCompletion)completion{

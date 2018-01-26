@@ -8,6 +8,10 @@
 
 #import "FaceBaseViewController.h"
 
+typedef void(^PersonImage)(UIImage *);
+
 @interface DetectionViewController : FaceBaseViewController
+
+@property (nonatomic, strong) PersonImage imageBlock;
 
 @end
