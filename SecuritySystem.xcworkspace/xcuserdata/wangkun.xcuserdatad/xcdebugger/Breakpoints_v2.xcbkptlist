@@ -42,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SecuritySystem/Http/SMGApiClient+http.m"
-            timestampString = "538652169.990738"
+            timestampString = "539081289.346682"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "158"
-            endingLineNumber = "158"
+            startingLineNumber = "156"
+            endingLineNumber = "156"
             landmarkName = "-staffFaceCollectWithStaffID:Filedata:FiledataContrast:andCompletion:"
             landmarkType = "7">
          </BreakpointContent>
@@ -73,13 +73,45 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "SecuritySystem/ViewControllers/Controllers/CustomerVisitsViewController.m"
-            timestampString = "538652169.9908299"
+            filePath = "SecuritySystem/ViewControllers/Controllers/UploadTrainingViewController.m"
+            timestampString = "539081289.347086"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "126"
-            endingLineNumber = "126"
-            landmarkName = "-submitVisitsInfo"
+            startingLineNumber = "315"
+            endingLineNumber = "315"
+            landmarkName = "-upLoadFiles"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SecuritySystem/ViewControllers/Controllers/UploadTrainingViewController.m"
+            timestampString = "539081289.347129"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "250"
+            endingLineNumber = "250"
+            landmarkName = "-submitTrainingInfo"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SecuritySystem/Http/SMGApiClient+http.m"
+            timestampString = "539081289.347169"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "55"
+            endingLineNumber = "55"
+            landmarkName = "-uploadTrainInfoWithTheme:address:remark:orgId:classId:SimagesUrl:ImagesUrl:VideoUrl:andCompletion:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

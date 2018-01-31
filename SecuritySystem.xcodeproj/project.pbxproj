@@ -69,6 +69,8 @@
 		EA555A6E1FE791FB0047409B /* ChosePositionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EA555A6C1FE791FB0047409B /* ChosePositionCell.xib */; };
 		EA70CC751FF1E3820084A6DD /* SMGApiClient.m in Sources */ = {isa = PBXBuildFile; fileRef = EA70CC741FF1E3820084A6DD /* SMGApiClient.m */; };
 		EA70CC781FF1E7430084A6DD /* UserManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EA70CC761FF1E7430084A6DD /* UserManager.m */; };
+		EA9A1A452021B7EE0068C5A6 /* WKWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EA9A1A442021B7EE0068C5A6 /* WKWebViewController.m */; };
+		EA9A1A482021C0370068C5A6 /* OffLineErrorView.m in Sources */ = {isa = PBXBuildFile; fileRef = EA9A1A472021C0370068C5A6 /* OffLineErrorView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -183,6 +185,10 @@
 		EA70CC741FF1E3820084A6DD /* SMGApiClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMGApiClient.m; sourceTree = "<group>"; };
 		EA70CC761FF1E7430084A6DD /* UserManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserManager.m; sourceTree = "<group>"; };
 		EA70CC771FF1E7430084A6DD /* UserManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserManager.h; sourceTree = "<group>"; };
+		EA9A1A432021B7EE0068C5A6 /* WKWebViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WKWebViewController.h; sourceTree = "<group>"; };
+		EA9A1A442021B7EE0068C5A6 /* WKWebViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WKWebViewController.m; sourceTree = "<group>"; };
+		EA9A1A462021C0370068C5A6 /* OffLineErrorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OffLineErrorView.h; sourceTree = "<group>"; };
+		EA9A1A472021C0370068C5A6 /* OffLineErrorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OffLineErrorView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -290,6 +296,8 @@
 		EA4C6FB51FE39FA900776E71 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				EA9A1A462021C0370068C5A6 /* OffLineErrorView.h */,
+				EA9A1A472021C0370068C5A6 /* OffLineErrorView.m */,
 				EA555A581FE759880047409B /* ChosePersonTableViewCell.h */,
 				EA555A591FE759880047409B /* ChosePersonTableViewCell.m */,
 				EA555A5A1FE759880047409B /* ChosePersonTableViewCell.xib */,
@@ -336,6 +344,8 @@
 				EA51DAC220074F43002A1D32 /* RegistrationViewController.xib */,
 				EA19186B201B238400317631 /* CustomerVisitsViewController.h */,
 				EA19186C201B238400317631 /* CustomerVisitsViewController.m */,
+				EA9A1A432021B7EE0068C5A6 /* WKWebViewController.h */,
+				EA9A1A442021B7EE0068C5A6 /* WKWebViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -600,6 +610,7 @@
 				EA4E47D41FF49E5100C7CE39 /* UserInfoModel.m in Sources */,
 				EA4E47D11FF49A3500C7CE39 /* SMGApiClient+http.m in Sources */,
 				EA12053B20171480001B27D7 /* AppDelegate+baiduFace.m in Sources */,
+				EA9A1A452021B7EE0068C5A6 /* WKWebViewController.m in Sources */,
 				EA4C6FC11FE3A33D00776E71 /* LoginViewController.m in Sources */,
 				EA4C6FBA1FE3A2F800776E71 /* BaseViewController.m in Sources */,
 				EA70CC751FF1E3820084A6DD /* SMGApiClient.m in Sources */,
@@ -620,6 +631,7 @@
 				EA4DA7A81FFDFD2F00A0CDF5 /* WKLocationManager.m in Sources */,
 				EA50F5AB1FE20DF4007D062A /* AppDelegate.m in Sources */,
 				EA4DA7AB1FFE010600A0CDF5 /* LocationView.m in Sources */,
+				EA9A1A482021C0370068C5A6 /* OffLineErrorView.m in Sources */,
 				EA1E1607200C4678006D8F0A /* WKFileService.m in Sources */,
 				EA555A5B1FE759880047409B /* ChosePersonTableViewCell.m in Sources */,
 				EA1205572017170D001B27D7 /* LivingConfigModel.m in Sources */,

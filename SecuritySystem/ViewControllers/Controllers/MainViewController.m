@@ -17,6 +17,7 @@
 #import "WKFileService.h"
 #import "LocationView.h"
 #import "CustomerVisitsViewController.h"
+#import "WKWebViewController.h"
 
 @interface MainViewController ()
 @property (nonatomic, strong) UIScrollView *myScrollView;
@@ -275,10 +276,13 @@
             break;
         }
         case 103:{
-           
+            WKWebViewController *vc = [[WKWebViewController alloc] initWithUrl:[NSString stringWithFormat:@"http://203.156.205.228:8008/FrontPage/ReportAuswer.aspx?ID=%@",CURRENTUSER.userId]];
+            [self.navigationController pushViewController:vc animated:YES];
             break;
         }
         case 104:{
+            WKWebViewController *vc = [[WKWebViewController alloc] initWithUrl:[NSString stringWithFormat:@"http://203.156.205.228:8008/FrontPage/InfoList.aspx?ID=%@",CURRENTUSER.userId]];
+            [self.navigationController pushViewController:vc animated:YES];
             break;
         }
         case 105:{

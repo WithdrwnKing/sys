@@ -279,7 +279,7 @@ static NSString *cellIdentifier = @"AttendanceCell";
             ShowToastAtTop(@"考勤信息已提交成功");
             [weakSelf.navigationController performSelector:@selector(popViewControllerAnimated:) withObject:@(YES) afterDelay:1.5];
         }else{
-            ShowToastAtTop(@"考勤失败");
+            ShowToastAtTop(@"%@",anError.userInfo[@"message"]);
         }
     }];
 }

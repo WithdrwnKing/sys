@@ -10,5 +10,6 @@ pod 'ZLPhotoBrowser'
 pod 'AFNetworking'
 pod 'ReactiveObjC'
 pod 'Toast', '~> 3.0'
+pod 'WebViewJavascriptBridge', '~> 5.0'
 
 end

@@ -272,7 +272,7 @@
         [SVProgressHUD dismiss];
         return;
     }
-    if (self.selectImgArr.count+self.selectVideoArr.count == self.uploadImgArr.count && self.selectVideoArr.count+self.selectImgArr.count == self.uploadVideoArr.count) {
+    if (self.selectImgArr.count+self.selectVideoArr.count == self.uploadImgArr.count) {
         [self submitTrainingInfo];
         return;
     }
@@ -294,10 +294,9 @@
                     NSLog(@"%@",aResponse);
                     [weakSelf.uploadSimgArr addObject:aResponse[@"Surl"]];
                     [weakSelf.uploadImgArr addObject:aResponse[@"imageUrl"]];
-                    [weakSelf.uploadVideoArr addObject:@"\"\""];
                     [weakSelf.classIdArr addObject:aResponse[@"ClassId"]];
                     
-                    if (weakSelf.selectImgArr.count+weakSelf.selectVideoArr.count == weakSelf.uploadImgArr.count && weakSelf.selectVideoArr.count+weakSelf.selectImgArr.count == weakSelf.uploadVideoArr.count) {
+                    if (weakSelf.selectImgArr.count+weakSelf.selectVideoArr.count == weakSelf.uploadImgArr.count) {
                         weakSelf.isFinshed = YES;
                     }
                 }
@@ -314,12 +313,11 @@
         dispatch_group_async(group, concurrentQueue, ^{
             [[SMGApiClient sharedClient] postPath:@"UploadBigfile.ashx" withVideo:[NSData dataWithContentsOfFile:videoUrl] parameters:nil completion:^(NSURLSessionDataTask *task, NSDictionary *aResponse, NSError *anError) {
                 if (aResponse) {
-                    [weakSelf.uploadVideoArr addObject:aResponse[@"imageUrl"]];
+                    [weakSelf.uploadImgArr addObject:aResponse[@"imageUrl"]];
                     [weakSelf.uploadSimgArr addObject:aResponse[@"Surl"]];
-                    [weakSelf.uploadImgArr addObject:@"\"\""];
                     [weakSelf.classIdArr addObject:aResponse[@"ClassId"]];
                     
-                    if (weakSelf.selectImgArr.count+weakSelf.selectVideoArr.count == weakSelf.uploadImgArr.count && weakSelf.selectVideoArr.count+weakSelf.selectImgArr.count == weakSelf.uploadVideoArr.count) {
+                    if (weakSelf.selectImgArr.count+weakSelf.selectVideoArr.count == weakSelf.uploadImgArr.count) {
                         weakSelf.isFinshed = YES;
                     }
                 }

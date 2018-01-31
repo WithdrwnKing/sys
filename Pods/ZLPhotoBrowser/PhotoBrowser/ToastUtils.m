@@ -14,7 +14,7 @@
 #pragma mark - 显示提示视图
 + (void)showAtTop:(NSString *)message
 {
-    [self show:message atTop:YES showTime:2.0];
+    [self show:message atTop:YES showTime:4.0];
 }
 
 + (void)show:(NSString *)message

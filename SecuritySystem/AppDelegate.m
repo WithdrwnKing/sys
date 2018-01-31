@@ -22,7 +22,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
     [self setUpSVProgressHUDCustom];
-    
+    [self netWorkReachability];
     [self startBaiduFace];
     
     [AMapServices sharedServices].apiKey = @"8854cb55e62cacaa107634d7dfc4fc0b";
@@ -38,6 +38,45 @@
     [SVProgressHUD setDefaultStyle:SVProgressHUDStyleDark];
     [SVProgressHUD setMaximumDismissTimeInterval:1.5f];
     [SVProgressHUD setMinimumDismissTimeInterval:.5f];
+}
+//开启网络监控
+-(void)netWorkReachability {
+    
+    //开启网络状况的监听
+    [[AFNetworkReachabilityManager sharedManager] startMonitoring];
+    [[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
+        
+        switch (status) {
+                
+            case AFNetworkReachabilityStatusNotReachable:{
+                
+                [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"_isInLine"];
+                NSLog(@"无网络网络");
+                break;
+            }
+                
+            case AFNetworkReachabilityStatusReachableViaWWAN:{
+                [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"_isInLine"];
+                NSLog(@"2G、3G/4G网络");
+                break;
+            }
+            case AFNetworkReachabilityStatusUnknown:{
+                [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"_isInLine"];
+                
+                NSLog(@"未识别网络");
+                break;
+            }
+            case AFNetworkReachabilityStatusReachableViaWiFi:{
+                NSLog(@"wifi网络");
+                [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"_isInLine"];
+                
+                break;
+            }
+            default:
+                break;
+        }
+        
+    }];
 }
 
 

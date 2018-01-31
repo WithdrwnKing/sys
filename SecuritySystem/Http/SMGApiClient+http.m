@@ -51,9 +51,7 @@
     if (SimagesUrl) {
         [dict setObject:SimagesUrl forKey:@"SimagesUrl"];
     }
-    if (VideoUrl) {
-        [dict setObject:VideoUrl forKey:@"VideoUrl"];
-    }
+
     return [self postPath:@"SubTrainInfo.ashx" parameters:dict completion:completion];
 }
 
@@ -117,7 +115,7 @@
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     [dict setObject:CURRENTUSER.userId forKey:@"StaffId"];
     [dict setObject:theme forKey:@"Theme"];
-    [dict setObject:imageUrl forKey:@"imageUrl"];
+    [dict setObject:imageUrl forKey:@"ImagesUrl"];
     return [self postPath:@"SubClientReview.ashx" parameters:dict completion:completion];
 }
 
