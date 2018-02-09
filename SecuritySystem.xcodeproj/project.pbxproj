@@ -829,7 +829,7 @@
 			baseConfigurationReference = 7696A807ABE891A9169E3D38 /* Pods-SecuritySystem.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 3LZ5AMJH8P;
 				ENABLE_BITCODE = NO;
@@ -877,8 +877,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.itble.changankaoqing;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "b822a5dd-67fd-475d-b897-518019a74812";
-				PROVISIONING_PROFILE_SPECIFIER = Changankaoqing_dev;
+				PROVISIONING_PROFILE = "5b831478-6b91-4dac-aef2-20f1c9dc677f";
+				PROVISIONING_PROFILE_SPECIFIER = Changankaoqing_release;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WARNING_CFLAGS = "";
 			};
