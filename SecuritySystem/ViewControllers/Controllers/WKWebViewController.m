@@ -110,7 +110,7 @@
     [userContentController addUserScript:cookieScript];
     webConfig.userContentController = userContentController;
     
-    myWebView = [[WKWebView alloc] initWithFrame:CGRectMake(0, 20, SCREEN_WIDTH, self.view.height-20) configuration:webConfig];
+    myWebView = [[WKWebView alloc] initWithFrame:CGRectMake(0, STATUSBAR_HEIGHT, SCREEN_WIDTH, self.view.height-STATUSBAR_HEIGHT) configuration:webConfig];
     myWebView.UIDelegate = self;
     myWebView.backgroundColor = [UIColor clearColor];
     myWebView.scrollView.bounces = NO;
